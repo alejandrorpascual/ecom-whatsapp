@@ -5,5 +5,6 @@ declare namespace NodeJS {
     CLOUDINARY_CLOUD_NAME: string;
     CLOUDINARY_KEY: string;
     CLOUDINARY_SECRET: string;
+    SESSION_SECRET: string;
   }
 }

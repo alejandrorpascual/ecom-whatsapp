@@ -9,7 +9,6 @@
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "useUnknownInCatchVariables": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": "."
+    "forceConsistentCasingInFileNames": true
   }
 }
