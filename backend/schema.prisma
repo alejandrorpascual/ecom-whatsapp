@@ -12,11 +12,12 @@ generator client {
 }
 
 model User {
-  id       String @id @default(cuid())
-  name     String @default("")
-  email    String @unique @default("")
+  id       String    @id @default(cuid())
+  name     String    @default("")
+  email    String    @unique @default("")
   password String
-  posts    Post[] @relation("Post_author")
+  posts    Post[]    @relation("Post_author")
+  products Product[] @relation("Product_user")
 }
 
 model Post {
@@ -30,6 +31,27 @@ model Post {
   tags        Tag[]     @relation("Post_tags")
 
   @@index([authorId])
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  name        String        @default("")
+  description String        @default("")
+  photo       ProductImage? @relation("Product_photo", fields: [photoId], references: [id])
+  photoId     String?       @unique @map("photo")
+  status      String?       @default("DRAFT")
+  price       Int?
+  user        User?         @relation("Product_user", fields: [userId], references: [id])
+  userId      String?       @map("user")
+
+  @@index([userId])
+}
+
+model ProductImage {
+  id      String   @id @default(cuid())
+  image   Json?
+  altText String   @default("")
+  product Product? @relation("Product_photo")
 }
 
 model Tag {
