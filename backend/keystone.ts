@@ -6,6 +6,7 @@ import {insertSeedData} from './seed-data/seed'
 
 const databaseURL = process.env.DATABASE_URL || 'file:./keystone.db'
 const frontendURL = process.env.FRONTEND_URL || 'http://localhost:4444'
+console.log('frontendURL', frontendURL)
 
 type OnConnect =
   | ((args: KeystoneContext<BaseKeystoneTypeInfo>) => Promise<void>)
@@ -38,10 +39,15 @@ export default withAuth(
           url: databaseURL,
           onConnect,
         },
-    // This config allows us to set up features of the Admin UI https://keystonejs.com/docs/apis/config#ui
     ui: {
-      // For our starter, we check that someone has session data before letting them see the Admin UI.
-      isAccessAllowed: context => !!context.session?.data,
+      isAccessAllowed: context => {
+        return !!context.session?.data
+      },
+    },
+    experimental: {
+      generateNodeAPI: true,
+      generateNextGraphqlAPI: true,
+      enableNextJsGraphqlApiEndpoint: true,
     },
     lists,
     session,

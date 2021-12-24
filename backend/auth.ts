@@ -7,7 +7,8 @@ Welcome to the auth file! Here we have put a config to do basic auth in Keystone
 For more on auth, check out: https://keystonejs.com/docs/apis/auth#authentication-api
 */
 
-import {createAuth} from '@keystone-6/auth'
+import {createAuth} from '@opensaas/keystone-nextjs-auth'
+import GoogleAuth from '@opensaas/keystone-nextjs-auth/providers/google'
 
 // See https://keystonejs.com/docs/apis/session#session-api for the session docs
 import {statelessSessions} from '@keystone-6/core/session'
@@ -32,14 +33,20 @@ if (!sessionSecret) {
 // we will need their email and password.
 const {withAuth} = createAuth({
   listKey: 'User',
-  identityField: 'email',
-  sessionData: 'name',
-  secretField: 'password',
-  initFirstItem: {
-    // If there are no items in the database, keystone will ask you to create
-    // a new user, filling in these fields.
-    fields: ['name', 'email', 'password'],
-  },
+  identityField: 'subjectId',
+  sessionData: 'id name email',
+  autoCreate: true,
+  userMap: {subjectId: 'id', name: 'name'},
+  accountMap: {},
+  profileMap: {email: 'email'},
+  keystonePath: '/admin',
+  sessionSecret,
+  providers: [
+    GoogleAuth({
+      clientId: process.env.GOOGLE_CLIENT_ID || 'GoogleClientID',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'GoogleClientSecret',
+    }),
+  ],
 })
 
 // This defines how long people will remain logged in for.

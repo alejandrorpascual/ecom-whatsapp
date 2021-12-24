@@ -6,5 +6,7 @@ declare namespace NodeJS {
     CLOUDINARY_KEY: string;
     CLOUDINARY_SECRET: string;
     SESSION_SECRET: string;
+    GOOGLE_CLIENT_ID: string;
+    GOOGLE_CLIENT_SECRET: string;
   }
 }

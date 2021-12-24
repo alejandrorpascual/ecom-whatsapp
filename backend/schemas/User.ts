@@ -12,11 +12,8 @@ export const User = list({
       isFilterable: true,
     }),
     // The password field takes care of hiding details and hashing values
-    password: password({validation: {isRequired: true}}),
-    // Relationships allow us to reference other lists. In this case,
-    // we want a user to have many posts, and we are saying that the user
-    // should be referencable by the 'author' field of posts.
-    // Make sure you read the docs to understand how they work: https://keystonejs.com/docs/guides/relationships#understanding-relationships
+    password: password({validation: {isRequired: false}}),
+    subjectId: text({isIndexed: 'unique'}),
     posts: relationship({ref: 'Post.author', many: true}),
     products: relationship({
       ref: 'Product.user',
@@ -26,7 +23,9 @@ export const User = list({
   // Here we can configure the Admin UI. We want to show a user's name and posts in the Admin UI
   ui: {
     listView: {
-      initialColumns: ['name', 'posts'],
+      initialColumns: ['id', 'name', 'email'],
     },
+    hideCreate: () => true,
+    hideDelete: () => true,
   },
 })

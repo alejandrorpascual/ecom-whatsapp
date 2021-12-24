@@ -6,6 +6,7 @@ type User {
   name: String
   email: String
   password: PasswordState
+  subjectId: String
   posts(
     where: PostWhereInput! = {}
     orderBy: [PostOrderByInput!]! = []
@@ -29,6 +30,7 @@ type PasswordState {
 input UserWhereUniqueInput {
   id: ID
   email: String
+  subjectId: String
 }
 
 input UserWhereInput {
@@ -38,6 +40,8 @@ input UserWhereInput {
   id: IDFilter
   name: StringFilter
   email: StringFilter
+  password: PasswordFilter
+  subjectId: StringFilter
   posts: PostManyRelationFilter
   products: ProductManyRelationFilter
 }
@@ -87,6 +91,10 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
+input PasswordFilter {
+  isSet: Boolean!
+}
+
 input PostManyRelationFilter {
   every: PostWhereInput
   some: PostWhereInput
@@ -103,6 +111,7 @@ input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
   email: OrderDirection
+  subjectId: OrderDirection
 }
 
 enum OrderDirection {
@@ -114,6 +123,7 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
+  subjectId: String
   posts: PostRelateToManyForUpdateInput
   products: ProductRelateToManyForUpdateInput
 }
@@ -141,6 +151,7 @@ input UserCreateInput {
   name: String
   email: String
   password: String
+  subjectId: String
   posts: PostRelateToManyForCreateInput
   products: ProductRelateToManyForCreateInput
 }
@@ -571,32 +582,6 @@ type Mutation {
   deleteTag(where: TagWhereUniqueInput!): Tag
   deleteTags(where: [TagWhereUniqueInput!]!): [Tag]
   endSession: Boolean!
-  authenticateUserWithPassword(
-    email: String!
-    password: String!
-  ): UserAuthenticationWithPasswordResult
-  createInitialUser(
-    data: CreateInitialUserInput!
-  ): UserAuthenticationWithPasswordSuccess!
-}
-
-union UserAuthenticationWithPasswordResult =
-    UserAuthenticationWithPasswordSuccess
-  | UserAuthenticationWithPasswordFailure
-
-type UserAuthenticationWithPasswordSuccess {
-  sessionToken: String!
-  item: User!
-}
-
-type UserAuthenticationWithPasswordFailure {
-  message: String!
-}
-
-input CreateInitialUserInput {
-  name: String
-  email: String
-  password: String
 }
 
 type Query {

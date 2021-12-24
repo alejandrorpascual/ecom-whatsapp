@@ -1,4 +1,4 @@
-import {useLoaderData} from 'remix'
+import {Link, useLoaderData} from 'remix'
 import {Gql, OrderDirection} from '../../graphql-zeus/zeus'
 
 type LoaderData = Awaited<ReturnType<typeof loader>>
@@ -46,14 +46,14 @@ export default function Index() {
         <div className='grid grid-cols-3 gap-y-6 gap-x-4 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8'>
           {products.map(product => (
             <div key={product.id}>
-              <div className='relative'>
-                <div className='relative w-full rounded-lg overflow-hidden'>
+              <div className='relative w-full rounded-lg overflow-hidden'>
+                <Link to={`product/${product.id}`}>
                   <img
                     src={product.photo?.image?.publicUrlTransformed}
                     alt={product.description}
                     className='aspect-square object-center object-cover'
                   />
-                </div>
+                </Link>
               </div>
             </div>
           ))}
