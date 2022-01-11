@@ -1,5 +1,5 @@
 import {list} from '@keystone-6/core'
-import {integer, relationship, select, text} from '@keystone-6/core/fields'
+import {relationship, select, text} from '@keystone-6/core/fields'
 
 export const Product = list({
   fields: {
@@ -17,6 +17,7 @@ export const Product = list({
         inlineCreate: {fields: ['image', 'altText']},
         inlineEdit: {fields: ['image', 'altText']},
       },
+      many: true,
     }),
     status: select({
       options: [
@@ -30,11 +31,11 @@ export const Product = list({
         createView: {fieldMode: 'hidden'},
       },
     }),
-    price: integer(),
     user: relationship({
       ref: 'User.products',
       hooks: {
         resolveInput({operation, resolvedData, context}) {
+          //NOTE: Default to the currently logged in user on create.
           if (
             operation === 'create' &&
             !resolvedData.user &&
@@ -45,6 +46,25 @@ export const Product = list({
           return resolvedData.user
         },
       },
+    }),
+    skus: relationship({
+      ref: 'SKU.product',
+      many: true,
+    }),
+    skuValues: relationship({
+      ref: 'SKUValue.product',
+      many: true,
+    }),
+    options: relationship({
+      ref: 'Option.product',
+      many: true,
+    }),
+    optionValues: relationship({
+      ref: 'OptionValue.product',
+      many: true,
+    }),
+    category: relationship({
+      ref: 'Category',
     }),
   },
 })

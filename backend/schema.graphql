@@ -5,6 +5,8 @@ type User {
   id: ID!
   name: String
   email: String
+  oauthProvider: UserOauthProviderType
+  oauthProfileId: String
   password: PasswordState
   posts(
     where: PostWhereInput! = {}
@@ -20,6 +22,11 @@ type User {
     skip: Int! = 0
   ): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
+}
+
+enum UserOauthProviderType {
+  google
+  instagram
 }
 
 type PasswordState {
@@ -38,6 +45,8 @@ input UserWhereInput {
   id: IDFilter
   name: StringFilter
   email: StringFilter
+  oauthProvider: UserOauthProviderTypeNullableFilter
+  oauthProfileId: StringFilter
   posts: PostManyRelationFilter
   products: ProductManyRelationFilter
 }
@@ -87,6 +96,13 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
+input UserOauthProviderTypeNullableFilter {
+  equals: UserOauthProviderType
+  in: [UserOauthProviderType!]
+  notIn: [UserOauthProviderType!]
+  not: UserOauthProviderTypeNullableFilter
+}
+
 input PostManyRelationFilter {
   every: PostWhereInput
   some: PostWhereInput
@@ -103,6 +119,8 @@ input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
   email: OrderDirection
+  oauthProvider: OrderDirection
+  oauthProfileId: OrderDirection
 }
 
 enum OrderDirection {
@@ -113,6 +131,8 @@ enum OrderDirection {
 input UserUpdateInput {
   name: String
   email: String
+  oauthProvider: UserOauthProviderType
+  oauthProfileId: String
   password: String
   posts: PostRelateToManyForUpdateInput
   products: ProductRelateToManyForUpdateInput
@@ -140,6 +160,8 @@ input UserUpdateArgs {
 input UserCreateInput {
   name: String
   email: String
+  oauthProvider: UserOauthProviderType
+  oauthProfileId: String
   password: String
   posts: PostRelateToManyForCreateInput
   products: ProductRelateToManyForCreateInput
@@ -297,10 +319,44 @@ type Product {
   id: ID!
   name: String
   description: String
-  photo: ProductImage
+  photo(
+    where: ProductImageWhereInput! = {}
+    orderBy: [ProductImageOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [ProductImage!]
+  photoCount(where: ProductImageWhereInput! = {}): Int
   status: String
-  price: Int
   user: User
+  skus(
+    where: SKUWhereInput! = {}
+    orderBy: [SKUOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [SKU!]
+  skusCount(where: SKUWhereInput! = {}): Int
+  skuValues(
+    where: SKUValueWhereInput! = {}
+    orderBy: [SKUValueOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [SKUValue!]
+  skuValuesCount(where: SKUValueWhereInput! = {}): Int
+  options(
+    where: OptionWhereInput! = {}
+    orderBy: [OptionOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Option!]
+  optionsCount(where: OptionWhereInput! = {}): Int
+  optionValues(
+    where: OptionValueWhereInput! = {}
+    orderBy: [OptionValueOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [OptionValue!]
+  optionValuesCount(where: OptionValueWhereInput! = {}): Int
+  category: Category
 }
 
 input ProductWhereUniqueInput {
@@ -314,21 +370,44 @@ input ProductWhereInput {
   id: IDFilter
   name: StringFilter
   description: StringFilter
-  photo: ProductImageWhereInput
+  photo: ProductImageManyRelationFilter
   status: StringNullableFilter
-  price: IntNullableFilter
   user: UserWhereInput
+  skus: SKUManyRelationFilter
+  skuValues: SKUValueManyRelationFilter
+  options: OptionManyRelationFilter
+  optionValues: OptionValueManyRelationFilter
+  category: CategoryWhereInput
 }
 
-input IntNullableFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: IntNullableFilter
+input ProductImageManyRelationFilter {
+  every: ProductImageWhereInput
+  some: ProductImageWhereInput
+  none: ProductImageWhereInput
+}
+
+input SKUManyRelationFilter {
+  every: SKUWhereInput
+  some: SKUWhereInput
+  none: SKUWhereInput
+}
+
+input SKUValueManyRelationFilter {
+  every: SKUValueWhereInput
+  some: SKUValueWhereInput
+  none: SKUValueWhereInput
+}
+
+input OptionManyRelationFilter {
+  every: OptionWhereInput
+  some: OptionWhereInput
+  none: OptionWhereInput
+}
+
+input OptionValueManyRelationFilter {
+  every: OptionValueWhereInput
+  some: OptionValueWhereInput
+  none: OptionValueWhereInput
 }
 
 input ProductOrderByInput {
@@ -336,21 +415,59 @@ input ProductOrderByInput {
   name: OrderDirection
   description: OrderDirection
   status: OrderDirection
-  price: OrderDirection
 }
 
 input ProductUpdateInput {
   name: String
   description: String
-  photo: ProductImageRelateToOneForUpdateInput
+  photo: ProductImageRelateToManyForUpdateInput
   status: String
-  price: Int
   user: UserRelateToOneForUpdateInput
+  skus: SKURelateToManyForUpdateInput
+  skuValues: SKUValueRelateToManyForUpdateInput
+  options: OptionRelateToManyForUpdateInput
+  optionValues: OptionValueRelateToManyForUpdateInput
+  category: CategoryRelateToOneForUpdateInput
 }
 
-input ProductImageRelateToOneForUpdateInput {
-  create: ProductImageCreateInput
-  connect: ProductImageWhereUniqueInput
+input ProductImageRelateToManyForUpdateInput {
+  disconnect: [ProductImageWhereUniqueInput!]
+  set: [ProductImageWhereUniqueInput!]
+  create: [ProductImageCreateInput!]
+  connect: [ProductImageWhereUniqueInput!]
+}
+
+input SKURelateToManyForUpdateInput {
+  disconnect: [SKUWhereUniqueInput!]
+  set: [SKUWhereUniqueInput!]
+  create: [SKUCreateInput!]
+  connect: [SKUWhereUniqueInput!]
+}
+
+input SKUValueRelateToManyForUpdateInput {
+  disconnect: [SKUValueWhereUniqueInput!]
+  set: [SKUValueWhereUniqueInput!]
+  create: [SKUValueCreateInput!]
+  connect: [SKUValueWhereUniqueInput!]
+}
+
+input OptionRelateToManyForUpdateInput {
+  disconnect: [OptionWhereUniqueInput!]
+  set: [OptionWhereUniqueInput!]
+  create: [OptionCreateInput!]
+  connect: [OptionWhereUniqueInput!]
+}
+
+input OptionValueRelateToManyForUpdateInput {
+  disconnect: [OptionValueWhereUniqueInput!]
+  set: [OptionValueWhereUniqueInput!]
+  create: [OptionValueCreateInput!]
+  connect: [OptionValueWhereUniqueInput!]
+}
+
+input CategoryRelateToOneForUpdateInput {
+  create: CategoryCreateInput
+  connect: CategoryWhereUniqueInput
   disconnect: Boolean
 }
 
@@ -362,15 +479,44 @@ input ProductUpdateArgs {
 input ProductCreateInput {
   name: String
   description: String
-  photo: ProductImageRelateToOneForCreateInput
+  photo: ProductImageRelateToManyForCreateInput
   status: String
-  price: Int
   user: UserRelateToOneForCreateInput
+  skus: SKURelateToManyForCreateInput
+  skuValues: SKUValueRelateToManyForCreateInput
+  options: OptionRelateToManyForCreateInput
+  optionValues: OptionValueRelateToManyForCreateInput
+  category: CategoryRelateToOneForCreateInput
 }
 
-input ProductImageRelateToOneForCreateInput {
-  create: ProductImageCreateInput
-  connect: ProductImageWhereUniqueInput
+input ProductImageRelateToManyForCreateInput {
+  create: [ProductImageCreateInput!]
+  connect: [ProductImageWhereUniqueInput!]
+}
+
+input SKURelateToManyForCreateInput {
+  create: [SKUCreateInput!]
+  connect: [SKUWhereUniqueInput!]
+}
+
+input SKUValueRelateToManyForCreateInput {
+  create: [SKUValueCreateInput!]
+  connect: [SKUValueWhereUniqueInput!]
+}
+
+input OptionRelateToManyForCreateInput {
+  create: [OptionCreateInput!]
+  connect: [OptionWhereUniqueInput!]
+}
+
+input OptionValueRelateToManyForCreateInput {
+  create: [OptionValueCreateInput!]
+  connect: [OptionValueWhereUniqueInput!]
+}
+
+input CategoryRelateToOneForCreateInput {
+  create: CategoryCreateInput
+  connect: CategoryWhereUniqueInput
 }
 
 type ProductImage {
@@ -378,6 +524,8 @@ type ProductImage {
   image: CloudinaryImage_File
   altText: String
   product: Product
+  option: Option
+  optionValue: OptionValue
 }
 
 type CloudinaryImage_File {
@@ -440,6 +588,8 @@ input ProductImageWhereInput {
   id: IDFilter
   altText: StringFilter
   product: ProductWhereInput
+  option: OptionWhereInput
+  optionValue: OptionValueWhereInput
 }
 
 input ProductImageOrderByInput {
@@ -451,6 +601,8 @@ input ProductImageUpdateInput {
   image: Upload
   altText: String
   product: ProductRelateToOneForUpdateInput
+  option: OptionRelateToOneForUpdateInput
+  optionValue: OptionValueRelateToOneForUpdateInput
 }
 
 """
@@ -464,6 +616,18 @@ input ProductRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
+input OptionRelateToOneForUpdateInput {
+  create: OptionCreateInput
+  connect: OptionWhereUniqueInput
+  disconnect: Boolean
+}
+
+input OptionValueRelateToOneForUpdateInput {
+  create: OptionValueCreateInput
+  connect: OptionValueWhereUniqueInput
+  disconnect: Boolean
+}
+
 input ProductImageUpdateArgs {
   where: ProductImageWhereUniqueInput!
   data: ProductImageUpdateInput!
@@ -473,11 +637,23 @@ input ProductImageCreateInput {
   image: Upload
   altText: String
   product: ProductRelateToOneForCreateInput
+  option: OptionRelateToOneForCreateInput
+  optionValue: OptionValueRelateToOneForCreateInput
 }
 
 input ProductRelateToOneForCreateInput {
   create: ProductCreateInput
   connect: ProductWhereUniqueInput
+}
+
+input OptionRelateToOneForCreateInput {
+  create: OptionCreateInput
+  connect: OptionWhereUniqueInput
+}
+
+input OptionValueRelateToOneForCreateInput {
+  create: OptionValueCreateInput
+  connect: OptionValueWhereUniqueInput
 }
 
 type Tag {
@@ -525,6 +701,250 @@ input TagCreateInput {
   posts: PostRelateToManyForCreateInput
 }
 
+type Category {
+  id: ID!
+  name: String
+}
+
+input CategoryWhereUniqueInput {
+  id: ID
+}
+
+input CategoryWhereInput {
+  AND: [CategoryWhereInput!]
+  OR: [CategoryWhereInput!]
+  NOT: [CategoryWhereInput!]
+  id: IDFilter
+  name: StringFilter
+}
+
+input CategoryOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+}
+
+input CategoryUpdateInput {
+  name: String
+}
+
+input CategoryUpdateArgs {
+  where: CategoryWhereUniqueInput!
+  data: CategoryUpdateInput!
+}
+
+input CategoryCreateInput {
+  name: String
+}
+
+type SKU {
+  id: ID!
+  sku: String
+  product: Product
+  stock: Int
+}
+
+input SKUWhereUniqueInput {
+  id: ID
+  sku: String
+}
+
+input SKUWhereInput {
+  AND: [SKUWhereInput!]
+  OR: [SKUWhereInput!]
+  NOT: [SKUWhereInput!]
+  id: IDFilter
+  sku: StringFilter
+  product: ProductWhereInput
+  stock: IntNullableFilter
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntNullableFilter
+}
+
+input SKUOrderByInput {
+  id: OrderDirection
+  sku: OrderDirection
+  stock: OrderDirection
+}
+
+input SKUUpdateInput {
+  sku: String
+  product: ProductRelateToOneForUpdateInput
+  stock: Int
+}
+
+input SKUUpdateArgs {
+  where: SKUWhereUniqueInput!
+  data: SKUUpdateInput!
+}
+
+input SKUCreateInput {
+  sku: String
+  product: ProductRelateToOneForCreateInput
+  stock: Int
+}
+
+type SKUValue {
+  id: ID!
+  product: Product
+  SKU: SKU
+  options(
+    where: OptionWhereInput! = {}
+    orderBy: [OptionOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Option!]
+  optionsCount(where: OptionWhereInput! = {}): Int
+  optionValues(
+    where: OptionValueWhereInput! = {}
+    orderBy: [OptionValueOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [OptionValue!]
+  optionValuesCount(where: OptionValueWhereInput! = {}): Int
+}
+
+input SKUValueWhereUniqueInput {
+  id: ID
+}
+
+input SKUValueWhereInput {
+  AND: [SKUValueWhereInput!]
+  OR: [SKUValueWhereInput!]
+  NOT: [SKUValueWhereInput!]
+  id: IDFilter
+  product: ProductWhereInput
+  SKU: SKUWhereInput
+  options: OptionManyRelationFilter
+  optionValues: OptionValueManyRelationFilter
+}
+
+input SKUValueOrderByInput {
+  id: OrderDirection
+}
+
+input SKUValueUpdateInput {
+  product: ProductRelateToOneForUpdateInput
+  SKU: SKURelateToOneForUpdateInput
+  options: OptionRelateToManyForUpdateInput
+  optionValues: OptionValueRelateToManyForUpdateInput
+}
+
+input SKURelateToOneForUpdateInput {
+  create: SKUCreateInput
+  connect: SKUWhereUniqueInput
+  disconnect: Boolean
+}
+
+input SKUValueUpdateArgs {
+  where: SKUValueWhereUniqueInput!
+  data: SKUValueUpdateInput!
+}
+
+input SKUValueCreateInput {
+  product: ProductRelateToOneForCreateInput
+  SKU: SKURelateToOneForCreateInput
+  options: OptionRelateToManyForCreateInput
+  optionValues: OptionValueRelateToManyForCreateInput
+}
+
+input SKURelateToOneForCreateInput {
+  create: SKUCreateInput
+  connect: SKUWhereUniqueInput
+}
+
+type Option {
+  id: ID!
+  name: String
+  product: Product
+}
+
+input OptionWhereUniqueInput {
+  id: ID
+  name: String
+}
+
+input OptionWhereInput {
+  AND: [OptionWhereInput!]
+  OR: [OptionWhereInput!]
+  NOT: [OptionWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  product: ProductWhereInput
+}
+
+input OptionOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+}
+
+input OptionUpdateInput {
+  name: String
+  product: ProductRelateToOneForUpdateInput
+}
+
+input OptionUpdateArgs {
+  where: OptionWhereUniqueInput!
+  data: OptionUpdateInput!
+}
+
+input OptionCreateInput {
+  name: String
+  product: ProductRelateToOneForCreateInput
+}
+
+type OptionValue {
+  id: ID!
+  name: String
+  product: Product
+  option: Option
+}
+
+input OptionValueWhereUniqueInput {
+  id: ID
+  name: String
+}
+
+input OptionValueWhereInput {
+  AND: [OptionValueWhereInput!]
+  OR: [OptionValueWhereInput!]
+  NOT: [OptionValueWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  product: ProductWhereInput
+  option: OptionWhereInput
+}
+
+input OptionValueOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+}
+
+input OptionValueUpdateInput {
+  name: String
+  product: ProductRelateToOneForUpdateInput
+  option: OptionRelateToOneForUpdateInput
+}
+
+input OptionValueUpdateArgs {
+  where: OptionValueWhereUniqueInput!
+  data: OptionValueUpdateInput!
+}
+
+input OptionValueCreateInput {
+  name: String
+  product: ProductRelateToOneForCreateInput
+  option: OptionRelateToOneForCreateInput
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -570,6 +990,45 @@ type Mutation {
   updateTags(data: [TagUpdateArgs!]!): [Tag]
   deleteTag(where: TagWhereUniqueInput!): Tag
   deleteTags(where: [TagWhereUniqueInput!]!): [Tag]
+  createCategory(data: CategoryCreateInput!): Category
+  createCategories(data: [CategoryCreateInput!]!): [Category]
+  updateCategory(
+    where: CategoryWhereUniqueInput!
+    data: CategoryUpdateInput!
+  ): Category
+  updateCategories(data: [CategoryUpdateArgs!]!): [Category]
+  deleteCategory(where: CategoryWhereUniqueInput!): Category
+  deleteCategories(where: [CategoryWhereUniqueInput!]!): [Category]
+  createSKU(data: SKUCreateInput!): SKU
+  createSKUS(data: [SKUCreateInput!]!): [SKU]
+  updateSKU(where: SKUWhereUniqueInput!, data: SKUUpdateInput!): SKU
+  updateSKUS(data: [SKUUpdateArgs!]!): [SKU]
+  deleteSKU(where: SKUWhereUniqueInput!): SKU
+  deleteSKUS(where: [SKUWhereUniqueInput!]!): [SKU]
+  createSKUValue(data: SKUValueCreateInput!): SKUValue
+  createSKUValues(data: [SKUValueCreateInput!]!): [SKUValue]
+  updateSKUValue(
+    where: SKUValueWhereUniqueInput!
+    data: SKUValueUpdateInput!
+  ): SKUValue
+  updateSKUValues(data: [SKUValueUpdateArgs!]!): [SKUValue]
+  deleteSKUValue(where: SKUValueWhereUniqueInput!): SKUValue
+  deleteSKUValues(where: [SKUValueWhereUniqueInput!]!): [SKUValue]
+  createOption(data: OptionCreateInput!): Option
+  createOptions(data: [OptionCreateInput!]!): [Option]
+  updateOption(where: OptionWhereUniqueInput!, data: OptionUpdateInput!): Option
+  updateOptions(data: [OptionUpdateArgs!]!): [Option]
+  deleteOption(where: OptionWhereUniqueInput!): Option
+  deleteOptions(where: [OptionWhereUniqueInput!]!): [Option]
+  createOptionValue(data: OptionValueCreateInput!): OptionValue
+  createOptionValues(data: [OptionValueCreateInput!]!): [OptionValue]
+  updateOptionValue(
+    where: OptionValueWhereUniqueInput!
+    data: OptionValueUpdateInput!
+  ): OptionValue
+  updateOptionValues(data: [OptionValueUpdateArgs!]!): [OptionValue]
+  deleteOptionValue(where: OptionValueWhereUniqueInput!): OptionValue
+  deleteOptionValues(where: [OptionValueWhereUniqueInput!]!): [OptionValue]
   endSession: Boolean!
   authenticateUserWithPassword(
     email: String!
@@ -594,7 +1053,6 @@ type UserAuthenticationWithPasswordFailure {
 }
 
 input CreateInitialUserInput {
-  name: String
   email: String
   password: String
 }
@@ -640,6 +1098,46 @@ type Query {
   ): [Tag!]
   tag(where: TagWhereUniqueInput!): Tag
   tagsCount(where: TagWhereInput! = {}): Int
+  categories(
+    where: CategoryWhereInput! = {}
+    orderBy: [CategoryOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Category!]
+  category(where: CategoryWhereUniqueInput!): Category
+  categoriesCount(where: CategoryWhereInput! = {}): Int
+  sKUS(
+    where: SKUWhereInput! = {}
+    orderBy: [SKUOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [SKU!]
+  sKU(where: SKUWhereUniqueInput!): SKU
+  sKUSCount(where: SKUWhereInput! = {}): Int
+  sKUValues(
+    where: SKUValueWhereInput! = {}
+    orderBy: [SKUValueOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [SKUValue!]
+  sKUValue(where: SKUValueWhereUniqueInput!): SKUValue
+  sKUValuesCount(where: SKUValueWhereInput! = {}): Int
+  options(
+    where: OptionWhereInput! = {}
+    orderBy: [OptionOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Option!]
+  option(where: OptionWhereUniqueInput!): Option
+  optionsCount(where: OptionWhereInput! = {}): Int
+  optionValues(
+    where: OptionValueWhereInput! = {}
+    orderBy: [OptionValueOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [OptionValue!]
+  optionValue(where: OptionValueWhereUniqueInput!): OptionValue
+  optionValuesCount(where: OptionValueWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

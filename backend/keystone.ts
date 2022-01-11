@@ -14,6 +14,9 @@ type OnConnect =
 const onConnect: OnConnect = async context => {
   console.log('Connected to the database! 🔌 🗃️')
   if (process.argv.includes('--seed-data')) {
+    console.log('==========================')
+    console.log('====== SEED DATA =========')
+    console.log('==========================')
     await insertSeedData(context)
   }
 }
@@ -30,6 +33,7 @@ export default withAuth(
     db: process.env.DATABASE_URL
       ? {
           provider: 'postgresql',
+          useMigrations: true,
           url: process.env.DATABASE_URL,
           onConnect,
         }

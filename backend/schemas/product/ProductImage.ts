@@ -18,6 +18,12 @@ export const ProductImage = list({
     }),
     altText: text(),
     product: relationship({ref: 'Product.photo'}),
+    option: relationship({
+      ref: 'Option',
+    }),
+    optionValue: relationship({
+      ref: 'OptionValue',
+    }),
   },
   ui: {
     listView: {

@@ -12,12 +12,14 @@ generator client {
 }
 
 model User {
-  id       String    @id @default(cuid())
-  name     String    @default("")
-  email    String    @unique @default("")
-  password String
-  posts    Post[]    @relation("Post_author")
-  products Product[] @relation("Product_user")
+  id             String                 @id @default(cuid())
+  name           String                 @default("")
+  email          String                 @unique @default("")
+  oauthProvider  UserOauthProviderType?
+  oauthProfileId String                 @default("")
+  password       String
+  posts          Post[]                 @relation("Post_author")
+  products       Product[]              @relation("Product_user")
 }
 
 model Post {
@@ -34,28 +36,103 @@ model Post {
 }
 
 model Product {
-  id          String        @id @default(cuid())
-  name        String        @default("")
-  description String        @default("")
-  photo       ProductImage? @relation("Product_photo", fields: [photoId], references: [id])
-  photoId     String?       @unique @map("photo")
-  status      String?       @default("DRAFT")
-  price       Int?
-  user        User?         @relation("Product_user", fields: [userId], references: [id])
-  userId      String?       @map("user")
+  id           String         @id @default(cuid())
+  name         String         @default("")
+  description  String         @default("")
+  photo        ProductImage[] @relation("ProductImage_product")
+  status       String?        @default("DRAFT")
+  user         User?          @relation("Product_user", fields: [userId], references: [id])
+  userId       String?        @map("user")
+  skus         SKU[]          @relation("SKU_product")
+  skuValues    SKUValue[]     @relation("SKUValue_product")
+  options      Option[]       @relation("Option_product")
+  optionValues OptionValue[]  @relation("OptionValue_product")
+  category     Category?      @relation("Product_category", fields: [categoryId], references: [id])
+  categoryId   String?        @map("category")
 
   @@index([userId])
+  @@index([categoryId])
 }
 
 model ProductImage {
-  id      String   @id @default(cuid())
-  image   Json?
-  altText String   @default("")
-  product Product? @relation("Product_photo")
+  id            String       @id @default(cuid())
+  image         Json?
+  altText       String       @default("")
+  product       Product?     @relation("ProductImage_product", fields: [productId], references: [id])
+  productId     String?      @map("product")
+  option        Option?      @relation("ProductImage_option", fields: [optionId], references: [id])
+  optionId      String?      @map("option")
+  optionValue   OptionValue? @relation("ProductImage_optionValue", fields: [optionValueId], references: [id])
+  optionValueId String?      @map("optionValue")
+
+  @@index([productId])
+  @@index([optionId])
+  @@index([optionValueId])
 }
 
 model Tag {
   id    String @id @default(cuid())
   name  String @default("")
   posts Post[] @relation("Post_tags")
+}
+
+model Category {
+  id                    String    @id @default(cuid())
+  name                  String    @default("")
+  from_Product_category Product[] @relation("Product_category")
+}
+
+model SKU {
+  id                String     @id @default(cuid())
+  sku               String     @unique @default("")
+  product           Product?   @relation("SKU_product", fields: [productId], references: [id])
+  productId         String?    @map("product")
+  stock             Int?
+  from_SKUValue_SKU SKUValue[] @relation("SKUValue_SKU")
+
+  @@index([productId])
+}
+
+model SKUValue {
+  id           String        @id @default(cuid())
+  product      Product?      @relation("SKUValue_product", fields: [productId], references: [id])
+  productId    String?       @map("product")
+  SKU          SKU?          @relation("SKUValue_SKU", fields: [SKUId], references: [id])
+  SKUId        String?       @map("SKU")
+  options      Option[]      @relation("SKUValue_options")
+  optionValues OptionValue[] @relation("SKUValue_optionValues")
+
+  @@index([productId])
+  @@index([SKUId])
+}
+
+model Option {
+  id                       String         @id @default(cuid())
+  name                     String         @unique @default("")
+  product                  Product?       @relation("Option_product", fields: [productId], references: [id])
+  productId                String?        @map("product")
+  from_ProductImage_option ProductImage[] @relation("ProductImage_option")
+  from_SKUValue_options    SKUValue[]     @relation("SKUValue_options")
+  from_OptionValue_option  OptionValue[]  @relation("OptionValue_option")
+
+  @@index([productId])
+}
+
+model OptionValue {
+  id                            String         @id @default(cuid())
+  name                          String         @unique @default("")
+  product                       Product?       @relation("OptionValue_product", fields: [productId], references: [id])
+  productId                     String?        @map("product")
+  option                        Option?        @relation("OptionValue_option", fields: [optionId], references: [id])
+  optionId                      String?        @map("option")
+  from_ProductImage_optionValue ProductImage[] @relation("ProductImage_optionValue")
+  from_SKUValue_optionValues    SKUValue[]     @relation("SKUValue_optionValues")
+
+  @@index([productId])
+  @@index([optionId])
+}
+
+enum UserOauthProviderType {
+  google
+  instagram
 }
