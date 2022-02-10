@@ -9,7 +9,6 @@ export const SKUValue = list({
     SKU: relationship({
       ref: 'SKU',
     }),
-    //TODO: improve relation
     options: relationship({
       ref: 'Option',
       many: true,

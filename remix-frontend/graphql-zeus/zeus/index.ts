@@ -9,6 +9,8 @@ export type ValueTypes = {
 	id?:boolean,
 	name?:boolean,
 	email?:boolean,
+	oauthProvider?:boolean,
+	oauthProfileId?:boolean,
 	password?:ValueTypes["PasswordState"],
 posts?: [{	where:ValueTypes["PostWhereInput"],	orderBy:ValueTypes["PostOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Post"]],
 postsCount?: [{	where:ValueTypes["PostWhereInput"]},boolean],
@@ -16,6 +18,7 @@ products?: [{	where:ValueTypes["ProductWhereInput"],	orderBy:ValueTypes["Product
 productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 		__typename?: boolean
 }>;
+	["UserOauthProviderType"]:UserOauthProviderType;
 	["PasswordState"]: AliasType<{
 	isSet?:boolean,
 		__typename?: boolean
@@ -31,6 +34,8 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	id?:ValueTypes["IDFilter"] | null,
 	name?:ValueTypes["StringFilter"] | null,
 	email?:ValueTypes["StringFilter"] | null,
+	oauthProvider?:ValueTypes["UserOauthProviderTypeNullableFilter"] | null,
+	oauthProfileId?:ValueTypes["StringFilter"] | null,
 	posts?:ValueTypes["PostManyRelationFilter"] | null,
 	products?:ValueTypes["ProductManyRelationFilter"] | null
 };
@@ -72,6 +77,12 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	endsWith?:string | null,
 	not?:ValueTypes["NestedStringFilter"] | null
 };
+	["UserOauthProviderTypeNullableFilter"]: {
+	equals?:ValueTypes["UserOauthProviderType"] | null,
+	in?:ValueTypes["UserOauthProviderType"][],
+	notIn?:ValueTypes["UserOauthProviderType"][],
+	not?:ValueTypes["UserOauthProviderTypeNullableFilter"] | null
+};
 	["PostManyRelationFilter"]: {
 	every?:ValueTypes["PostWhereInput"] | null,
 	some?:ValueTypes["PostWhereInput"] | null,
@@ -85,12 +96,16 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	["UserOrderByInput"]: {
 	id?:ValueTypes["OrderDirection"] | null,
 	name?:ValueTypes["OrderDirection"] | null,
-	email?:ValueTypes["OrderDirection"] | null
+	email?:ValueTypes["OrderDirection"] | null,
+	oauthProvider?:ValueTypes["OrderDirection"] | null,
+	oauthProfileId?:ValueTypes["OrderDirection"] | null
 };
 	["OrderDirection"]:OrderDirection;
 	["UserUpdateInput"]: {
 	name?:string | null,
 	email?:string | null,
+	oauthProvider?:ValueTypes["UserOauthProviderType"] | null,
+	oauthProfileId?:string | null,
 	password?:string | null,
 	posts?:ValueTypes["PostRelateToManyForUpdateInput"] | null,
 	products?:ValueTypes["ProductRelateToManyForUpdateInput"] | null
@@ -114,6 +129,8 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	["UserCreateInput"]: {
 	name?:string | null,
 	email?:string | null,
+	oauthProvider?:ValueTypes["UserOauthProviderType"] | null,
+	oauthProfileId?:string | null,
 	password?:string | null,
 	posts?:ValueTypes["PostRelateToManyForCreateInput"] | null,
 	products?:ValueTypes["ProductRelateToManyForCreateInput"] | null
@@ -247,10 +264,19 @@ document?: [{	hydrateRelationships:boolean},boolean],
 	id?:boolean,
 	name?:boolean,
 	description?:boolean,
-	photo?:ValueTypes["ProductImage"],
+photo?: [{	where:ValueTypes["ProductImageWhereInput"],	orderBy:ValueTypes["ProductImageOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["ProductImage"]],
+photoCount?: [{	where:ValueTypes["ProductImageWhereInput"]},boolean],
 	status?:boolean,
-	price?:boolean,
 	user?:ValueTypes["User"],
+skus?: [{	where:ValueTypes["SKUWhereInput"],	orderBy:ValueTypes["SKUOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["SKU"]],
+skusCount?: [{	where:ValueTypes["SKUWhereInput"]},boolean],
+skuValues?: [{	where:ValueTypes["SKUValueWhereInput"],	orderBy:ValueTypes["SKUValueOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["SKUValue"]],
+skuValuesCount?: [{	where:ValueTypes["SKUValueWhereInput"]},boolean],
+options?: [{	where:ValueTypes["OptionWhereInput"],	orderBy:ValueTypes["OptionOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Option"]],
+optionsCount?: [{	where:ValueTypes["OptionWhereInput"]},boolean],
+optionValues?: [{	where:ValueTypes["OptionValueWhereInput"],	orderBy:ValueTypes["OptionValueOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["OptionValue"]],
+optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
+	category?:ValueTypes["Category"],
 		__typename?: boolean
 }>;
 	["ProductWhereUniqueInput"]: {
@@ -263,39 +289,91 @@ document?: [{	hydrateRelationships:boolean},boolean],
 	id?:ValueTypes["IDFilter"] | null,
 	name?:ValueTypes["StringFilter"] | null,
 	description?:ValueTypes["StringFilter"] | null,
-	photo?:ValueTypes["ProductImageWhereInput"] | null,
+	photo?:ValueTypes["ProductImageManyRelationFilter"] | null,
 	status?:ValueTypes["StringNullableFilter"] | null,
-	price?:ValueTypes["IntNullableFilter"] | null,
-	user?:ValueTypes["UserWhereInput"] | null
+	user?:ValueTypes["UserWhereInput"] | null,
+	skus?:ValueTypes["SKUManyRelationFilter"] | null,
+	skuValues?:ValueTypes["SKUValueManyRelationFilter"] | null,
+	options?:ValueTypes["OptionManyRelationFilter"] | null,
+	optionValues?:ValueTypes["OptionValueManyRelationFilter"] | null,
+	category?:ValueTypes["CategoryWhereInput"] | null
 };
-	["IntNullableFilter"]: {
-	equals?:number | null,
-	in?:number[],
-	notIn?:number[],
-	lt?:number | null,
-	lte?:number | null,
-	gt?:number | null,
-	gte?:number | null,
-	not?:ValueTypes["IntNullableFilter"] | null
+	["ProductImageManyRelationFilter"]: {
+	every?:ValueTypes["ProductImageWhereInput"] | null,
+	some?:ValueTypes["ProductImageWhereInput"] | null,
+	none?:ValueTypes["ProductImageWhereInput"] | null
+};
+	["SKUManyRelationFilter"]: {
+	every?:ValueTypes["SKUWhereInput"] | null,
+	some?:ValueTypes["SKUWhereInput"] | null,
+	none?:ValueTypes["SKUWhereInput"] | null
+};
+	["SKUValueManyRelationFilter"]: {
+	every?:ValueTypes["SKUValueWhereInput"] | null,
+	some?:ValueTypes["SKUValueWhereInput"] | null,
+	none?:ValueTypes["SKUValueWhereInput"] | null
+};
+	["OptionManyRelationFilter"]: {
+	every?:ValueTypes["OptionWhereInput"] | null,
+	some?:ValueTypes["OptionWhereInput"] | null,
+	none?:ValueTypes["OptionWhereInput"] | null
+};
+	["OptionValueManyRelationFilter"]: {
+	every?:ValueTypes["OptionValueWhereInput"] | null,
+	some?:ValueTypes["OptionValueWhereInput"] | null,
+	none?:ValueTypes["OptionValueWhereInput"] | null
 };
 	["ProductOrderByInput"]: {
 	id?:ValueTypes["OrderDirection"] | null,
 	name?:ValueTypes["OrderDirection"] | null,
 	description?:ValueTypes["OrderDirection"] | null,
-	status?:ValueTypes["OrderDirection"] | null,
-	price?:ValueTypes["OrderDirection"] | null
+	status?:ValueTypes["OrderDirection"] | null
 };
 	["ProductUpdateInput"]: {
 	name?:string | null,
 	description?:string | null,
-	photo?:ValueTypes["ProductImageRelateToOneForUpdateInput"] | null,
+	photo?:ValueTypes["ProductImageRelateToManyForUpdateInput"] | null,
 	status?:string | null,
-	price?:number | null,
-	user?:ValueTypes["UserRelateToOneForUpdateInput"] | null
+	user?:ValueTypes["UserRelateToOneForUpdateInput"] | null,
+	skus?:ValueTypes["SKURelateToManyForUpdateInput"] | null,
+	skuValues?:ValueTypes["SKUValueRelateToManyForUpdateInput"] | null,
+	options?:ValueTypes["OptionRelateToManyForUpdateInput"] | null,
+	optionValues?:ValueTypes["OptionValueRelateToManyForUpdateInput"] | null,
+	category?:ValueTypes["CategoryRelateToOneForUpdateInput"] | null
 };
-	["ProductImageRelateToOneForUpdateInput"]: {
-	create?:ValueTypes["ProductImageCreateInput"] | null,
-	connect?:ValueTypes["ProductImageWhereUniqueInput"] | null,
+	["ProductImageRelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["ProductImageWhereUniqueInput"][],
+	set?:ValueTypes["ProductImageWhereUniqueInput"][],
+	create?:ValueTypes["ProductImageCreateInput"][],
+	connect?:ValueTypes["ProductImageWhereUniqueInput"][]
+};
+	["SKURelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["SKUWhereUniqueInput"][],
+	set?:ValueTypes["SKUWhereUniqueInput"][],
+	create?:ValueTypes["SKUCreateInput"][],
+	connect?:ValueTypes["SKUWhereUniqueInput"][]
+};
+	["SKUValueRelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["SKUValueWhereUniqueInput"][],
+	set?:ValueTypes["SKUValueWhereUniqueInput"][],
+	create?:ValueTypes["SKUValueCreateInput"][],
+	connect?:ValueTypes["SKUValueWhereUniqueInput"][]
+};
+	["OptionRelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["OptionWhereUniqueInput"][],
+	set?:ValueTypes["OptionWhereUniqueInput"][],
+	create?:ValueTypes["OptionCreateInput"][],
+	connect?:ValueTypes["OptionWhereUniqueInput"][]
+};
+	["OptionValueRelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["OptionValueWhereUniqueInput"][],
+	set?:ValueTypes["OptionValueWhereUniqueInput"][],
+	create?:ValueTypes["OptionValueCreateInput"][],
+	connect?:ValueTypes["OptionValueWhereUniqueInput"][]
+};
+	["CategoryRelateToOneForUpdateInput"]: {
+	create?:ValueTypes["CategoryCreateInput"] | null,
+	connect?:ValueTypes["CategoryWhereUniqueInput"] | null,
 	disconnect?:boolean | null
 };
 	["ProductUpdateArgs"]: {
@@ -305,20 +383,46 @@ document?: [{	hydrateRelationships:boolean},boolean],
 	["ProductCreateInput"]: {
 	name?:string | null,
 	description?:string | null,
-	photo?:ValueTypes["ProductImageRelateToOneForCreateInput"] | null,
+	photo?:ValueTypes["ProductImageRelateToManyForCreateInput"] | null,
 	status?:string | null,
-	price?:number | null,
-	user?:ValueTypes["UserRelateToOneForCreateInput"] | null
+	user?:ValueTypes["UserRelateToOneForCreateInput"] | null,
+	skus?:ValueTypes["SKURelateToManyForCreateInput"] | null,
+	skuValues?:ValueTypes["SKUValueRelateToManyForCreateInput"] | null,
+	options?:ValueTypes["OptionRelateToManyForCreateInput"] | null,
+	optionValues?:ValueTypes["OptionValueRelateToManyForCreateInput"] | null,
+	category?:ValueTypes["CategoryRelateToOneForCreateInput"] | null
 };
-	["ProductImageRelateToOneForCreateInput"]: {
-	create?:ValueTypes["ProductImageCreateInput"] | null,
-	connect?:ValueTypes["ProductImageWhereUniqueInput"] | null
+	["ProductImageRelateToManyForCreateInput"]: {
+	create?:ValueTypes["ProductImageCreateInput"][],
+	connect?:ValueTypes["ProductImageWhereUniqueInput"][]
+};
+	["SKURelateToManyForCreateInput"]: {
+	create?:ValueTypes["SKUCreateInput"][],
+	connect?:ValueTypes["SKUWhereUniqueInput"][]
+};
+	["SKUValueRelateToManyForCreateInput"]: {
+	create?:ValueTypes["SKUValueCreateInput"][],
+	connect?:ValueTypes["SKUValueWhereUniqueInput"][]
+};
+	["OptionRelateToManyForCreateInput"]: {
+	create?:ValueTypes["OptionCreateInput"][],
+	connect?:ValueTypes["OptionWhereUniqueInput"][]
+};
+	["OptionValueRelateToManyForCreateInput"]: {
+	create?:ValueTypes["OptionValueCreateInput"][],
+	connect?:ValueTypes["OptionValueWhereUniqueInput"][]
+};
+	["CategoryRelateToOneForCreateInput"]: {
+	create?:ValueTypes["CategoryCreateInput"] | null,
+	connect?:ValueTypes["CategoryWhereUniqueInput"] | null
 };
 	["ProductImage"]: AliasType<{
 	id?:boolean,
 	image?:ValueTypes["CloudinaryImage_File"],
 	altText?:boolean,
 	product?:ValueTypes["Product"],
+	option?:ValueTypes["Option"],
+	optionValue?:ValueTypes["OptionValue"],
 		__typename?: boolean
 }>;
 	["CloudinaryImage_File"]: AliasType<{
@@ -374,7 +478,9 @@ All options are strings as they ultimately end up in a URL. */
 	NOT?:ValueTypes["ProductImageWhereInput"][],
 	id?:ValueTypes["IDFilter"] | null,
 	altText?:ValueTypes["StringFilter"] | null,
-	product?:ValueTypes["ProductWhereInput"] | null
+	product?:ValueTypes["ProductWhereInput"] | null,
+	option?:ValueTypes["OptionWhereInput"] | null,
+	optionValue?:ValueTypes["OptionValueWhereInput"] | null
 };
 	["ProductImageOrderByInput"]: {
 	id?:ValueTypes["OrderDirection"] | null,
@@ -383,13 +489,25 @@ All options are strings as they ultimately end up in a URL. */
 	["ProductImageUpdateInput"]: {
 	image?:ValueTypes["Upload"] | null,
 	altText?:string | null,
-	product?:ValueTypes["ProductRelateToOneForUpdateInput"] | null
+	product?:ValueTypes["ProductRelateToOneForUpdateInput"] | null,
+	option?:ValueTypes["OptionRelateToOneForUpdateInput"] | null,
+	optionValue?:ValueTypes["OptionValueRelateToOneForUpdateInput"] | null
 };
 	/** The `Upload` scalar type represents a file upload. */
 ["Upload"]:unknown;
 	["ProductRelateToOneForUpdateInput"]: {
 	create?:ValueTypes["ProductCreateInput"] | null,
 	connect?:ValueTypes["ProductWhereUniqueInput"] | null,
+	disconnect?:boolean | null
+};
+	["OptionRelateToOneForUpdateInput"]: {
+	create?:ValueTypes["OptionCreateInput"] | null,
+	connect?:ValueTypes["OptionWhereUniqueInput"] | null,
+	disconnect?:boolean | null
+};
+	["OptionValueRelateToOneForUpdateInput"]: {
+	create?:ValueTypes["OptionValueCreateInput"] | null,
+	connect?:ValueTypes["OptionValueWhereUniqueInput"] | null,
 	disconnect?:boolean | null
 };
 	["ProductImageUpdateArgs"]: {
@@ -399,11 +517,21 @@ All options are strings as they ultimately end up in a URL. */
 	["ProductImageCreateInput"]: {
 	image?:ValueTypes["Upload"] | null,
 	altText?:string | null,
-	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null
+	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null,
+	option?:ValueTypes["OptionRelateToOneForCreateInput"] | null,
+	optionValue?:ValueTypes["OptionValueRelateToOneForCreateInput"] | null
 };
 	["ProductRelateToOneForCreateInput"]: {
 	create?:ValueTypes["ProductCreateInput"] | null,
 	connect?:ValueTypes["ProductWhereUniqueInput"] | null
+};
+	["OptionRelateToOneForCreateInput"]: {
+	create?:ValueTypes["OptionCreateInput"] | null,
+	connect?:ValueTypes["OptionWhereUniqueInput"] | null
+};
+	["OptionValueRelateToOneForCreateInput"]: {
+	create?:ValueTypes["OptionValueCreateInput"] | null,
+	connect?:ValueTypes["OptionValueWhereUniqueInput"] | null
 };
 	["Tag"]: AliasType<{
 	id?:boolean,
@@ -439,6 +567,207 @@ postsCount?: [{	where:ValueTypes["PostWhereInput"]},boolean],
 	name?:string | null,
 	posts?:ValueTypes["PostRelateToManyForCreateInput"] | null
 };
+	["Category"]: AliasType<{
+	id?:boolean,
+	name?:boolean,
+		__typename?: boolean
+}>;
+	["CategoryWhereUniqueInput"]: {
+	id?:string | null
+};
+	["CategoryWhereInput"]: {
+	AND?:ValueTypes["CategoryWhereInput"][],
+	OR?:ValueTypes["CategoryWhereInput"][],
+	NOT?:ValueTypes["CategoryWhereInput"][],
+	id?:ValueTypes["IDFilter"] | null,
+	name?:ValueTypes["StringFilter"] | null
+};
+	["CategoryOrderByInput"]: {
+	id?:ValueTypes["OrderDirection"] | null,
+	name?:ValueTypes["OrderDirection"] | null
+};
+	["CategoryUpdateInput"]: {
+	name?:string | null
+};
+	["CategoryUpdateArgs"]: {
+	where:ValueTypes["CategoryWhereUniqueInput"],
+	data:ValueTypes["CategoryUpdateInput"]
+};
+	["CategoryCreateInput"]: {
+	name?:string | null
+};
+	["SKU"]: AliasType<{
+	id?:boolean,
+	sku?:boolean,
+	product?:ValueTypes["Product"],
+	stock?:boolean,
+		__typename?: boolean
+}>;
+	["SKUWhereUniqueInput"]: {
+	id?:string | null,
+	sku?:string | null
+};
+	["SKUWhereInput"]: {
+	AND?:ValueTypes["SKUWhereInput"][],
+	OR?:ValueTypes["SKUWhereInput"][],
+	NOT?:ValueTypes["SKUWhereInput"][],
+	id?:ValueTypes["IDFilter"] | null,
+	sku?:ValueTypes["StringFilter"] | null,
+	product?:ValueTypes["ProductWhereInput"] | null,
+	stock?:ValueTypes["IntNullableFilter"] | null
+};
+	["IntNullableFilter"]: {
+	equals?:number | null,
+	in?:number[],
+	notIn?:number[],
+	lt?:number | null,
+	lte?:number | null,
+	gt?:number | null,
+	gte?:number | null,
+	not?:ValueTypes["IntNullableFilter"] | null
+};
+	["SKUOrderByInput"]: {
+	id?:ValueTypes["OrderDirection"] | null,
+	sku?:ValueTypes["OrderDirection"] | null,
+	stock?:ValueTypes["OrderDirection"] | null
+};
+	["SKUUpdateInput"]: {
+	sku?:string | null,
+	product?:ValueTypes["ProductRelateToOneForUpdateInput"] | null,
+	stock?:number | null
+};
+	["SKUUpdateArgs"]: {
+	where:ValueTypes["SKUWhereUniqueInput"],
+	data:ValueTypes["SKUUpdateInput"]
+};
+	["SKUCreateInput"]: {
+	sku?:string | null,
+	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null,
+	stock?:number | null
+};
+	["SKUValue"]: AliasType<{
+	id?:boolean,
+	product?:ValueTypes["Product"],
+	SKU?:ValueTypes["SKU"],
+options?: [{	where:ValueTypes["OptionWhereInput"],	orderBy:ValueTypes["OptionOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Option"]],
+optionsCount?: [{	where:ValueTypes["OptionWhereInput"]},boolean],
+optionValues?: [{	where:ValueTypes["OptionValueWhereInput"],	orderBy:ValueTypes["OptionValueOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["OptionValue"]],
+optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
+		__typename?: boolean
+}>;
+	["SKUValueWhereUniqueInput"]: {
+	id?:string | null
+};
+	["SKUValueWhereInput"]: {
+	AND?:ValueTypes["SKUValueWhereInput"][],
+	OR?:ValueTypes["SKUValueWhereInput"][],
+	NOT?:ValueTypes["SKUValueWhereInput"][],
+	id?:ValueTypes["IDFilter"] | null,
+	product?:ValueTypes["ProductWhereInput"] | null,
+	SKU?:ValueTypes["SKUWhereInput"] | null,
+	options?:ValueTypes["OptionManyRelationFilter"] | null,
+	optionValues?:ValueTypes["OptionValueManyRelationFilter"] | null
+};
+	["SKUValueOrderByInput"]: {
+	id?:ValueTypes["OrderDirection"] | null
+};
+	["SKUValueUpdateInput"]: {
+	product?:ValueTypes["ProductRelateToOneForUpdateInput"] | null,
+	SKU?:ValueTypes["SKURelateToOneForUpdateInput"] | null,
+	options?:ValueTypes["OptionRelateToManyForUpdateInput"] | null,
+	optionValues?:ValueTypes["OptionValueRelateToManyForUpdateInput"] | null
+};
+	["SKURelateToOneForUpdateInput"]: {
+	create?:ValueTypes["SKUCreateInput"] | null,
+	connect?:ValueTypes["SKUWhereUniqueInput"] | null,
+	disconnect?:boolean | null
+};
+	["SKUValueUpdateArgs"]: {
+	where:ValueTypes["SKUValueWhereUniqueInput"],
+	data:ValueTypes["SKUValueUpdateInput"]
+};
+	["SKUValueCreateInput"]: {
+	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null,
+	SKU?:ValueTypes["SKURelateToOneForCreateInput"] | null,
+	options?:ValueTypes["OptionRelateToManyForCreateInput"] | null,
+	optionValues?:ValueTypes["OptionValueRelateToManyForCreateInput"] | null
+};
+	["SKURelateToOneForCreateInput"]: {
+	create?:ValueTypes["SKUCreateInput"] | null,
+	connect?:ValueTypes["SKUWhereUniqueInput"] | null
+};
+	["Option"]: AliasType<{
+	id?:boolean,
+	name?:boolean,
+	product?:ValueTypes["Product"],
+		__typename?: boolean
+}>;
+	["OptionWhereUniqueInput"]: {
+	id?:string | null,
+	name?:string | null
+};
+	["OptionWhereInput"]: {
+	AND?:ValueTypes["OptionWhereInput"][],
+	OR?:ValueTypes["OptionWhereInput"][],
+	NOT?:ValueTypes["OptionWhereInput"][],
+	id?:ValueTypes["IDFilter"] | null,
+	name?:ValueTypes["StringFilter"] | null,
+	product?:ValueTypes["ProductWhereInput"] | null
+};
+	["OptionOrderByInput"]: {
+	id?:ValueTypes["OrderDirection"] | null,
+	name?:ValueTypes["OrderDirection"] | null
+};
+	["OptionUpdateInput"]: {
+	name?:string | null,
+	product?:ValueTypes["ProductRelateToOneForUpdateInput"] | null
+};
+	["OptionUpdateArgs"]: {
+	where:ValueTypes["OptionWhereUniqueInput"],
+	data:ValueTypes["OptionUpdateInput"]
+};
+	["OptionCreateInput"]: {
+	name?:string | null,
+	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null
+};
+	["OptionValue"]: AliasType<{
+	id?:boolean,
+	name?:boolean,
+	product?:ValueTypes["Product"],
+	option?:ValueTypes["Option"],
+		__typename?: boolean
+}>;
+	["OptionValueWhereUniqueInput"]: {
+	id?:string | null,
+	name?:string | null
+};
+	["OptionValueWhereInput"]: {
+	AND?:ValueTypes["OptionValueWhereInput"][],
+	OR?:ValueTypes["OptionValueWhereInput"][],
+	NOT?:ValueTypes["OptionValueWhereInput"][],
+	id?:ValueTypes["IDFilter"] | null,
+	name?:ValueTypes["StringFilter"] | null,
+	product?:ValueTypes["ProductWhereInput"] | null,
+	option?:ValueTypes["OptionWhereInput"] | null
+};
+	["OptionValueOrderByInput"]: {
+	id?:ValueTypes["OrderDirection"] | null,
+	name?:ValueTypes["OrderDirection"] | null
+};
+	["OptionValueUpdateInput"]: {
+	name?:string | null,
+	product?:ValueTypes["ProductRelateToOneForUpdateInput"] | null,
+	option?:ValueTypes["OptionRelateToOneForUpdateInput"] | null
+};
+	["OptionValueUpdateArgs"]: {
+	where:ValueTypes["OptionValueWhereUniqueInput"],
+	data:ValueTypes["OptionValueUpdateInput"]
+};
+	["OptionValueCreateInput"]: {
+	name?:string | null,
+	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null,
+	option?:ValueTypes["OptionRelateToOneForCreateInput"] | null
+};
 	/** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
 ["JSON"]:unknown;
 	["Mutation"]: AliasType<{
@@ -472,6 +801,36 @@ updateTag?: [{	where:ValueTypes["TagWhereUniqueInput"],	data:ValueTypes["TagUpda
 updateTags?: [{	data:ValueTypes["TagUpdateArgs"][]},ValueTypes["Tag"]],
 deleteTag?: [{	where:ValueTypes["TagWhereUniqueInput"]},ValueTypes["Tag"]],
 deleteTags?: [{	where:ValueTypes["TagWhereUniqueInput"][]},ValueTypes["Tag"]],
+createCategory?: [{	data:ValueTypes["CategoryCreateInput"]},ValueTypes["Category"]],
+createCategories?: [{	data:ValueTypes["CategoryCreateInput"][]},ValueTypes["Category"]],
+updateCategory?: [{	where:ValueTypes["CategoryWhereUniqueInput"],	data:ValueTypes["CategoryUpdateInput"]},ValueTypes["Category"]],
+updateCategories?: [{	data:ValueTypes["CategoryUpdateArgs"][]},ValueTypes["Category"]],
+deleteCategory?: [{	where:ValueTypes["CategoryWhereUniqueInput"]},ValueTypes["Category"]],
+deleteCategories?: [{	where:ValueTypes["CategoryWhereUniqueInput"][]},ValueTypes["Category"]],
+createSKU?: [{	data:ValueTypes["SKUCreateInput"]},ValueTypes["SKU"]],
+createSKUS?: [{	data:ValueTypes["SKUCreateInput"][]},ValueTypes["SKU"]],
+updateSKU?: [{	where:ValueTypes["SKUWhereUniqueInput"],	data:ValueTypes["SKUUpdateInput"]},ValueTypes["SKU"]],
+updateSKUS?: [{	data:ValueTypes["SKUUpdateArgs"][]},ValueTypes["SKU"]],
+deleteSKU?: [{	where:ValueTypes["SKUWhereUniqueInput"]},ValueTypes["SKU"]],
+deleteSKUS?: [{	where:ValueTypes["SKUWhereUniqueInput"][]},ValueTypes["SKU"]],
+createSKUValue?: [{	data:ValueTypes["SKUValueCreateInput"]},ValueTypes["SKUValue"]],
+createSKUValues?: [{	data:ValueTypes["SKUValueCreateInput"][]},ValueTypes["SKUValue"]],
+updateSKUValue?: [{	where:ValueTypes["SKUValueWhereUniqueInput"],	data:ValueTypes["SKUValueUpdateInput"]},ValueTypes["SKUValue"]],
+updateSKUValues?: [{	data:ValueTypes["SKUValueUpdateArgs"][]},ValueTypes["SKUValue"]],
+deleteSKUValue?: [{	where:ValueTypes["SKUValueWhereUniqueInput"]},ValueTypes["SKUValue"]],
+deleteSKUValues?: [{	where:ValueTypes["SKUValueWhereUniqueInput"][]},ValueTypes["SKUValue"]],
+createOption?: [{	data:ValueTypes["OptionCreateInput"]},ValueTypes["Option"]],
+createOptions?: [{	data:ValueTypes["OptionCreateInput"][]},ValueTypes["Option"]],
+updateOption?: [{	where:ValueTypes["OptionWhereUniqueInput"],	data:ValueTypes["OptionUpdateInput"]},ValueTypes["Option"]],
+updateOptions?: [{	data:ValueTypes["OptionUpdateArgs"][]},ValueTypes["Option"]],
+deleteOption?: [{	where:ValueTypes["OptionWhereUniqueInput"]},ValueTypes["Option"]],
+deleteOptions?: [{	where:ValueTypes["OptionWhereUniqueInput"][]},ValueTypes["Option"]],
+createOptionValue?: [{	data:ValueTypes["OptionValueCreateInput"]},ValueTypes["OptionValue"]],
+createOptionValues?: [{	data:ValueTypes["OptionValueCreateInput"][]},ValueTypes["OptionValue"]],
+updateOptionValue?: [{	where:ValueTypes["OptionValueWhereUniqueInput"],	data:ValueTypes["OptionValueUpdateInput"]},ValueTypes["OptionValue"]],
+updateOptionValues?: [{	data:ValueTypes["OptionValueUpdateArgs"][]},ValueTypes["OptionValue"]],
+deleteOptionValue?: [{	where:ValueTypes["OptionValueWhereUniqueInput"]},ValueTypes["OptionValue"]],
+deleteOptionValues?: [{	where:ValueTypes["OptionValueWhereUniqueInput"][]},ValueTypes["OptionValue"]],
 	endSession?:boolean,
 authenticateUserWithPassword?: [{	email:string,	password:string},ValueTypes["UserAuthenticationWithPasswordResult"]],
 createInitialUser?: [{	data:ValueTypes["CreateInitialUserInput"]},ValueTypes["UserAuthenticationWithPasswordSuccess"]],
@@ -491,7 +850,6 @@ createInitialUser?: [{	data:ValueTypes["CreateInitialUserInput"]},ValueTypes["Us
 		__typename?: boolean
 }>;
 	["CreateInitialUserInput"]: {
-	name?:string | null,
 	email?:string | null,
 	password?:string | null
 };
@@ -511,6 +869,21 @@ productImagesCount?: [{	where:ValueTypes["ProductImageWhereInput"]},boolean],
 tags?: [{	where:ValueTypes["TagWhereInput"],	orderBy:ValueTypes["TagOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Tag"]],
 tag?: [{	where:ValueTypes["TagWhereUniqueInput"]},ValueTypes["Tag"]],
 tagsCount?: [{	where:ValueTypes["TagWhereInput"]},boolean],
+categories?: [{	where:ValueTypes["CategoryWhereInput"],	orderBy:ValueTypes["CategoryOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Category"]],
+category?: [{	where:ValueTypes["CategoryWhereUniqueInput"]},ValueTypes["Category"]],
+categoriesCount?: [{	where:ValueTypes["CategoryWhereInput"]},boolean],
+sKUS?: [{	where:ValueTypes["SKUWhereInput"],	orderBy:ValueTypes["SKUOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["SKU"]],
+sKU?: [{	where:ValueTypes["SKUWhereUniqueInput"]},ValueTypes["SKU"]],
+sKUSCount?: [{	where:ValueTypes["SKUWhereInput"]},boolean],
+sKUValues?: [{	where:ValueTypes["SKUValueWhereInput"],	orderBy:ValueTypes["SKUValueOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["SKUValue"]],
+sKUValue?: [{	where:ValueTypes["SKUValueWhereUniqueInput"]},ValueTypes["SKUValue"]],
+sKUValuesCount?: [{	where:ValueTypes["SKUValueWhereInput"]},boolean],
+options?: [{	where:ValueTypes["OptionWhereInput"],	orderBy:ValueTypes["OptionOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Option"]],
+option?: [{	where:ValueTypes["OptionWhereUniqueInput"]},ValueTypes["Option"]],
+optionsCount?: [{	where:ValueTypes["OptionWhereInput"]},boolean],
+optionValues?: [{	where:ValueTypes["OptionValueWhereInput"],	orderBy:ValueTypes["OptionValueOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["OptionValue"]],
+optionValue?: [{	where:ValueTypes["OptionValueWhereUniqueInput"]},ValueTypes["OptionValue"]],
+optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 	keystone?:ValueTypes["KeystoneMeta"],
 	authenticatedItem?:ValueTypes["AuthenticatedItem"],
 		__typename?: boolean
@@ -590,12 +963,15 @@ export type ModelTypes = {
 		id:string,
 	name?:string,
 	email?:string,
+	oauthProvider?:ModelTypes["UserOauthProviderType"],
+	oauthProfileId?:string,
 	password?:ModelTypes["PasswordState"],
 	posts?:ModelTypes["Post"][],
 	postsCount?:number,
 	products?:ModelTypes["Product"][],
 	productsCount?:number
 };
+	["UserOauthProviderType"]: GraphQLTypes["UserOauthProviderType"];
 	["PasswordState"]: {
 		isSet:boolean
 };
@@ -605,6 +981,7 @@ export type ModelTypes = {
 	["StringFilter"]: GraphQLTypes["StringFilter"];
 	["QueryMode"]: GraphQLTypes["QueryMode"];
 	["NestedStringFilter"]: GraphQLTypes["NestedStringFilter"];
+	["UserOauthProviderTypeNullableFilter"]: GraphQLTypes["UserOauthProviderTypeNullableFilter"];
 	["PostManyRelationFilter"]: GraphQLTypes["PostManyRelationFilter"];
 	["ProductManyRelationFilter"]: GraphQLTypes["ProductManyRelationFilter"];
 	["UserOrderByInput"]: GraphQLTypes["UserOrderByInput"];
@@ -648,25 +1025,50 @@ export type ModelTypes = {
 		id:string,
 	name?:string,
 	description?:string,
-	photo?:ModelTypes["ProductImage"],
+	photo?:ModelTypes["ProductImage"][],
+	photoCount?:number,
 	status?:string,
-	price?:number,
-	user?:ModelTypes["User"]
+	user?:ModelTypes["User"],
+	skus?:ModelTypes["SKU"][],
+	skusCount?:number,
+	skuValues?:ModelTypes["SKUValue"][],
+	skuValuesCount?:number,
+	options?:ModelTypes["Option"][],
+	optionsCount?:number,
+	optionValues?:ModelTypes["OptionValue"][],
+	optionValuesCount?:number,
+	category?:ModelTypes["Category"]
 };
 	["ProductWhereUniqueInput"]: GraphQLTypes["ProductWhereUniqueInput"];
 	["ProductWhereInput"]: GraphQLTypes["ProductWhereInput"];
-	["IntNullableFilter"]: GraphQLTypes["IntNullableFilter"];
+	["ProductImageManyRelationFilter"]: GraphQLTypes["ProductImageManyRelationFilter"];
+	["SKUManyRelationFilter"]: GraphQLTypes["SKUManyRelationFilter"];
+	["SKUValueManyRelationFilter"]: GraphQLTypes["SKUValueManyRelationFilter"];
+	["OptionManyRelationFilter"]: GraphQLTypes["OptionManyRelationFilter"];
+	["OptionValueManyRelationFilter"]: GraphQLTypes["OptionValueManyRelationFilter"];
 	["ProductOrderByInput"]: GraphQLTypes["ProductOrderByInput"];
 	["ProductUpdateInput"]: GraphQLTypes["ProductUpdateInput"];
-	["ProductImageRelateToOneForUpdateInput"]: GraphQLTypes["ProductImageRelateToOneForUpdateInput"];
+	["ProductImageRelateToManyForUpdateInput"]: GraphQLTypes["ProductImageRelateToManyForUpdateInput"];
+	["SKURelateToManyForUpdateInput"]: GraphQLTypes["SKURelateToManyForUpdateInput"];
+	["SKUValueRelateToManyForUpdateInput"]: GraphQLTypes["SKUValueRelateToManyForUpdateInput"];
+	["OptionRelateToManyForUpdateInput"]: GraphQLTypes["OptionRelateToManyForUpdateInput"];
+	["OptionValueRelateToManyForUpdateInput"]: GraphQLTypes["OptionValueRelateToManyForUpdateInput"];
+	["CategoryRelateToOneForUpdateInput"]: GraphQLTypes["CategoryRelateToOneForUpdateInput"];
 	["ProductUpdateArgs"]: GraphQLTypes["ProductUpdateArgs"];
 	["ProductCreateInput"]: GraphQLTypes["ProductCreateInput"];
-	["ProductImageRelateToOneForCreateInput"]: GraphQLTypes["ProductImageRelateToOneForCreateInput"];
+	["ProductImageRelateToManyForCreateInput"]: GraphQLTypes["ProductImageRelateToManyForCreateInput"];
+	["SKURelateToManyForCreateInput"]: GraphQLTypes["SKURelateToManyForCreateInput"];
+	["SKUValueRelateToManyForCreateInput"]: GraphQLTypes["SKUValueRelateToManyForCreateInput"];
+	["OptionRelateToManyForCreateInput"]: GraphQLTypes["OptionRelateToManyForCreateInput"];
+	["OptionValueRelateToManyForCreateInput"]: GraphQLTypes["OptionValueRelateToManyForCreateInput"];
+	["CategoryRelateToOneForCreateInput"]: GraphQLTypes["CategoryRelateToOneForCreateInput"];
 	["ProductImage"]: {
 		id:string,
 	image?:ModelTypes["CloudinaryImage_File"],
 	altText?:string,
-	product?:ModelTypes["Product"]
+	product?:ModelTypes["Product"],
+	option?:ModelTypes["Option"],
+	optionValue?:ModelTypes["OptionValue"]
 };
 	["CloudinaryImage_File"]: {
 		id?:string,
@@ -687,9 +1089,13 @@ All options are strings as they ultimately end up in a URL. */
 	/** The `Upload` scalar type represents a file upload. */
 ["Upload"]:any;
 	["ProductRelateToOneForUpdateInput"]: GraphQLTypes["ProductRelateToOneForUpdateInput"];
+	["OptionRelateToOneForUpdateInput"]: GraphQLTypes["OptionRelateToOneForUpdateInput"];
+	["OptionValueRelateToOneForUpdateInput"]: GraphQLTypes["OptionValueRelateToOneForUpdateInput"];
 	["ProductImageUpdateArgs"]: GraphQLTypes["ProductImageUpdateArgs"];
 	["ProductImageCreateInput"]: GraphQLTypes["ProductImageCreateInput"];
 	["ProductRelateToOneForCreateInput"]: GraphQLTypes["ProductRelateToOneForCreateInput"];
+	["OptionRelateToOneForCreateInput"]: GraphQLTypes["OptionRelateToOneForCreateInput"];
+	["OptionValueRelateToOneForCreateInput"]: GraphQLTypes["OptionValueRelateToOneForCreateInput"];
 	["Tag"]: {
 		id:string,
 	name?:string,
@@ -702,6 +1108,69 @@ All options are strings as they ultimately end up in a URL. */
 	["TagUpdateInput"]: GraphQLTypes["TagUpdateInput"];
 	["TagUpdateArgs"]: GraphQLTypes["TagUpdateArgs"];
 	["TagCreateInput"]: GraphQLTypes["TagCreateInput"];
+	["Category"]: {
+		id:string,
+	name?:string
+};
+	["CategoryWhereUniqueInput"]: GraphQLTypes["CategoryWhereUniqueInput"];
+	["CategoryWhereInput"]: GraphQLTypes["CategoryWhereInput"];
+	["CategoryOrderByInput"]: GraphQLTypes["CategoryOrderByInput"];
+	["CategoryUpdateInput"]: GraphQLTypes["CategoryUpdateInput"];
+	["CategoryUpdateArgs"]: GraphQLTypes["CategoryUpdateArgs"];
+	["CategoryCreateInput"]: GraphQLTypes["CategoryCreateInput"];
+	["SKU"]: {
+		id:string,
+	sku?:string,
+	product?:ModelTypes["Product"],
+	stock?:number
+};
+	["SKUWhereUniqueInput"]: GraphQLTypes["SKUWhereUniqueInput"];
+	["SKUWhereInput"]: GraphQLTypes["SKUWhereInput"];
+	["IntNullableFilter"]: GraphQLTypes["IntNullableFilter"];
+	["SKUOrderByInput"]: GraphQLTypes["SKUOrderByInput"];
+	["SKUUpdateInput"]: GraphQLTypes["SKUUpdateInput"];
+	["SKUUpdateArgs"]: GraphQLTypes["SKUUpdateArgs"];
+	["SKUCreateInput"]: GraphQLTypes["SKUCreateInput"];
+	["SKUValue"]: {
+		id:string,
+	product?:ModelTypes["Product"],
+	SKU?:ModelTypes["SKU"],
+	options?:ModelTypes["Option"][],
+	optionsCount?:number,
+	optionValues?:ModelTypes["OptionValue"][],
+	optionValuesCount?:number
+};
+	["SKUValueWhereUniqueInput"]: GraphQLTypes["SKUValueWhereUniqueInput"];
+	["SKUValueWhereInput"]: GraphQLTypes["SKUValueWhereInput"];
+	["SKUValueOrderByInput"]: GraphQLTypes["SKUValueOrderByInput"];
+	["SKUValueUpdateInput"]: GraphQLTypes["SKUValueUpdateInput"];
+	["SKURelateToOneForUpdateInput"]: GraphQLTypes["SKURelateToOneForUpdateInput"];
+	["SKUValueUpdateArgs"]: GraphQLTypes["SKUValueUpdateArgs"];
+	["SKUValueCreateInput"]: GraphQLTypes["SKUValueCreateInput"];
+	["SKURelateToOneForCreateInput"]: GraphQLTypes["SKURelateToOneForCreateInput"];
+	["Option"]: {
+		id:string,
+	name?:string,
+	product?:ModelTypes["Product"]
+};
+	["OptionWhereUniqueInput"]: GraphQLTypes["OptionWhereUniqueInput"];
+	["OptionWhereInput"]: GraphQLTypes["OptionWhereInput"];
+	["OptionOrderByInput"]: GraphQLTypes["OptionOrderByInput"];
+	["OptionUpdateInput"]: GraphQLTypes["OptionUpdateInput"];
+	["OptionUpdateArgs"]: GraphQLTypes["OptionUpdateArgs"];
+	["OptionCreateInput"]: GraphQLTypes["OptionCreateInput"];
+	["OptionValue"]: {
+		id:string,
+	name?:string,
+	product?:ModelTypes["Product"],
+	option?:ModelTypes["Option"]
+};
+	["OptionValueWhereUniqueInput"]: GraphQLTypes["OptionValueWhereUniqueInput"];
+	["OptionValueWhereInput"]: GraphQLTypes["OptionValueWhereInput"];
+	["OptionValueOrderByInput"]: GraphQLTypes["OptionValueOrderByInput"];
+	["OptionValueUpdateInput"]: GraphQLTypes["OptionValueUpdateInput"];
+	["OptionValueUpdateArgs"]: GraphQLTypes["OptionValueUpdateArgs"];
+	["OptionValueCreateInput"]: GraphQLTypes["OptionValueCreateInput"];
 	/** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
 ["JSON"]:any;
 	["Mutation"]: {
@@ -735,6 +1204,36 @@ All options are strings as they ultimately end up in a URL. */
 	updateTags?:(ModelTypes["Tag"] | undefined)[],
 	deleteTag?:ModelTypes["Tag"],
 	deleteTags?:(ModelTypes["Tag"] | undefined)[],
+	createCategory?:ModelTypes["Category"],
+	createCategories?:(ModelTypes["Category"] | undefined)[],
+	updateCategory?:ModelTypes["Category"],
+	updateCategories?:(ModelTypes["Category"] | undefined)[],
+	deleteCategory?:ModelTypes["Category"],
+	deleteCategories?:(ModelTypes["Category"] | undefined)[],
+	createSKU?:ModelTypes["SKU"],
+	createSKUS?:(ModelTypes["SKU"] | undefined)[],
+	updateSKU?:ModelTypes["SKU"],
+	updateSKUS?:(ModelTypes["SKU"] | undefined)[],
+	deleteSKU?:ModelTypes["SKU"],
+	deleteSKUS?:(ModelTypes["SKU"] | undefined)[],
+	createSKUValue?:ModelTypes["SKUValue"],
+	createSKUValues?:(ModelTypes["SKUValue"] | undefined)[],
+	updateSKUValue?:ModelTypes["SKUValue"],
+	updateSKUValues?:(ModelTypes["SKUValue"] | undefined)[],
+	deleteSKUValue?:ModelTypes["SKUValue"],
+	deleteSKUValues?:(ModelTypes["SKUValue"] | undefined)[],
+	createOption?:ModelTypes["Option"],
+	createOptions?:(ModelTypes["Option"] | undefined)[],
+	updateOption?:ModelTypes["Option"],
+	updateOptions?:(ModelTypes["Option"] | undefined)[],
+	deleteOption?:ModelTypes["Option"],
+	deleteOptions?:(ModelTypes["Option"] | undefined)[],
+	createOptionValue?:ModelTypes["OptionValue"],
+	createOptionValues?:(ModelTypes["OptionValue"] | undefined)[],
+	updateOptionValue?:ModelTypes["OptionValue"],
+	updateOptionValues?:(ModelTypes["OptionValue"] | undefined)[],
+	deleteOptionValue?:ModelTypes["OptionValue"],
+	deleteOptionValues?:(ModelTypes["OptionValue"] | undefined)[],
 	endSession:boolean,
 	authenticateUserWithPassword?:ModelTypes["UserAuthenticationWithPasswordResult"],
 	createInitialUser:ModelTypes["UserAuthenticationWithPasswordSuccess"]
@@ -764,6 +1263,21 @@ All options are strings as they ultimately end up in a URL. */
 	tags?:ModelTypes["Tag"][],
 	tag?:ModelTypes["Tag"],
 	tagsCount?:number,
+	categories?:ModelTypes["Category"][],
+	category?:ModelTypes["Category"],
+	categoriesCount?:number,
+	sKUS?:ModelTypes["SKU"][],
+	sKU?:ModelTypes["SKU"],
+	sKUSCount?:number,
+	sKUValues?:ModelTypes["SKUValue"][],
+	sKUValue?:ModelTypes["SKUValue"],
+	sKUValuesCount?:number,
+	options?:ModelTypes["Option"][],
+	option?:ModelTypes["Option"],
+	optionsCount?:number,
+	optionValues?:ModelTypes["OptionValue"][],
+	optionValue?:ModelTypes["OptionValue"],
+	optionValuesCount?:number,
 	keystone:ModelTypes["KeystoneMeta"],
 	authenticatedItem?:ModelTypes["AuthenticatedItem"]
 };
@@ -833,12 +1347,15 @@ export type GraphQLTypes = {
 	id: string,
 	name?: string,
 	email?: string,
+	oauthProvider?: GraphQLTypes["UserOauthProviderType"],
+	oauthProfileId?: string,
 	password?: GraphQLTypes["PasswordState"],
 	posts?: Array<GraphQLTypes["Post"]>,
 	postsCount?: number,
 	products?: Array<GraphQLTypes["Product"]>,
 	productsCount?: number
 };
+	["UserOauthProviderType"]: UserOauthProviderType;
 	["PasswordState"]: {
 	__typename: "PasswordState",
 	isSet: boolean
@@ -854,6 +1371,8 @@ export type GraphQLTypes = {
 	id?: GraphQLTypes["IDFilter"],
 	name?: GraphQLTypes["StringFilter"],
 	email?: GraphQLTypes["StringFilter"],
+	oauthProvider?: GraphQLTypes["UserOauthProviderTypeNullableFilter"],
+	oauthProfileId?: GraphQLTypes["StringFilter"],
 	posts?: GraphQLTypes["PostManyRelationFilter"],
 	products?: GraphQLTypes["ProductManyRelationFilter"]
 };
@@ -895,6 +1414,12 @@ export type GraphQLTypes = {
 	endsWith?: string,
 	not?: GraphQLTypes["NestedStringFilter"]
 };
+	["UserOauthProviderTypeNullableFilter"]: {
+		equals?: GraphQLTypes["UserOauthProviderType"],
+	in?: Array<GraphQLTypes["UserOauthProviderType"]>,
+	notIn?: Array<GraphQLTypes["UserOauthProviderType"]>,
+	not?: GraphQLTypes["UserOauthProviderTypeNullableFilter"]
+};
 	["PostManyRelationFilter"]: {
 		every?: GraphQLTypes["PostWhereInput"],
 	some?: GraphQLTypes["PostWhereInput"],
@@ -908,12 +1433,16 @@ export type GraphQLTypes = {
 	["UserOrderByInput"]: {
 		id?: GraphQLTypes["OrderDirection"],
 	name?: GraphQLTypes["OrderDirection"],
-	email?: GraphQLTypes["OrderDirection"]
+	email?: GraphQLTypes["OrderDirection"],
+	oauthProvider?: GraphQLTypes["OrderDirection"],
+	oauthProfileId?: GraphQLTypes["OrderDirection"]
 };
 	["OrderDirection"]: OrderDirection;
 	["UserUpdateInput"]: {
 		name?: string,
 	email?: string,
+	oauthProvider?: GraphQLTypes["UserOauthProviderType"],
+	oauthProfileId?: string,
 	password?: string,
 	posts?: GraphQLTypes["PostRelateToManyForUpdateInput"],
 	products?: GraphQLTypes["ProductRelateToManyForUpdateInput"]
@@ -937,6 +1466,8 @@ export type GraphQLTypes = {
 	["UserCreateInput"]: {
 		name?: string,
 	email?: string,
+	oauthProvider?: GraphQLTypes["UserOauthProviderType"],
+	oauthProfileId?: string,
 	password?: string,
 	posts?: GraphQLTypes["PostRelateToManyForCreateInput"],
 	products?: GraphQLTypes["ProductRelateToManyForCreateInput"]
@@ -1071,10 +1602,19 @@ export type GraphQLTypes = {
 	id: string,
 	name?: string,
 	description?: string,
-	photo?: GraphQLTypes["ProductImage"],
+	photo?: Array<GraphQLTypes["ProductImage"]>,
+	photoCount?: number,
 	status?: string,
-	price?: number,
-	user?: GraphQLTypes["User"]
+	user?: GraphQLTypes["User"],
+	skus?: Array<GraphQLTypes["SKU"]>,
+	skusCount?: number,
+	skuValues?: Array<GraphQLTypes["SKUValue"]>,
+	skuValuesCount?: number,
+	options?: Array<GraphQLTypes["Option"]>,
+	optionsCount?: number,
+	optionValues?: Array<GraphQLTypes["OptionValue"]>,
+	optionValuesCount?: number,
+	category?: GraphQLTypes["Category"]
 };
 	["ProductWhereUniqueInput"]: {
 		id?: string
@@ -1086,39 +1626,91 @@ export type GraphQLTypes = {
 	id?: GraphQLTypes["IDFilter"],
 	name?: GraphQLTypes["StringFilter"],
 	description?: GraphQLTypes["StringFilter"],
-	photo?: GraphQLTypes["ProductImageWhereInput"],
+	photo?: GraphQLTypes["ProductImageManyRelationFilter"],
 	status?: GraphQLTypes["StringNullableFilter"],
-	price?: GraphQLTypes["IntNullableFilter"],
-	user?: GraphQLTypes["UserWhereInput"]
+	user?: GraphQLTypes["UserWhereInput"],
+	skus?: GraphQLTypes["SKUManyRelationFilter"],
+	skuValues?: GraphQLTypes["SKUValueManyRelationFilter"],
+	options?: GraphQLTypes["OptionManyRelationFilter"],
+	optionValues?: GraphQLTypes["OptionValueManyRelationFilter"],
+	category?: GraphQLTypes["CategoryWhereInput"]
 };
-	["IntNullableFilter"]: {
-		equals?: number,
-	in?: Array<number>,
-	notIn?: Array<number>,
-	lt?: number,
-	lte?: number,
-	gt?: number,
-	gte?: number,
-	not?: GraphQLTypes["IntNullableFilter"]
+	["ProductImageManyRelationFilter"]: {
+		every?: GraphQLTypes["ProductImageWhereInput"],
+	some?: GraphQLTypes["ProductImageWhereInput"],
+	none?: GraphQLTypes["ProductImageWhereInput"]
+};
+	["SKUManyRelationFilter"]: {
+		every?: GraphQLTypes["SKUWhereInput"],
+	some?: GraphQLTypes["SKUWhereInput"],
+	none?: GraphQLTypes["SKUWhereInput"]
+};
+	["SKUValueManyRelationFilter"]: {
+		every?: GraphQLTypes["SKUValueWhereInput"],
+	some?: GraphQLTypes["SKUValueWhereInput"],
+	none?: GraphQLTypes["SKUValueWhereInput"]
+};
+	["OptionManyRelationFilter"]: {
+		every?: GraphQLTypes["OptionWhereInput"],
+	some?: GraphQLTypes["OptionWhereInput"],
+	none?: GraphQLTypes["OptionWhereInput"]
+};
+	["OptionValueManyRelationFilter"]: {
+		every?: GraphQLTypes["OptionValueWhereInput"],
+	some?: GraphQLTypes["OptionValueWhereInput"],
+	none?: GraphQLTypes["OptionValueWhereInput"]
 };
 	["ProductOrderByInput"]: {
 		id?: GraphQLTypes["OrderDirection"],
 	name?: GraphQLTypes["OrderDirection"],
 	description?: GraphQLTypes["OrderDirection"],
-	status?: GraphQLTypes["OrderDirection"],
-	price?: GraphQLTypes["OrderDirection"]
+	status?: GraphQLTypes["OrderDirection"]
 };
 	["ProductUpdateInput"]: {
 		name?: string,
 	description?: string,
-	photo?: GraphQLTypes["ProductImageRelateToOneForUpdateInput"],
+	photo?: GraphQLTypes["ProductImageRelateToManyForUpdateInput"],
 	status?: string,
-	price?: number,
-	user?: GraphQLTypes["UserRelateToOneForUpdateInput"]
+	user?: GraphQLTypes["UserRelateToOneForUpdateInput"],
+	skus?: GraphQLTypes["SKURelateToManyForUpdateInput"],
+	skuValues?: GraphQLTypes["SKUValueRelateToManyForUpdateInput"],
+	options?: GraphQLTypes["OptionRelateToManyForUpdateInput"],
+	optionValues?: GraphQLTypes["OptionValueRelateToManyForUpdateInput"],
+	category?: GraphQLTypes["CategoryRelateToOneForUpdateInput"]
 };
-	["ProductImageRelateToOneForUpdateInput"]: {
-		create?: GraphQLTypes["ProductImageCreateInput"],
-	connect?: GraphQLTypes["ProductImageWhereUniqueInput"],
+	["ProductImageRelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["ProductImageWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["ProductImageWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["ProductImageCreateInput"]>,
+	connect?: Array<GraphQLTypes["ProductImageWhereUniqueInput"]>
+};
+	["SKURelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["SKUWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["SKUWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["SKUCreateInput"]>,
+	connect?: Array<GraphQLTypes["SKUWhereUniqueInput"]>
+};
+	["SKUValueRelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["SKUValueWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["SKUValueWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["SKUValueCreateInput"]>,
+	connect?: Array<GraphQLTypes["SKUValueWhereUniqueInput"]>
+};
+	["OptionRelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["OptionWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["OptionWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["OptionCreateInput"]>,
+	connect?: Array<GraphQLTypes["OptionWhereUniqueInput"]>
+};
+	["OptionValueRelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["OptionValueWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["OptionValueWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["OptionValueCreateInput"]>,
+	connect?: Array<GraphQLTypes["OptionValueWhereUniqueInput"]>
+};
+	["CategoryRelateToOneForUpdateInput"]: {
+		create?: GraphQLTypes["CategoryCreateInput"],
+	connect?: GraphQLTypes["CategoryWhereUniqueInput"],
 	disconnect?: boolean
 };
 	["ProductUpdateArgs"]: {
@@ -1128,21 +1720,47 @@ export type GraphQLTypes = {
 	["ProductCreateInput"]: {
 		name?: string,
 	description?: string,
-	photo?: GraphQLTypes["ProductImageRelateToOneForCreateInput"],
+	photo?: GraphQLTypes["ProductImageRelateToManyForCreateInput"],
 	status?: string,
-	price?: number,
-	user?: GraphQLTypes["UserRelateToOneForCreateInput"]
+	user?: GraphQLTypes["UserRelateToOneForCreateInput"],
+	skus?: GraphQLTypes["SKURelateToManyForCreateInput"],
+	skuValues?: GraphQLTypes["SKUValueRelateToManyForCreateInput"],
+	options?: GraphQLTypes["OptionRelateToManyForCreateInput"],
+	optionValues?: GraphQLTypes["OptionValueRelateToManyForCreateInput"],
+	category?: GraphQLTypes["CategoryRelateToOneForCreateInput"]
 };
-	["ProductImageRelateToOneForCreateInput"]: {
-		create?: GraphQLTypes["ProductImageCreateInput"],
-	connect?: GraphQLTypes["ProductImageWhereUniqueInput"]
+	["ProductImageRelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["ProductImageCreateInput"]>,
+	connect?: Array<GraphQLTypes["ProductImageWhereUniqueInput"]>
+};
+	["SKURelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["SKUCreateInput"]>,
+	connect?: Array<GraphQLTypes["SKUWhereUniqueInput"]>
+};
+	["SKUValueRelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["SKUValueCreateInput"]>,
+	connect?: Array<GraphQLTypes["SKUValueWhereUniqueInput"]>
+};
+	["OptionRelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["OptionCreateInput"]>,
+	connect?: Array<GraphQLTypes["OptionWhereUniqueInput"]>
+};
+	["OptionValueRelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["OptionValueCreateInput"]>,
+	connect?: Array<GraphQLTypes["OptionValueWhereUniqueInput"]>
+};
+	["CategoryRelateToOneForCreateInput"]: {
+		create?: GraphQLTypes["CategoryCreateInput"],
+	connect?: GraphQLTypes["CategoryWhereUniqueInput"]
 };
 	["ProductImage"]: {
 	__typename: "ProductImage",
 	id: string,
 	image?: GraphQLTypes["CloudinaryImage_File"],
 	altText?: string,
-	product?: GraphQLTypes["Product"]
+	product?: GraphQLTypes["Product"],
+	option?: GraphQLTypes["Option"],
+	optionValue?: GraphQLTypes["OptionValue"]
 };
 	["CloudinaryImage_File"]: {
 	__typename: "CloudinaryImage_File",
@@ -1197,7 +1815,9 @@ All options are strings as they ultimately end up in a URL. */
 	NOT?: Array<GraphQLTypes["ProductImageWhereInput"]>,
 	id?: GraphQLTypes["IDFilter"],
 	altText?: GraphQLTypes["StringFilter"],
-	product?: GraphQLTypes["ProductWhereInput"]
+	product?: GraphQLTypes["ProductWhereInput"],
+	option?: GraphQLTypes["OptionWhereInput"],
+	optionValue?: GraphQLTypes["OptionValueWhereInput"]
 };
 	["ProductImageOrderByInput"]: {
 		id?: GraphQLTypes["OrderDirection"],
@@ -1206,13 +1826,25 @@ All options are strings as they ultimately end up in a URL. */
 	["ProductImageUpdateInput"]: {
 		image?: GraphQLTypes["Upload"],
 	altText?: string,
-	product?: GraphQLTypes["ProductRelateToOneForUpdateInput"]
+	product?: GraphQLTypes["ProductRelateToOneForUpdateInput"],
+	option?: GraphQLTypes["OptionRelateToOneForUpdateInput"],
+	optionValue?: GraphQLTypes["OptionValueRelateToOneForUpdateInput"]
 };
 	/** The `Upload` scalar type represents a file upload. */
 ["Upload"]:any;
 	["ProductRelateToOneForUpdateInput"]: {
 		create?: GraphQLTypes["ProductCreateInput"],
 	connect?: GraphQLTypes["ProductWhereUniqueInput"],
+	disconnect?: boolean
+};
+	["OptionRelateToOneForUpdateInput"]: {
+		create?: GraphQLTypes["OptionCreateInput"],
+	connect?: GraphQLTypes["OptionWhereUniqueInput"],
+	disconnect?: boolean
+};
+	["OptionValueRelateToOneForUpdateInput"]: {
+		create?: GraphQLTypes["OptionValueCreateInput"],
+	connect?: GraphQLTypes["OptionValueWhereUniqueInput"],
 	disconnect?: boolean
 };
 	["ProductImageUpdateArgs"]: {
@@ -1222,11 +1854,21 @@ All options are strings as they ultimately end up in a URL. */
 	["ProductImageCreateInput"]: {
 		image?: GraphQLTypes["Upload"],
 	altText?: string,
-	product?: GraphQLTypes["ProductRelateToOneForCreateInput"]
+	product?: GraphQLTypes["ProductRelateToOneForCreateInput"],
+	option?: GraphQLTypes["OptionRelateToOneForCreateInput"],
+	optionValue?: GraphQLTypes["OptionValueRelateToOneForCreateInput"]
 };
 	["ProductRelateToOneForCreateInput"]: {
 		create?: GraphQLTypes["ProductCreateInput"],
 	connect?: GraphQLTypes["ProductWhereUniqueInput"]
+};
+	["OptionRelateToOneForCreateInput"]: {
+		create?: GraphQLTypes["OptionCreateInput"],
+	connect?: GraphQLTypes["OptionWhereUniqueInput"]
+};
+	["OptionValueRelateToOneForCreateInput"]: {
+		create?: GraphQLTypes["OptionValueCreateInput"],
+	connect?: GraphQLTypes["OptionValueWhereUniqueInput"]
 };
 	["Tag"]: {
 	__typename: "Tag",
@@ -1262,6 +1904,207 @@ All options are strings as they ultimately end up in a URL. */
 		name?: string,
 	posts?: GraphQLTypes["PostRelateToManyForCreateInput"]
 };
+	["Category"]: {
+	__typename: "Category",
+	id: string,
+	name?: string
+};
+	["CategoryWhereUniqueInput"]: {
+		id?: string
+};
+	["CategoryWhereInput"]: {
+		AND?: Array<GraphQLTypes["CategoryWhereInput"]>,
+	OR?: Array<GraphQLTypes["CategoryWhereInput"]>,
+	NOT?: Array<GraphQLTypes["CategoryWhereInput"]>,
+	id?: GraphQLTypes["IDFilter"],
+	name?: GraphQLTypes["StringFilter"]
+};
+	["CategoryOrderByInput"]: {
+		id?: GraphQLTypes["OrderDirection"],
+	name?: GraphQLTypes["OrderDirection"]
+};
+	["CategoryUpdateInput"]: {
+		name?: string
+};
+	["CategoryUpdateArgs"]: {
+		where: GraphQLTypes["CategoryWhereUniqueInput"],
+	data: GraphQLTypes["CategoryUpdateInput"]
+};
+	["CategoryCreateInput"]: {
+		name?: string
+};
+	["SKU"]: {
+	__typename: "SKU",
+	id: string,
+	sku?: string,
+	product?: GraphQLTypes["Product"],
+	stock?: number
+};
+	["SKUWhereUniqueInput"]: {
+		id?: string,
+	sku?: string
+};
+	["SKUWhereInput"]: {
+		AND?: Array<GraphQLTypes["SKUWhereInput"]>,
+	OR?: Array<GraphQLTypes["SKUWhereInput"]>,
+	NOT?: Array<GraphQLTypes["SKUWhereInput"]>,
+	id?: GraphQLTypes["IDFilter"],
+	sku?: GraphQLTypes["StringFilter"],
+	product?: GraphQLTypes["ProductWhereInput"],
+	stock?: GraphQLTypes["IntNullableFilter"]
+};
+	["IntNullableFilter"]: {
+		equals?: number,
+	in?: Array<number>,
+	notIn?: Array<number>,
+	lt?: number,
+	lte?: number,
+	gt?: number,
+	gte?: number,
+	not?: GraphQLTypes["IntNullableFilter"]
+};
+	["SKUOrderByInput"]: {
+		id?: GraphQLTypes["OrderDirection"],
+	sku?: GraphQLTypes["OrderDirection"],
+	stock?: GraphQLTypes["OrderDirection"]
+};
+	["SKUUpdateInput"]: {
+		sku?: string,
+	product?: GraphQLTypes["ProductRelateToOneForUpdateInput"],
+	stock?: number
+};
+	["SKUUpdateArgs"]: {
+		where: GraphQLTypes["SKUWhereUniqueInput"],
+	data: GraphQLTypes["SKUUpdateInput"]
+};
+	["SKUCreateInput"]: {
+		sku?: string,
+	product?: GraphQLTypes["ProductRelateToOneForCreateInput"],
+	stock?: number
+};
+	["SKUValue"]: {
+	__typename: "SKUValue",
+	id: string,
+	product?: GraphQLTypes["Product"],
+	SKU?: GraphQLTypes["SKU"],
+	options?: Array<GraphQLTypes["Option"]>,
+	optionsCount?: number,
+	optionValues?: Array<GraphQLTypes["OptionValue"]>,
+	optionValuesCount?: number
+};
+	["SKUValueWhereUniqueInput"]: {
+		id?: string
+};
+	["SKUValueWhereInput"]: {
+		AND?: Array<GraphQLTypes["SKUValueWhereInput"]>,
+	OR?: Array<GraphQLTypes["SKUValueWhereInput"]>,
+	NOT?: Array<GraphQLTypes["SKUValueWhereInput"]>,
+	id?: GraphQLTypes["IDFilter"],
+	product?: GraphQLTypes["ProductWhereInput"],
+	SKU?: GraphQLTypes["SKUWhereInput"],
+	options?: GraphQLTypes["OptionManyRelationFilter"],
+	optionValues?: GraphQLTypes["OptionValueManyRelationFilter"]
+};
+	["SKUValueOrderByInput"]: {
+		id?: GraphQLTypes["OrderDirection"]
+};
+	["SKUValueUpdateInput"]: {
+		product?: GraphQLTypes["ProductRelateToOneForUpdateInput"],
+	SKU?: GraphQLTypes["SKURelateToOneForUpdateInput"],
+	options?: GraphQLTypes["OptionRelateToManyForUpdateInput"],
+	optionValues?: GraphQLTypes["OptionValueRelateToManyForUpdateInput"]
+};
+	["SKURelateToOneForUpdateInput"]: {
+		create?: GraphQLTypes["SKUCreateInput"],
+	connect?: GraphQLTypes["SKUWhereUniqueInput"],
+	disconnect?: boolean
+};
+	["SKUValueUpdateArgs"]: {
+		where: GraphQLTypes["SKUValueWhereUniqueInput"],
+	data: GraphQLTypes["SKUValueUpdateInput"]
+};
+	["SKUValueCreateInput"]: {
+		product?: GraphQLTypes["ProductRelateToOneForCreateInput"],
+	SKU?: GraphQLTypes["SKURelateToOneForCreateInput"],
+	options?: GraphQLTypes["OptionRelateToManyForCreateInput"],
+	optionValues?: GraphQLTypes["OptionValueRelateToManyForCreateInput"]
+};
+	["SKURelateToOneForCreateInput"]: {
+		create?: GraphQLTypes["SKUCreateInput"],
+	connect?: GraphQLTypes["SKUWhereUniqueInput"]
+};
+	["Option"]: {
+	__typename: "Option",
+	id: string,
+	name?: string,
+	product?: GraphQLTypes["Product"]
+};
+	["OptionWhereUniqueInput"]: {
+		id?: string,
+	name?: string
+};
+	["OptionWhereInput"]: {
+		AND?: Array<GraphQLTypes["OptionWhereInput"]>,
+	OR?: Array<GraphQLTypes["OptionWhereInput"]>,
+	NOT?: Array<GraphQLTypes["OptionWhereInput"]>,
+	id?: GraphQLTypes["IDFilter"],
+	name?: GraphQLTypes["StringFilter"],
+	product?: GraphQLTypes["ProductWhereInput"]
+};
+	["OptionOrderByInput"]: {
+		id?: GraphQLTypes["OrderDirection"],
+	name?: GraphQLTypes["OrderDirection"]
+};
+	["OptionUpdateInput"]: {
+		name?: string,
+	product?: GraphQLTypes["ProductRelateToOneForUpdateInput"]
+};
+	["OptionUpdateArgs"]: {
+		where: GraphQLTypes["OptionWhereUniqueInput"],
+	data: GraphQLTypes["OptionUpdateInput"]
+};
+	["OptionCreateInput"]: {
+		name?: string,
+	product?: GraphQLTypes["ProductRelateToOneForCreateInput"]
+};
+	["OptionValue"]: {
+	__typename: "OptionValue",
+	id: string,
+	name?: string,
+	product?: GraphQLTypes["Product"],
+	option?: GraphQLTypes["Option"]
+};
+	["OptionValueWhereUniqueInput"]: {
+		id?: string,
+	name?: string
+};
+	["OptionValueWhereInput"]: {
+		AND?: Array<GraphQLTypes["OptionValueWhereInput"]>,
+	OR?: Array<GraphQLTypes["OptionValueWhereInput"]>,
+	NOT?: Array<GraphQLTypes["OptionValueWhereInput"]>,
+	id?: GraphQLTypes["IDFilter"],
+	name?: GraphQLTypes["StringFilter"],
+	product?: GraphQLTypes["ProductWhereInput"],
+	option?: GraphQLTypes["OptionWhereInput"]
+};
+	["OptionValueOrderByInput"]: {
+		id?: GraphQLTypes["OrderDirection"],
+	name?: GraphQLTypes["OrderDirection"]
+};
+	["OptionValueUpdateInput"]: {
+		name?: string,
+	product?: GraphQLTypes["ProductRelateToOneForUpdateInput"],
+	option?: GraphQLTypes["OptionRelateToOneForUpdateInput"]
+};
+	["OptionValueUpdateArgs"]: {
+		where: GraphQLTypes["OptionValueWhereUniqueInput"],
+	data: GraphQLTypes["OptionValueUpdateInput"]
+};
+	["OptionValueCreateInput"]: {
+		name?: string,
+	product?: GraphQLTypes["ProductRelateToOneForCreateInput"],
+	option?: GraphQLTypes["OptionRelateToOneForCreateInput"]
+};
 	/** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
 ["JSON"]:any;
 	["Mutation"]: {
@@ -1296,6 +2139,36 @@ All options are strings as they ultimately end up in a URL. */
 	updateTags?: Array<GraphQLTypes["Tag"] | undefined>,
 	deleteTag?: GraphQLTypes["Tag"],
 	deleteTags?: Array<GraphQLTypes["Tag"] | undefined>,
+	createCategory?: GraphQLTypes["Category"],
+	createCategories?: Array<GraphQLTypes["Category"] | undefined>,
+	updateCategory?: GraphQLTypes["Category"],
+	updateCategories?: Array<GraphQLTypes["Category"] | undefined>,
+	deleteCategory?: GraphQLTypes["Category"],
+	deleteCategories?: Array<GraphQLTypes["Category"] | undefined>,
+	createSKU?: GraphQLTypes["SKU"],
+	createSKUS?: Array<GraphQLTypes["SKU"] | undefined>,
+	updateSKU?: GraphQLTypes["SKU"],
+	updateSKUS?: Array<GraphQLTypes["SKU"] | undefined>,
+	deleteSKU?: GraphQLTypes["SKU"],
+	deleteSKUS?: Array<GraphQLTypes["SKU"] | undefined>,
+	createSKUValue?: GraphQLTypes["SKUValue"],
+	createSKUValues?: Array<GraphQLTypes["SKUValue"] | undefined>,
+	updateSKUValue?: GraphQLTypes["SKUValue"],
+	updateSKUValues?: Array<GraphQLTypes["SKUValue"] | undefined>,
+	deleteSKUValue?: GraphQLTypes["SKUValue"],
+	deleteSKUValues?: Array<GraphQLTypes["SKUValue"] | undefined>,
+	createOption?: GraphQLTypes["Option"],
+	createOptions?: Array<GraphQLTypes["Option"] | undefined>,
+	updateOption?: GraphQLTypes["Option"],
+	updateOptions?: Array<GraphQLTypes["Option"] | undefined>,
+	deleteOption?: GraphQLTypes["Option"],
+	deleteOptions?: Array<GraphQLTypes["Option"] | undefined>,
+	createOptionValue?: GraphQLTypes["OptionValue"],
+	createOptionValues?: Array<GraphQLTypes["OptionValue"] | undefined>,
+	updateOptionValue?: GraphQLTypes["OptionValue"],
+	updateOptionValues?: Array<GraphQLTypes["OptionValue"] | undefined>,
+	deleteOptionValue?: GraphQLTypes["OptionValue"],
+	deleteOptionValues?: Array<GraphQLTypes["OptionValue"] | undefined>,
 	endSession: boolean,
 	authenticateUserWithPassword?: GraphQLTypes["UserAuthenticationWithPasswordResult"],
 	createInitialUser: GraphQLTypes["UserAuthenticationWithPasswordSuccess"]
@@ -1315,8 +2188,7 @@ All options are strings as they ultimately end up in a URL. */
 	message: string
 };
 	["CreateInitialUserInput"]: {
-		name?: string,
-	email?: string,
+		email?: string,
 	password?: string
 };
 	["Query"]: {
@@ -1336,6 +2208,21 @@ All options are strings as they ultimately end up in a URL. */
 	tags?: Array<GraphQLTypes["Tag"]>,
 	tag?: GraphQLTypes["Tag"],
 	tagsCount?: number,
+	categories?: Array<GraphQLTypes["Category"]>,
+	category?: GraphQLTypes["Category"],
+	categoriesCount?: number,
+	sKUS?: Array<GraphQLTypes["SKU"]>,
+	sKU?: GraphQLTypes["SKU"],
+	sKUSCount?: number,
+	sKUValues?: Array<GraphQLTypes["SKUValue"]>,
+	sKUValue?: GraphQLTypes["SKUValue"],
+	sKUValuesCount?: number,
+	options?: Array<GraphQLTypes["Option"]>,
+	option?: GraphQLTypes["Option"],
+	optionsCount?: number,
+	optionValues?: Array<GraphQLTypes["OptionValue"]>,
+	optionValue?: GraphQLTypes["OptionValue"],
+	optionValuesCount?: number,
 	keystone: GraphQLTypes["KeystoneMeta"],
 	authenticatedItem?: GraphQLTypes["AuthenticatedItem"]
 };
@@ -1409,6 +2296,10 @@ All options are strings as they ultimately end up in a URL. */
 };
 	["KeystoneAdminUISortDirection"]: KeystoneAdminUISortDirection
     }
+export const enum UserOauthProviderType {
+	google = "google",
+	instagram = "instagram"
+}
 export const enum QueryMode {
 	default = "default",
 	insensitive = "insensitive"

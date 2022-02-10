@@ -71,6 +71,7 @@ export const AllTypesProps: Record<string,any> = {
 			}
 		}
 	},
+	UserOauthProviderType: "enum",
 	UserWhereUniqueInput:{
 		id:{
 			type:"ID",
@@ -117,6 +118,18 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		email:{
+			type:"StringFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		oauthProvider:{
+			type:"UserOauthProviderTypeNullableFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		oauthProfileId:{
 			type:"StringFilter",
 			array:false,
 			arrayRequired:false,
@@ -328,6 +341,32 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		}
 	},
+	UserOauthProviderTypeNullableFilter:{
+		equals:{
+			type:"UserOauthProviderType",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		in:{
+			type:"UserOauthProviderType",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		notIn:{
+			type:"UserOauthProviderType",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		not:{
+			type:"UserOauthProviderTypeNullableFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
 	PostManyRelationFilter:{
 		every:{
 			type:"PostWhereInput",
@@ -386,6 +425,18 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		oauthProvider:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		oauthProfileId:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	OrderDirection: "enum",
@@ -397,6 +448,18 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		email:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		oauthProvider:{
+			type:"UserOauthProviderType",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		oauthProfileId:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -495,6 +558,18 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		email:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		oauthProvider:{
+			type:"UserOauthProviderType",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		oauthProfileId:{
 			type:"String",
 			array:false,
 			arrayRequired:false,
@@ -1060,6 +1135,178 @@ export const AllTypesProps: Record<string,any> = {
 			required:true
 		}
 	},
+	Product:{
+		photo:{
+			where:{
+				type:"ProductImageWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"ProductImageOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		photoCount:{
+			where:{
+				type:"ProductImageWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		skus:{
+			where:{
+				type:"SKUWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"SKUOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		skusCount:{
+			where:{
+				type:"SKUWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		skuValues:{
+			where:{
+				type:"SKUValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"SKUValueOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		skuValuesCount:{
+			where:{
+				type:"SKUValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		options:{
+			where:{
+				type:"OptionWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"OptionOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionsCount:{
+			where:{
+				type:"OptionWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionValues:{
+			where:{
+				type:"OptionValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"OptionValueOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionValuesCount:{
+			where:{
+				type:"OptionValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
 	ProductWhereUniqueInput:{
 		id:{
 			type:"ID",
@@ -1106,7 +1353,7 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		photo:{
-			type:"ProductImageWhereInput",
+			type:"ProductImageManyRelationFilter",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1117,64 +1364,138 @@ export const AllTypesProps: Record<string,any> = {
 			arrayRequired:false,
 			required:false
 		},
-		price:{
-			type:"IntNullableFilter",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		user:{
 			type:"UserWhereInput",
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		skus:{
+			type:"SKUManyRelationFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		skuValues:{
+			type:"SKUValueManyRelationFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		options:{
+			type:"OptionManyRelationFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		optionValues:{
+			type:"OptionValueManyRelationFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		category:{
+			type:"CategoryWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
-	IntNullableFilter:{
-		equals:{
-			type:"Int",
+	ProductImageManyRelationFilter:{
+		every:{
+			type:"ProductImageWhereInput",
 			array:false,
 			arrayRequired:false,
 			required:false
 		},
-		in:{
-			type:"Int",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		notIn:{
-			type:"Int",
-			array:true,
-			arrayRequired:false,
-			required:true
-		},
-		lt:{
-			type:"Int",
+		some:{
+			type:"ProductImageWhereInput",
 			array:false,
 			arrayRequired:false,
 			required:false
 		},
-		lte:{
-			type:"Int",
+		none:{
+			type:"ProductImageWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUManyRelationFilter:{
+		every:{
+			type:"SKUWhereInput",
 			array:false,
 			arrayRequired:false,
 			required:false
 		},
-		gt:{
-			type:"Int",
+		some:{
+			type:"SKUWhereInput",
 			array:false,
 			arrayRequired:false,
 			required:false
 		},
-		gte:{
-			type:"Int",
+		none:{
+			type:"SKUWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUValueManyRelationFilter:{
+		every:{
+			type:"SKUValueWhereInput",
 			array:false,
 			arrayRequired:false,
 			required:false
 		},
-		not:{
-			type:"IntNullableFilter",
+		some:{
+			type:"SKUValueWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		none:{
+			type:"SKUValueWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionManyRelationFilter:{
+		every:{
+			type:"OptionWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		some:{
+			type:"OptionWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		none:{
+			type:"OptionWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionValueManyRelationFilter:{
+		every:{
+			type:"OptionValueWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		some:{
+			type:"OptionValueWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		none:{
+			type:"OptionValueWhereInput",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1204,12 +1525,6 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		},
-		price:{
-			type:"OrderDirection",
-			array:false,
-			arrayRequired:false,
-			required:false
 		}
 	},
 	ProductUpdateInput:{
@@ -1226,7 +1541,7 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		photo:{
-			type:"ProductImageRelateToOneForUpdateInput",
+			type:"ProductImageRelateToManyForUpdateInput",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1237,28 +1552,182 @@ export const AllTypesProps: Record<string,any> = {
 			arrayRequired:false,
 			required:false
 		},
-		price:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		user:{
 			type:"UserRelateToOneForUpdateInput",
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		skus:{
+			type:"SKURelateToManyForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		skuValues:{
+			type:"SKUValueRelateToManyForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		options:{
+			type:"OptionRelateToManyForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		optionValues:{
+			type:"OptionValueRelateToManyForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		category:{
+			type:"CategoryRelateToOneForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
-	ProductImageRelateToOneForUpdateInput:{
+	ProductImageRelateToManyForUpdateInput:{
+		disconnect:{
+			type:"ProductImageWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		set:{
+			type:"ProductImageWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
 		create:{
 			type:"ProductImageCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"ProductImageWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	SKURelateToManyForUpdateInput:{
+		disconnect:{
+			type:"SKUWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		set:{
+			type:"SKUWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		create:{
+			type:"SKUCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"SKUWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	SKUValueRelateToManyForUpdateInput:{
+		disconnect:{
+			type:"SKUValueWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		set:{
+			type:"SKUValueWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		create:{
+			type:"SKUValueCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"SKUValueWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	OptionRelateToManyForUpdateInput:{
+		disconnect:{
+			type:"OptionWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		set:{
+			type:"OptionWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		create:{
+			type:"OptionCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"OptionWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	OptionValueRelateToManyForUpdateInput:{
+		disconnect:{
+			type:"OptionValueWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		set:{
+			type:"OptionValueWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		create:{
+			type:"OptionValueCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"OptionValueWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	CategoryRelateToOneForUpdateInput:{
+		create:{
+			type:"CategoryCreateInput",
 			array:false,
 			arrayRequired:false,
 			required:false
 		},
 		connect:{
-			type:"ProductImageWhereUniqueInput",
+			type:"CategoryWhereUniqueInput",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1298,7 +1767,7 @@ export const AllTypesProps: Record<string,any> = {
 			required:false
 		},
 		photo:{
-			type:"ProductImageRelateToOneForCreateInput",
+			type:"ProductImageRelateToManyForCreateInput",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1309,28 +1778,122 @@ export const AllTypesProps: Record<string,any> = {
 			arrayRequired:false,
 			required:false
 		},
-		price:{
-			type:"Int",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		user:{
 			type:"UserRelateToOneForCreateInput",
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		skus:{
+			type:"SKURelateToManyForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		skuValues:{
+			type:"SKUValueRelateToManyForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		options:{
+			type:"OptionRelateToManyForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		optionValues:{
+			type:"OptionValueRelateToManyForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		category:{
+			type:"CategoryRelateToOneForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
-	ProductImageRelateToOneForCreateInput:{
+	ProductImageRelateToManyForCreateInput:{
 		create:{
 			type:"ProductImageCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"ProductImageWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	SKURelateToManyForCreateInput:{
+		create:{
+			type:"SKUCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"SKUWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	SKUValueRelateToManyForCreateInput:{
+		create:{
+			type:"SKUValueCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"SKUValueWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	OptionRelateToManyForCreateInput:{
+		create:{
+			type:"OptionCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"OptionWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	OptionValueRelateToManyForCreateInput:{
+		create:{
+			type:"OptionValueCreateInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		connect:{
+			type:"OptionValueWhereUniqueInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	CategoryRelateToOneForCreateInput:{
+		create:{
+			type:"CategoryCreateInput",
 			array:false,
 			arrayRequired:false,
 			required:false
 		},
 		connect:{
-			type:"ProductImageWhereUniqueInput",
+			type:"CategoryWhereUniqueInput",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1566,6 +2129,18 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		option:{
+			type:"OptionWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		optionValue:{
+			type:"OptionValueWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	ProductImageOrderByInput:{
@@ -1600,6 +2175,18 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		option:{
+			type:"OptionRelateToOneForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		optionValue:{
+			type:"OptionValueRelateToOneForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	Upload: "String",
@@ -1612,6 +2199,46 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		connect:{
 			type:"ProductWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		disconnect:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionRelateToOneForUpdateInput:{
+		create:{
+			type:"OptionCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		connect:{
+			type:"OptionWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		disconnect:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionValueRelateToOneForUpdateInput:{
+		create:{
+			type:"OptionValueCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		connect:{
+			type:"OptionValueWhereUniqueInput",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1655,6 +2282,18 @@ export const AllTypesProps: Record<string,any> = {
 			array:false,
 			arrayRequired:false,
 			required:false
+		},
+		option:{
+			type:"OptionRelateToOneForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		optionValue:{
+			type:"OptionValueRelateToOneForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	ProductRelateToOneForCreateInput:{
@@ -1666,6 +2305,34 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		connect:{
 			type:"ProductWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionRelateToOneForCreateInput:{
+		create:{
+			type:"OptionCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		connect:{
+			type:"OptionWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionValueRelateToOneForCreateInput:{
+		create:{
+			type:"OptionValueCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		connect:{
+			type:"OptionValueWhereUniqueInput",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -1804,6 +2471,742 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		posts:{
 			type:"PostRelateToManyForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	CategoryWhereUniqueInput:{
+		id:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	CategoryWhereInput:{
+		AND:{
+			type:"CategoryWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		OR:{
+			type:"CategoryWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		NOT:{
+			type:"CategoryWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		id:{
+			type:"IDFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"StringFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	CategoryOrderByInput:{
+		id:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	CategoryUpdateInput:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	CategoryUpdateArgs:{
+		where:{
+			type:"CategoryWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		data:{
+			type:"CategoryUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	CategoryCreateInput:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUWhereUniqueInput:{
+		id:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		sku:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUWhereInput:{
+		AND:{
+			type:"SKUWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		OR:{
+			type:"SKUWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		NOT:{
+			type:"SKUWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		id:{
+			type:"IDFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		sku:{
+			type:"StringFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		stock:{
+			type:"IntNullableFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	IntNullableFilter:{
+		equals:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		in:{
+			type:"Int",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		notIn:{
+			type:"Int",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		lt:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		lte:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		gt:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		gte:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		not:{
+			type:"IntNullableFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUOrderByInput:{
+		id:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		sku:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		stock:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUUpdateInput:{
+		sku:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductRelateToOneForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		stock:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUUpdateArgs:{
+		where:{
+			type:"SKUWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		data:{
+			type:"SKUUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	SKUCreateInput:{
+		sku:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductRelateToOneForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		stock:{
+			type:"Int",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUValue:{
+		options:{
+			where:{
+				type:"OptionWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"OptionOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionsCount:{
+			where:{
+				type:"OptionWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionValues:{
+			where:{
+				type:"OptionValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"OptionValueOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionValuesCount:{
+			where:{
+				type:"OptionValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
+	SKUValueWhereUniqueInput:{
+		id:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUValueWhereInput:{
+		AND:{
+			type:"SKUValueWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		OR:{
+			type:"SKUValueWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		NOT:{
+			type:"SKUValueWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		id:{
+			type:"IDFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		SKU:{
+			type:"SKUWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		options:{
+			type:"OptionManyRelationFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		optionValues:{
+			type:"OptionValueManyRelationFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUValueOrderByInput:{
+		id:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUValueUpdateInput:{
+		product:{
+			type:"ProductRelateToOneForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		SKU:{
+			type:"SKURelateToOneForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		options:{
+			type:"OptionRelateToManyForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		optionValues:{
+			type:"OptionValueRelateToManyForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKURelateToOneForUpdateInput:{
+		create:{
+			type:"SKUCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		connect:{
+			type:"SKUWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		disconnect:{
+			type:"Boolean",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKUValueUpdateArgs:{
+		where:{
+			type:"SKUValueWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		data:{
+			type:"SKUValueUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	SKUValueCreateInput:{
+		product:{
+			type:"ProductRelateToOneForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		SKU:{
+			type:"SKURelateToOneForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		options:{
+			type:"OptionRelateToManyForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		optionValues:{
+			type:"OptionValueRelateToManyForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	SKURelateToOneForCreateInput:{
+		create:{
+			type:"SKUCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		connect:{
+			type:"SKUWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionWhereUniqueInput:{
+		id:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionWhereInput:{
+		AND:{
+			type:"OptionWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		OR:{
+			type:"OptionWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		NOT:{
+			type:"OptionWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		id:{
+			type:"IDFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"StringFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionOrderByInput:{
+		id:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionUpdateInput:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductRelateToOneForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionUpdateArgs:{
+		where:{
+			type:"OptionWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		data:{
+			type:"OptionUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	OptionCreateInput:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductRelateToOneForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionValueWhereUniqueInput:{
+		id:{
+			type:"ID",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionValueWhereInput:{
+		AND:{
+			type:"OptionValueWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		OR:{
+			type:"OptionValueWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		NOT:{
+			type:"OptionValueWhereInput",
+			array:true,
+			arrayRequired:false,
+			required:true
+		},
+		id:{
+			type:"IDFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"StringFilter",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		option:{
+			type:"OptionWhereInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionValueOrderByInput:{
+		id:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		name:{
+			type:"OrderDirection",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionValueUpdateInput:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductRelateToOneForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		option:{
+			type:"OptionRelateToOneForUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	OptionValueUpdateArgs:{
+		where:{
+			type:"OptionValueWhereUniqueInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		data:{
+			type:"OptionValueUpdateInput",
+			array:false,
+			arrayRequired:false,
+			required:true
+		}
+	},
+	OptionValueCreateInput:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		product:{
+			type:"ProductRelateToOneForCreateInput",
+			array:false,
+			arrayRequired:false,
+			required:false
+		},
+		option:{
+			type:"OptionRelateToOneForCreateInput",
 			array:false,
 			arrayRequired:false,
 			required:false
@@ -2081,6 +3484,276 @@ export const AllTypesProps: Record<string,any> = {
 				required:true
 			}
 		},
+		createCategory:{
+			data:{
+				type:"CategoryCreateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		createCategories:{
+			data:{
+				type:"CategoryCreateInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		updateCategory:{
+			where:{
+				type:"CategoryWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			data:{
+				type:"CategoryUpdateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		updateCategories:{
+			data:{
+				type:"CategoryUpdateArgs",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		deleteCategory:{
+			where:{
+				type:"CategoryWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		deleteCategories:{
+			where:{
+				type:"CategoryWhereUniqueInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		createSKU:{
+			data:{
+				type:"SKUCreateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		createSKUS:{
+			data:{
+				type:"SKUCreateInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		updateSKU:{
+			where:{
+				type:"SKUWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			data:{
+				type:"SKUUpdateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		updateSKUS:{
+			data:{
+				type:"SKUUpdateArgs",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		deleteSKU:{
+			where:{
+				type:"SKUWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		deleteSKUS:{
+			where:{
+				type:"SKUWhereUniqueInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		createSKUValue:{
+			data:{
+				type:"SKUValueCreateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		createSKUValues:{
+			data:{
+				type:"SKUValueCreateInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		updateSKUValue:{
+			where:{
+				type:"SKUValueWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			data:{
+				type:"SKUValueUpdateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		updateSKUValues:{
+			data:{
+				type:"SKUValueUpdateArgs",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		deleteSKUValue:{
+			where:{
+				type:"SKUValueWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		deleteSKUValues:{
+			where:{
+				type:"SKUValueWhereUniqueInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		createOption:{
+			data:{
+				type:"OptionCreateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		createOptions:{
+			data:{
+				type:"OptionCreateInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		updateOption:{
+			where:{
+				type:"OptionWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			data:{
+				type:"OptionUpdateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		updateOptions:{
+			data:{
+				type:"OptionUpdateArgs",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		deleteOption:{
+			where:{
+				type:"OptionWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		deleteOptions:{
+			where:{
+				type:"OptionWhereUniqueInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		createOptionValue:{
+			data:{
+				type:"OptionValueCreateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		createOptionValues:{
+			data:{
+				type:"OptionValueCreateInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		updateOptionValue:{
+			where:{
+				type:"OptionValueWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			data:{
+				type:"OptionValueUpdateInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		updateOptionValues:{
+			data:{
+				type:"OptionValueUpdateArgs",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
+		deleteOptionValue:{
+			where:{
+				type:"OptionValueWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		deleteOptionValues:{
+			where:{
+				type:"OptionValueWhereUniqueInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			}
+		},
 		authenticateUserWithPassword:{
 			email:{
 				type:"String",
@@ -2105,12 +3778,6 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	CreateInitialUserInput:{
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		},
 		email:{
 			type:"String",
 			array:false,
@@ -2334,6 +4001,216 @@ export const AllTypesProps: Record<string,any> = {
 				arrayRequired:false,
 				required:true
 			}
+		},
+		categories:{
+			where:{
+				type:"CategoryWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"CategoryOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		category:{
+			where:{
+				type:"CategoryWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		categoriesCount:{
+			where:{
+				type:"CategoryWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		sKUS:{
+			where:{
+				type:"SKUWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"SKUOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		sKU:{
+			where:{
+				type:"SKUWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		sKUSCount:{
+			where:{
+				type:"SKUWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		sKUValues:{
+			where:{
+				type:"SKUValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"SKUValueOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		sKUValue:{
+			where:{
+				type:"SKUValueWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		sKUValuesCount:{
+			where:{
+				type:"SKUValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		options:{
+			where:{
+				type:"OptionWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"OptionOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		option:{
+			where:{
+				type:"OptionWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionsCount:{
+			where:{
+				type:"OptionWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionValues:{
+			where:{
+				type:"OptionValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			orderBy:{
+				type:"OptionValueOrderByInput",
+				array:true,
+				arrayRequired:true,
+				required:true
+			},
+			take:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:false
+			},
+			skip:{
+				type:"Int",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionValue:{
+			where:{
+				type:"OptionValueWhereUniqueInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		optionValuesCount:{
+			where:{
+				type:"OptionValueWhereInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
 		}
 	},
 	KeystoneAdminMeta:{
@@ -2367,6 +4244,8 @@ export const ReturnTypes: Record<string,any> = {
 		id:"ID",
 		name:"String",
 		email:"String",
+		oauthProvider:"UserOauthProviderType",
+		oauthProfileId:"String",
 		password:"PasswordState",
 		posts:"Post",
 		postsCount:"Int",
@@ -2394,15 +4273,26 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		description:"String",
 		photo:"ProductImage",
+		photoCount:"Int",
 		status:"String",
-		price:"Int",
-		user:"User"
+		user:"User",
+		skus:"SKU",
+		skusCount:"Int",
+		skuValues:"SKUValue",
+		skuValuesCount:"Int",
+		options:"Option",
+		optionsCount:"Int",
+		optionValues:"OptionValue",
+		optionValuesCount:"Int",
+		category:"Category"
 	},
 	ProductImage:{
 		id:"ID",
 		image:"CloudinaryImage_File",
 		altText:"String",
-		product:"Product"
+		product:"Product",
+		option:"Option",
+		optionValue:"OptionValue"
 	},
 	CloudinaryImage_File:{
 		id:"ID",
@@ -2418,6 +4308,36 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		posts:"Post",
 		postsCount:"Int"
+	},
+	Category:{
+		id:"ID",
+		name:"String"
+	},
+	SKU:{
+		id:"ID",
+		sku:"String",
+		product:"Product",
+		stock:"Int"
+	},
+	SKUValue:{
+		id:"ID",
+		product:"Product",
+		SKU:"SKU",
+		options:"Option",
+		optionsCount:"Int",
+		optionValues:"OptionValue",
+		optionValuesCount:"Int"
+	},
+	Option:{
+		id:"ID",
+		name:"String",
+		product:"Product"
+	},
+	OptionValue:{
+		id:"ID",
+		name:"String",
+		product:"Product",
+		option:"Option"
 	},
 	Mutation:{
 		createUser:"User",
@@ -2450,6 +4370,36 @@ export const ReturnTypes: Record<string,any> = {
 		updateTags:"Tag",
 		deleteTag:"Tag",
 		deleteTags:"Tag",
+		createCategory:"Category",
+		createCategories:"Category",
+		updateCategory:"Category",
+		updateCategories:"Category",
+		deleteCategory:"Category",
+		deleteCategories:"Category",
+		createSKU:"SKU",
+		createSKUS:"SKU",
+		updateSKU:"SKU",
+		updateSKUS:"SKU",
+		deleteSKU:"SKU",
+		deleteSKUS:"SKU",
+		createSKUValue:"SKUValue",
+		createSKUValues:"SKUValue",
+		updateSKUValue:"SKUValue",
+		updateSKUValues:"SKUValue",
+		deleteSKUValue:"SKUValue",
+		deleteSKUValues:"SKUValue",
+		createOption:"Option",
+		createOptions:"Option",
+		updateOption:"Option",
+		updateOptions:"Option",
+		deleteOption:"Option",
+		deleteOptions:"Option",
+		createOptionValue:"OptionValue",
+		createOptionValues:"OptionValue",
+		updateOptionValue:"OptionValue",
+		updateOptionValues:"OptionValue",
+		deleteOptionValue:"OptionValue",
+		deleteOptionValues:"OptionValue",
 		endSession:"Boolean",
 		authenticateUserWithPassword:"UserAuthenticationWithPasswordResult",
 		createInitialUser:"UserAuthenticationWithPasswordSuccess"
@@ -2481,6 +4431,21 @@ export const ReturnTypes: Record<string,any> = {
 		tags:"Tag",
 		tag:"Tag",
 		tagsCount:"Int",
+		categories:"Category",
+		category:"Category",
+		categoriesCount:"Int",
+		sKUS:"SKU",
+		sKU:"SKU",
+		sKUSCount:"Int",
+		sKUValues:"SKUValue",
+		sKUValue:"SKUValue",
+		sKUValuesCount:"Int",
+		options:"Option",
+		option:"Option",
+		optionsCount:"Int",
+		optionValues:"OptionValue",
+		optionValue:"OptionValue",
+		optionValuesCount:"Int",
 		keystone:"KeystoneMeta",
 		authenticatedItem:"AuthenticatedItem"
 	},
