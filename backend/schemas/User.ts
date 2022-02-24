@@ -1,5 +1,6 @@
 import {list} from '@keystone-6/core'
 import {password, relationship, select, text} from '@keystone-6/core/fields'
+import {permissions} from '../access'
 
 export const User = list({
   fields: {
@@ -20,6 +21,14 @@ export const User = list({
       ref: 'Product.user',
       many: true,
     }),
+    role: relationship({
+      ref: 'Role.assignedTo',
+      access: {
+        create: permissions.canManageUsers,
+        update: permissions.canManageUsers,
+      },
+    }),
+    orders: relationship({ref: 'Order.user', many: true}),
   },
   ui: {
     listView: {

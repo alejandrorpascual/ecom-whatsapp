@@ -8,7 +8,7 @@ export const OptionValue = list({
       ref: 'Product.optionValues',
     }),
     option: relationship({
-      ref: 'Option',
+      ref: 'Option.values',
     }),
   },
 })

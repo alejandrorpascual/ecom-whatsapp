@@ -1,5 +1,11 @@
 import {list} from '@keystone-6/core'
-import {relationship, select, text} from '@keystone-6/core/fields'
+import {
+  relationship,
+  select,
+  text,
+  checkbox,
+  integer,
+} from '@keystone-6/core/fields'
 
 export const Product = list({
   fields: {
@@ -9,13 +15,25 @@ export const Product = list({
         displayMode: 'textarea',
       },
     }),
-    photo: relationship({
-      ref: 'ProductImage.product',
+    handle: text({validation: {isRequired: true}, isIndexed: 'unique'}),
+    cloudinaryPhotos: relationship({
+      ref: 'CloudinaryImage.product',
       ui: {
         displayMode: 'cards',
         cardFields: ['image', 'altText'],
         inlineCreate: {fields: ['image', 'altText']},
         inlineEdit: {fields: ['image', 'altText']},
+      },
+      many: true,
+    }),
+    price: integer(),
+    photos: relationship({
+      ref: 'Image.product',
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['src', 'altText'],
+        inlineCreate: {fields: ['altText']},
+        inlineEdit: {fields: ['altText']},
       },
       many: true,
     }),
@@ -50,6 +68,9 @@ export const Product = list({
     skus: relationship({
       ref: 'SKU.product',
       many: true,
+    }),
+    availableForSale: checkbox({
+      defaultValue: false,
     }),
     skuValues: relationship({
       ref: 'SKUValue.product',

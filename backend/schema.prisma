@@ -12,14 +12,22 @@ generator client {
 }
 
 model User {
-  id             String                 @id @default(cuid())
-  name           String                 @default("")
-  email          String                 @unique @default("")
-  oauthProvider  UserOauthProviderType?
-  oauthProfileId String                 @default("")
-  password       String
-  posts          Post[]                 @relation("Post_author")
-  products       Product[]              @relation("Product_user")
+  id                      String                 @id @default(cuid())
+  name                    String                 @default("")
+  email                   String                 @unique @default("")
+  oauthProvider           UserOauthProviderType?
+  oauthProfileId          String                 @default("")
+  password                String
+  posts                   Post[]                 @relation("Post_author")
+  products                Product[]              @relation("Product_user")
+  role                    Role?                  @relation("User_role", fields: [roleId], references: [id])
+  roleId                  String?                @map("role")
+  orders                  Order[]                @relation("Order_user")
+  passwordResetToken      String?
+  passwordResetIssuedAt   DateTime?
+  passwordResetRedeemedAt DateTime?
+
+  @@index([roleId])
 }
 
 model Post {
@@ -36,34 +44,56 @@ model Post {
 }
 
 model Product {
-  id           String         @id @default(cuid())
-  name         String         @default("")
-  description  String         @default("")
-  photo        ProductImage[] @relation("ProductImage_product")
-  status       String?        @default("DRAFT")
-  user         User?          @relation("Product_user", fields: [userId], references: [id])
-  userId       String?        @map("user")
-  skus         SKU[]          @relation("SKU_product")
-  skuValues    SKUValue[]     @relation("SKUValue_product")
-  options      Option[]       @relation("Option_product")
-  optionValues OptionValue[]  @relation("OptionValue_product")
-  category     Category?      @relation("Product_category", fields: [categoryId], references: [id])
-  categoryId   String?        @map("category")
+  id               String            @id @default(cuid())
+  name             String            @default("")
+  description      String            @default("")
+  handle           String            @unique @default("")
+  cloudinaryPhotos CloudinaryImage[] @relation("CloudinaryImage_product")
+  price            Int?
+  photos           Image[]           @relation("Image_product")
+  status           String?           @default("DRAFT")
+  user             User?             @relation("Product_user", fields: [userId], references: [id])
+  userId           String?           @map("user")
+  skus             SKU[]             @relation("SKU_product")
+  availableForSale Boolean           @default(false)
+  skuValues        SKUValue[]        @relation("SKUValue_product")
+  options          Option[]          @relation("Option_product")
+  optionValues     OptionValue[]     @relation("OptionValue_product")
+  category         Category?         @relation("Product_category", fields: [categoryId], references: [id])
+  categoryId       String?           @map("category")
 
   @@index([userId])
   @@index([categoryId])
 }
 
-model ProductImage {
-  id            String       @id @default(cuid())
-  image         Json?
-  altText       String       @default("")
-  product       Product?     @relation("ProductImage_product", fields: [productId], references: [id])
-  productId     String?      @map("product")
-  option        Option?      @relation("ProductImage_option", fields: [optionId], references: [id])
-  optionId      String?      @map("option")
-  optionValue   OptionValue? @relation("ProductImage_optionValue", fields: [optionValueId], references: [id])
-  optionValueId String?      @map("optionValue")
+model CloudinaryImage {
+  id                             String       @id @default(cuid())
+  image                          Json?
+  altText                        String       @default("")
+  product                        Product?     @relation("CloudinaryImage_product", fields: [productId], references: [id])
+  productId                      String?      @map("product")
+  option                         Option?      @relation("CloudinaryImage_option", fields: [optionId], references: [id])
+  optionId                       String?      @map("option")
+  optionValue                    OptionValue? @relation("CloudinaryImage_optionValue", fields: [optionValueId], references: [id])
+  optionValueId                  String?      @map("optionValue")
+  from_OrderItem_cloudinaryImage OrderItem[]  @relation("OrderItem_cloudinaryImage")
+
+  @@index([productId])
+  @@index([optionId])
+  @@index([optionValueId])
+}
+
+model Image {
+  id                   String       @id @default(cuid())
+  src                  String       @default("")
+  altText              String       @default("")
+  product              Product?     @relation("Image_product", fields: [productId], references: [id])
+  productId            String?      @map("product")
+  option               Option?      @relation("Image_option", fields: [optionId], references: [id])
+  optionId             String?      @map("option")
+  optionValue          OptionValue? @relation("Image_optionValue", fields: [optionValueId], references: [id])
+  optionValueId        String?      @map("optionValue")
+  from_OrderItem_image OrderItem[]  @relation("OrderItem_image")
 
   @@index([productId])
   @@index([optionId])
@@ -80,6 +110,18 @@ model Category {
   id                    String    @id @default(cuid())
   name                  String    @default("")
   from_Product_category Product[] @relation("Product_category")
+}
+
+model Role {
+  id                String  @id @default(cuid())
+  name              String  @default("")
+  canManageProducts Boolean @default(false)
+  canSeeOtherUsers  Boolean @default(false)
+  canManageUsers    Boolean @default(false)
+  canManageRoles    Boolean @default(false)
+  canManageCart     Boolean @default(false)
+  canManageOrders   Boolean @default(false)
+  assignedTo        User[]  @relation("User_role")
 }
 
 model SKU {
@@ -107,29 +149,60 @@ model SKUValue {
 }
 
 model Option {
-  id                       String         @id @default(cuid())
-  name                     String         @unique @default("")
-  product                  Product?       @relation("Option_product", fields: [productId], references: [id])
-  productId                String?        @map("product")
-  from_ProductImage_option ProductImage[] @relation("ProductImage_option")
-  from_SKUValue_options    SKUValue[]     @relation("SKUValue_options")
-  from_OptionValue_option  OptionValue[]  @relation("OptionValue_option")
+  id                          String            @id @default(cuid())
+  name                        String            @unique @default("")
+  values                      OptionValue[]     @relation("OptionValue_option")
+  product                     Product?          @relation("Option_product", fields: [productId], references: [id])
+  productId                   String?           @map("product")
+  from_CloudinaryImage_option CloudinaryImage[] @relation("CloudinaryImage_option")
+  from_Image_option           Image[]           @relation("Image_option")
+  from_SKUValue_options       SKUValue[]        @relation("SKUValue_options")
 
   @@index([productId])
 }
 
 model OptionValue {
-  id                            String         @id @default(cuid())
-  name                          String         @unique @default("")
-  product                       Product?       @relation("OptionValue_product", fields: [productId], references: [id])
-  productId                     String?        @map("product")
-  option                        Option?        @relation("OptionValue_option", fields: [optionId], references: [id])
-  optionId                      String?        @map("option")
-  from_ProductImage_optionValue ProductImage[] @relation("ProductImage_optionValue")
-  from_SKUValue_optionValues    SKUValue[]     @relation("SKUValue_optionValues")
+  id                               String            @id @default(cuid())
+  name                             String            @unique @default("")
+  product                          Product?          @relation("OptionValue_product", fields: [productId], references: [id])
+  productId                        String?           @map("product")
+  option                           Option?           @relation("OptionValue_option", fields: [optionId], references: [id])
+  optionId                         String?           @map("option")
+  from_CloudinaryImage_optionValue CloudinaryImage[] @relation("CloudinaryImage_optionValue")
+  from_Image_optionValue           Image[]           @relation("Image_optionValue")
+  from_SKUValue_optionValues       SKUValue[]        @relation("SKUValue_optionValues")
 
   @@index([productId])
   @@index([optionId])
+}
+
+model Order {
+  id     String      @id @default(cuid())
+  total  Int?
+  items  OrderItem[] @relation("OrderItem_order")
+  user   User?       @relation("Order_user", fields: [userId], references: [id])
+  userId String?     @map("user")
+  charge String      @default("")
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id                String           @id @default(cuid())
+  name              String           @default("")
+  description       String           @default("")
+  cloudinaryImage   CloudinaryImage? @relation("OrderItem_cloudinaryImage", fields: [cloudinaryImageId], references: [id])
+  cloudinaryImageId String?          @map("cloudinaryImage")
+  image             Image?           @relation("OrderItem_image", fields: [imageId], references: [id])
+  imageId           String?          @map("image")
+  price             Int?
+  quantity          Int?
+  order             Order?           @relation("OrderItem_order", fields: [orderId], references: [id])
+  orderId           String?          @map("order")
+
+  @@index([cloudinaryImageId])
+  @@index([imageId])
+  @@index([orderId])
 }
 
 enum UserOauthProviderType {

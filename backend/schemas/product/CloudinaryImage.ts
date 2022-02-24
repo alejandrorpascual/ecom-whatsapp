@@ -7,17 +7,17 @@ export const cloudinary = {
   cloudName: process.env.CLOUDINARY_CLOUD_NAME || 'fake',
   apiKey: process.env.CLOUDINARY_KEY || 'fake',
   apiSecret: process.env.CLOUDINARY_SECRET || 'fake',
-  folder: 't-shirts-no-models',
+  folder: 'cassishome',
 }
 
-export const ProductImage = list({
+export const CloudinaryImage = list({
   fields: {
     image: cloudinaryImage({
       cloudinary,
       label: 'Source',
     }),
     altText: text(),
-    product: relationship({ref: 'Product.photo'}),
+    product: relationship({ref: 'Product.cloudinaryPhotos'}),
     option: relationship({
       ref: 'Option',
     }),
