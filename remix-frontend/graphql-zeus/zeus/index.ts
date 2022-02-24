@@ -16,6 +16,12 @@ posts?: [{	where:ValueTypes["PostWhereInput"],	orderBy:ValueTypes["PostOrderByIn
 postsCount?: [{	where:ValueTypes["PostWhereInput"]},boolean],
 products?: [{	where:ValueTypes["ProductWhereInput"],	orderBy:ValueTypes["ProductOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Product"]],
 productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
+	role?:ValueTypes["Role"],
+orders?: [{	where:ValueTypes["OrderWhereInput"],	orderBy:ValueTypes["OrderOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Order"]],
+ordersCount?: [{	where:ValueTypes["OrderWhereInput"]},boolean],
+	passwordResetToken?:ValueTypes["PasswordState"],
+	passwordResetIssuedAt?:boolean,
+	passwordResetRedeemedAt?:boolean,
 		__typename?: boolean
 }>;
 	["UserOauthProviderType"]:UserOauthProviderType;
@@ -23,6 +29,7 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	isSet?:boolean,
 		__typename?: boolean
 }>;
+	["DateTime"]:unknown;
 	["UserWhereUniqueInput"]: {
 	id?:string | null,
 	email?:string | null
@@ -37,7 +44,12 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	oauthProvider?:ValueTypes["UserOauthProviderTypeNullableFilter"] | null,
 	oauthProfileId?:ValueTypes["StringFilter"] | null,
 	posts?:ValueTypes["PostManyRelationFilter"] | null,
-	products?:ValueTypes["ProductManyRelationFilter"] | null
+	products?:ValueTypes["ProductManyRelationFilter"] | null,
+	role?:ValueTypes["RoleWhereInput"] | null,
+	orders?:ValueTypes["OrderManyRelationFilter"] | null,
+	passwordResetToken?:ValueTypes["PasswordFilter"] | null,
+	passwordResetIssuedAt?:ValueTypes["DateTimeNullableFilter"] | null,
+	passwordResetRedeemedAt?:ValueTypes["DateTimeNullableFilter"] | null
 };
 	["IDFilter"]: {
 	equals?:string | null,
@@ -93,12 +105,32 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	some?:ValueTypes["ProductWhereInput"] | null,
 	none?:ValueTypes["ProductWhereInput"] | null
 };
+	["OrderManyRelationFilter"]: {
+	every?:ValueTypes["OrderWhereInput"] | null,
+	some?:ValueTypes["OrderWhereInput"] | null,
+	none?:ValueTypes["OrderWhereInput"] | null
+};
+	["PasswordFilter"]: {
+	isSet:boolean
+};
+	["DateTimeNullableFilter"]: {
+	equals?:ValueTypes["DateTime"] | null,
+	in?:ValueTypes["DateTime"][],
+	notIn?:ValueTypes["DateTime"][],
+	lt?:ValueTypes["DateTime"] | null,
+	lte?:ValueTypes["DateTime"] | null,
+	gt?:ValueTypes["DateTime"] | null,
+	gte?:ValueTypes["DateTime"] | null,
+	not?:ValueTypes["DateTimeNullableFilter"] | null
+};
 	["UserOrderByInput"]: {
 	id?:ValueTypes["OrderDirection"] | null,
 	name?:ValueTypes["OrderDirection"] | null,
 	email?:ValueTypes["OrderDirection"] | null,
 	oauthProvider?:ValueTypes["OrderDirection"] | null,
-	oauthProfileId?:ValueTypes["OrderDirection"] | null
+	oauthProfileId?:ValueTypes["OrderDirection"] | null,
+	passwordResetIssuedAt?:ValueTypes["OrderDirection"] | null,
+	passwordResetRedeemedAt?:ValueTypes["OrderDirection"] | null
 };
 	["OrderDirection"]:OrderDirection;
 	["UserUpdateInput"]: {
@@ -108,7 +140,12 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	oauthProfileId?:string | null,
 	password?:string | null,
 	posts?:ValueTypes["PostRelateToManyForUpdateInput"] | null,
-	products?:ValueTypes["ProductRelateToManyForUpdateInput"] | null
+	products?:ValueTypes["ProductRelateToManyForUpdateInput"] | null,
+	role?:ValueTypes["RoleRelateToOneForUpdateInput"] | null,
+	orders?:ValueTypes["OrderRelateToManyForUpdateInput"] | null,
+	passwordResetToken?:string | null,
+	passwordResetIssuedAt?:ValueTypes["DateTime"] | null,
+	passwordResetRedeemedAt?:ValueTypes["DateTime"] | null
 };
 	["PostRelateToManyForUpdateInput"]: {
 	disconnect?:ValueTypes["PostWhereUniqueInput"][],
@@ -122,6 +159,17 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	create?:ValueTypes["ProductCreateInput"][],
 	connect?:ValueTypes["ProductWhereUniqueInput"][]
 };
+	["RoleRelateToOneForUpdateInput"]: {
+	create?:ValueTypes["RoleCreateInput"] | null,
+	connect?:ValueTypes["RoleWhereUniqueInput"] | null,
+	disconnect?:boolean | null
+};
+	["OrderRelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["OrderWhereUniqueInput"][],
+	set?:ValueTypes["OrderWhereUniqueInput"][],
+	create?:ValueTypes["OrderCreateInput"][],
+	connect?:ValueTypes["OrderWhereUniqueInput"][]
+};
 	["UserUpdateArgs"]: {
 	where:ValueTypes["UserWhereUniqueInput"],
 	data:ValueTypes["UserUpdateInput"]
@@ -133,7 +181,12 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	oauthProfileId?:string | null,
 	password?:string | null,
 	posts?:ValueTypes["PostRelateToManyForCreateInput"] | null,
-	products?:ValueTypes["ProductRelateToManyForCreateInput"] | null
+	products?:ValueTypes["ProductRelateToManyForCreateInput"] | null,
+	role?:ValueTypes["RoleRelateToOneForCreateInput"] | null,
+	orders?:ValueTypes["OrderRelateToManyForCreateInput"] | null,
+	passwordResetToken?:string | null,
+	passwordResetIssuedAt?:ValueTypes["DateTime"] | null,
+	passwordResetRedeemedAt?:ValueTypes["DateTime"] | null
 };
 	["PostRelateToManyForCreateInput"]: {
 	create?:ValueTypes["PostCreateInput"][],
@@ -142,6 +195,14 @@ productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
 	["ProductRelateToManyForCreateInput"]: {
 	create?:ValueTypes["ProductCreateInput"][],
 	connect?:ValueTypes["ProductWhereUniqueInput"][]
+};
+	["RoleRelateToOneForCreateInput"]: {
+	create?:ValueTypes["RoleCreateInput"] | null,
+	connect?:ValueTypes["RoleWhereUniqueInput"] | null
+};
+	["OrderRelateToManyForCreateInput"]: {
+	create?:ValueTypes["OrderCreateInput"][],
+	connect?:ValueTypes["OrderWhereUniqueInput"][]
 };
 	["Post"]: AliasType<{
 	id?:boolean,
@@ -158,7 +219,6 @@ tagsCount?: [{	where:ValueTypes["TagWhereInput"]},boolean],
 document?: [{	hydrateRelationships:boolean},boolean],
 		__typename?: boolean
 }>;
-	["DateTime"]:unknown;
 	["PostWhereUniqueInput"]: {
 	id?:string | null
 };
@@ -199,16 +259,6 @@ document?: [{	hydrateRelationships:boolean},boolean],
 	startsWith?:string | null,
 	endsWith?:string | null,
 	not?:ValueTypes["NestedStringNullableFilter"] | null
-};
-	["DateTimeNullableFilter"]: {
-	equals?:ValueTypes["DateTime"] | null,
-	in?:ValueTypes["DateTime"][],
-	notIn?:ValueTypes["DateTime"][],
-	lt?:ValueTypes["DateTime"] | null,
-	lte?:ValueTypes["DateTime"] | null,
-	gt?:ValueTypes["DateTime"] | null,
-	gte?:ValueTypes["DateTime"] | null,
-	not?:ValueTypes["DateTimeNullableFilter"] | null
 };
 	["TagManyRelationFilter"]: {
 	every?:ValueTypes["TagWhereInput"] | null,
@@ -264,12 +314,17 @@ document?: [{	hydrateRelationships:boolean},boolean],
 	id?:boolean,
 	name?:boolean,
 	description?:boolean,
-photo?: [{	where:ValueTypes["ProductImageWhereInput"],	orderBy:ValueTypes["ProductImageOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["ProductImage"]],
-photoCount?: [{	where:ValueTypes["ProductImageWhereInput"]},boolean],
+	handle?:boolean,
+cloudinaryPhotos?: [{	where:ValueTypes["CloudinaryImageWhereInput"],	orderBy:ValueTypes["CloudinaryImageOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["CloudinaryImage"]],
+cloudinaryPhotosCount?: [{	where:ValueTypes["CloudinaryImageWhereInput"]},boolean],
+	price?:boolean,
+photos?: [{	where:ValueTypes["ImageWhereInput"],	orderBy:ValueTypes["ImageOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Image"]],
+photosCount?: [{	where:ValueTypes["ImageWhereInput"]},boolean],
 	status?:boolean,
 	user?:ValueTypes["User"],
 skus?: [{	where:ValueTypes["SKUWhereInput"],	orderBy:ValueTypes["SKUOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["SKU"]],
 skusCount?: [{	where:ValueTypes["SKUWhereInput"]},boolean],
+	availableForSale?:boolean,
 skuValues?: [{	where:ValueTypes["SKUValueWhereInput"],	orderBy:ValueTypes["SKUValueOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["SKUValue"]],
 skuValuesCount?: [{	where:ValueTypes["SKUValueWhereInput"]},boolean],
 options?: [{	where:ValueTypes["OptionWhereInput"],	orderBy:ValueTypes["OptionOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Option"]],
@@ -280,7 +335,8 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 		__typename?: boolean
 }>;
 	["ProductWhereUniqueInput"]: {
-	id?:string | null
+	id?:string | null,
+	handle?:string | null
 };
 	["ProductWhereInput"]: {
 	AND?:ValueTypes["ProductWhereInput"][],
@@ -289,24 +345,47 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 	id?:ValueTypes["IDFilter"] | null,
 	name?:ValueTypes["StringFilter"] | null,
 	description?:ValueTypes["StringFilter"] | null,
-	photo?:ValueTypes["ProductImageManyRelationFilter"] | null,
+	handle?:ValueTypes["StringFilter"] | null,
+	cloudinaryPhotos?:ValueTypes["CloudinaryImageManyRelationFilter"] | null,
+	price?:ValueTypes["IntNullableFilter"] | null,
+	photos?:ValueTypes["ImageManyRelationFilter"] | null,
 	status?:ValueTypes["StringNullableFilter"] | null,
 	user?:ValueTypes["UserWhereInput"] | null,
 	skus?:ValueTypes["SKUManyRelationFilter"] | null,
+	availableForSale?:ValueTypes["BooleanFilter"] | null,
 	skuValues?:ValueTypes["SKUValueManyRelationFilter"] | null,
 	options?:ValueTypes["OptionManyRelationFilter"] | null,
 	optionValues?:ValueTypes["OptionValueManyRelationFilter"] | null,
 	category?:ValueTypes["CategoryWhereInput"] | null
 };
-	["ProductImageManyRelationFilter"]: {
-	every?:ValueTypes["ProductImageWhereInput"] | null,
-	some?:ValueTypes["ProductImageWhereInput"] | null,
-	none?:ValueTypes["ProductImageWhereInput"] | null
+	["CloudinaryImageManyRelationFilter"]: {
+	every?:ValueTypes["CloudinaryImageWhereInput"] | null,
+	some?:ValueTypes["CloudinaryImageWhereInput"] | null,
+	none?:ValueTypes["CloudinaryImageWhereInput"] | null
+};
+	["IntNullableFilter"]: {
+	equals?:number | null,
+	in?:number[],
+	notIn?:number[],
+	lt?:number | null,
+	lte?:number | null,
+	gt?:number | null,
+	gte?:number | null,
+	not?:ValueTypes["IntNullableFilter"] | null
+};
+	["ImageManyRelationFilter"]: {
+	every?:ValueTypes["ImageWhereInput"] | null,
+	some?:ValueTypes["ImageWhereInput"] | null,
+	none?:ValueTypes["ImageWhereInput"] | null
 };
 	["SKUManyRelationFilter"]: {
 	every?:ValueTypes["SKUWhereInput"] | null,
 	some?:ValueTypes["SKUWhereInput"] | null,
 	none?:ValueTypes["SKUWhereInput"] | null
+};
+	["BooleanFilter"]: {
+	equals?:boolean | null,
+	not?:ValueTypes["BooleanFilter"] | null
 };
 	["SKUValueManyRelationFilter"]: {
 	every?:ValueTypes["SKUValueWhereInput"] | null,
@@ -327,25 +406,38 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 	id?:ValueTypes["OrderDirection"] | null,
 	name?:ValueTypes["OrderDirection"] | null,
 	description?:ValueTypes["OrderDirection"] | null,
-	status?:ValueTypes["OrderDirection"] | null
+	handle?:ValueTypes["OrderDirection"] | null,
+	price?:ValueTypes["OrderDirection"] | null,
+	status?:ValueTypes["OrderDirection"] | null,
+	availableForSale?:ValueTypes["OrderDirection"] | null
 };
 	["ProductUpdateInput"]: {
 	name?:string | null,
 	description?:string | null,
-	photo?:ValueTypes["ProductImageRelateToManyForUpdateInput"] | null,
+	handle?:string | null,
+	cloudinaryPhotos?:ValueTypes["CloudinaryImageRelateToManyForUpdateInput"] | null,
+	price?:number | null,
+	photos?:ValueTypes["ImageRelateToManyForUpdateInput"] | null,
 	status?:string | null,
 	user?:ValueTypes["UserRelateToOneForUpdateInput"] | null,
 	skus?:ValueTypes["SKURelateToManyForUpdateInput"] | null,
+	availableForSale?:boolean | null,
 	skuValues?:ValueTypes["SKUValueRelateToManyForUpdateInput"] | null,
 	options?:ValueTypes["OptionRelateToManyForUpdateInput"] | null,
 	optionValues?:ValueTypes["OptionValueRelateToManyForUpdateInput"] | null,
 	category?:ValueTypes["CategoryRelateToOneForUpdateInput"] | null
 };
-	["ProductImageRelateToManyForUpdateInput"]: {
-	disconnect?:ValueTypes["ProductImageWhereUniqueInput"][],
-	set?:ValueTypes["ProductImageWhereUniqueInput"][],
-	create?:ValueTypes["ProductImageCreateInput"][],
-	connect?:ValueTypes["ProductImageWhereUniqueInput"][]
+	["CloudinaryImageRelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["CloudinaryImageWhereUniqueInput"][],
+	set?:ValueTypes["CloudinaryImageWhereUniqueInput"][],
+	create?:ValueTypes["CloudinaryImageCreateInput"][],
+	connect?:ValueTypes["CloudinaryImageWhereUniqueInput"][]
+};
+	["ImageRelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["ImageWhereUniqueInput"][],
+	set?:ValueTypes["ImageWhereUniqueInput"][],
+	create?:ValueTypes["ImageCreateInput"][],
+	connect?:ValueTypes["ImageWhereUniqueInput"][]
 };
 	["SKURelateToManyForUpdateInput"]: {
 	disconnect?:ValueTypes["SKUWhereUniqueInput"][],
@@ -383,18 +475,26 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 	["ProductCreateInput"]: {
 	name?:string | null,
 	description?:string | null,
-	photo?:ValueTypes["ProductImageRelateToManyForCreateInput"] | null,
+	handle?:string | null,
+	cloudinaryPhotos?:ValueTypes["CloudinaryImageRelateToManyForCreateInput"] | null,
+	price?:number | null,
+	photos?:ValueTypes["ImageRelateToManyForCreateInput"] | null,
 	status?:string | null,
 	user?:ValueTypes["UserRelateToOneForCreateInput"] | null,
 	skus?:ValueTypes["SKURelateToManyForCreateInput"] | null,
+	availableForSale?:boolean | null,
 	skuValues?:ValueTypes["SKUValueRelateToManyForCreateInput"] | null,
 	options?:ValueTypes["OptionRelateToManyForCreateInput"] | null,
 	optionValues?:ValueTypes["OptionValueRelateToManyForCreateInput"] | null,
 	category?:ValueTypes["CategoryRelateToOneForCreateInput"] | null
 };
-	["ProductImageRelateToManyForCreateInput"]: {
-	create?:ValueTypes["ProductImageCreateInput"][],
-	connect?:ValueTypes["ProductImageWhereUniqueInput"][]
+	["CloudinaryImageRelateToManyForCreateInput"]: {
+	create?:ValueTypes["CloudinaryImageCreateInput"][],
+	connect?:ValueTypes["CloudinaryImageWhereUniqueInput"][]
+};
+	["ImageRelateToManyForCreateInput"]: {
+	create?:ValueTypes["ImageCreateInput"][],
+	connect?:ValueTypes["ImageWhereUniqueInput"][]
 };
 	["SKURelateToManyForCreateInput"]: {
 	create?:ValueTypes["SKUCreateInput"][],
@@ -416,7 +516,7 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 	create?:ValueTypes["CategoryCreateInput"] | null,
 	connect?:ValueTypes["CategoryWhereUniqueInput"] | null
 };
-	["ProductImage"]: AliasType<{
+	["CloudinaryImage"]: AliasType<{
 	id?:boolean,
 	image?:ValueTypes["CloudinaryImage_File"],
 	altText?:boolean,
@@ -469,24 +569,24 @@ All options are strings as they ultimately end up in a URL. */
 	flags?:string | null,
 	transformation?:string | null
 };
-	["ProductImageWhereUniqueInput"]: {
+	["CloudinaryImageWhereUniqueInput"]: {
 	id?:string | null
 };
-	["ProductImageWhereInput"]: {
-	AND?:ValueTypes["ProductImageWhereInput"][],
-	OR?:ValueTypes["ProductImageWhereInput"][],
-	NOT?:ValueTypes["ProductImageWhereInput"][],
+	["CloudinaryImageWhereInput"]: {
+	AND?:ValueTypes["CloudinaryImageWhereInput"][],
+	OR?:ValueTypes["CloudinaryImageWhereInput"][],
+	NOT?:ValueTypes["CloudinaryImageWhereInput"][],
 	id?:ValueTypes["IDFilter"] | null,
 	altText?:ValueTypes["StringFilter"] | null,
 	product?:ValueTypes["ProductWhereInput"] | null,
 	option?:ValueTypes["OptionWhereInput"] | null,
 	optionValue?:ValueTypes["OptionValueWhereInput"] | null
 };
-	["ProductImageOrderByInput"]: {
+	["CloudinaryImageOrderByInput"]: {
 	id?:ValueTypes["OrderDirection"] | null,
 	altText?:ValueTypes["OrderDirection"] | null
 };
-	["ProductImageUpdateInput"]: {
+	["CloudinaryImageUpdateInput"]: {
 	image?:ValueTypes["Upload"] | null,
 	altText?:string | null,
 	product?:ValueTypes["ProductRelateToOneForUpdateInput"] | null,
@@ -510,11 +610,11 @@ All options are strings as they ultimately end up in a URL. */
 	connect?:ValueTypes["OptionValueWhereUniqueInput"] | null,
 	disconnect?:boolean | null
 };
-	["ProductImageUpdateArgs"]: {
-	where:ValueTypes["ProductImageWhereUniqueInput"],
-	data:ValueTypes["ProductImageUpdateInput"]
+	["CloudinaryImageUpdateArgs"]: {
+	where:ValueTypes["CloudinaryImageWhereUniqueInput"],
+	data:ValueTypes["CloudinaryImageUpdateInput"]
 };
-	["ProductImageCreateInput"]: {
+	["CloudinaryImageCreateInput"]: {
 	image?:ValueTypes["Upload"] | null,
 	altText?:string | null,
 	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null,
@@ -532,6 +632,52 @@ All options are strings as they ultimately end up in a URL. */
 	["OptionValueRelateToOneForCreateInput"]: {
 	create?:ValueTypes["OptionValueCreateInput"] | null,
 	connect?:ValueTypes["OptionValueWhereUniqueInput"] | null
+};
+	["Image"]: AliasType<{
+	id?:boolean,
+	src?:boolean,
+	altText?:boolean,
+	product?:ValueTypes["Product"],
+	option?:ValueTypes["Option"],
+	optionValue?:ValueTypes["OptionValue"],
+		__typename?: boolean
+}>;
+	["ImageWhereUniqueInput"]: {
+	id?:string | null
+};
+	["ImageWhereInput"]: {
+	AND?:ValueTypes["ImageWhereInput"][],
+	OR?:ValueTypes["ImageWhereInput"][],
+	NOT?:ValueTypes["ImageWhereInput"][],
+	id?:ValueTypes["IDFilter"] | null,
+	src?:ValueTypes["StringFilter"] | null,
+	altText?:ValueTypes["StringFilter"] | null,
+	product?:ValueTypes["ProductWhereInput"] | null,
+	option?:ValueTypes["OptionWhereInput"] | null,
+	optionValue?:ValueTypes["OptionValueWhereInput"] | null
+};
+	["ImageOrderByInput"]: {
+	id?:ValueTypes["OrderDirection"] | null,
+	src?:ValueTypes["OrderDirection"] | null,
+	altText?:ValueTypes["OrderDirection"] | null
+};
+	["ImageUpdateInput"]: {
+	src?:string | null,
+	altText?:string | null,
+	product?:ValueTypes["ProductRelateToOneForUpdateInput"] | null,
+	option?:ValueTypes["OptionRelateToOneForUpdateInput"] | null,
+	optionValue?:ValueTypes["OptionValueRelateToOneForUpdateInput"] | null
+};
+	["ImageUpdateArgs"]: {
+	where:ValueTypes["ImageWhereUniqueInput"],
+	data:ValueTypes["ImageUpdateInput"]
+};
+	["ImageCreateInput"]: {
+	src?:string | null,
+	altText?:string | null,
+	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null,
+	option?:ValueTypes["OptionRelateToOneForCreateInput"] | null,
+	optionValue?:ValueTypes["OptionValueRelateToOneForCreateInput"] | null
 };
 	["Tag"]: AliasType<{
 	id?:boolean,
@@ -596,6 +742,85 @@ postsCount?: [{	where:ValueTypes["PostWhereInput"]},boolean],
 	["CategoryCreateInput"]: {
 	name?:string | null
 };
+	["Role"]: AliasType<{
+	id?:boolean,
+	name?:boolean,
+	canManageProducts?:boolean,
+	canSeeOtherUsers?:boolean,
+	canManageUsers?:boolean,
+	canManageRoles?:boolean,
+	canManageCart?:boolean,
+	canManageOrders?:boolean,
+assignedTo?: [{	where:ValueTypes["UserWhereInput"],	orderBy:ValueTypes["UserOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["User"]],
+assignedToCount?: [{	where:ValueTypes["UserWhereInput"]},boolean],
+		__typename?: boolean
+}>;
+	["RoleWhereUniqueInput"]: {
+	id?:string | null
+};
+	["RoleWhereInput"]: {
+	AND?:ValueTypes["RoleWhereInput"][],
+	OR?:ValueTypes["RoleWhereInput"][],
+	NOT?:ValueTypes["RoleWhereInput"][],
+	id?:ValueTypes["IDFilter"] | null,
+	name?:ValueTypes["StringFilter"] | null,
+	canManageProducts?:ValueTypes["BooleanFilter"] | null,
+	canSeeOtherUsers?:ValueTypes["BooleanFilter"] | null,
+	canManageUsers?:ValueTypes["BooleanFilter"] | null,
+	canManageRoles?:ValueTypes["BooleanFilter"] | null,
+	canManageCart?:ValueTypes["BooleanFilter"] | null,
+	canManageOrders?:ValueTypes["BooleanFilter"] | null,
+	assignedTo?:ValueTypes["UserManyRelationFilter"] | null
+};
+	["UserManyRelationFilter"]: {
+	every?:ValueTypes["UserWhereInput"] | null,
+	some?:ValueTypes["UserWhereInput"] | null,
+	none?:ValueTypes["UserWhereInput"] | null
+};
+	["RoleOrderByInput"]: {
+	id?:ValueTypes["OrderDirection"] | null,
+	name?:ValueTypes["OrderDirection"] | null,
+	canManageProducts?:ValueTypes["OrderDirection"] | null,
+	canSeeOtherUsers?:ValueTypes["OrderDirection"] | null,
+	canManageUsers?:ValueTypes["OrderDirection"] | null,
+	canManageRoles?:ValueTypes["OrderDirection"] | null,
+	canManageCart?:ValueTypes["OrderDirection"] | null,
+	canManageOrders?:ValueTypes["OrderDirection"] | null
+};
+	["RoleUpdateInput"]: {
+	name?:string | null,
+	canManageProducts?:boolean | null,
+	canSeeOtherUsers?:boolean | null,
+	canManageUsers?:boolean | null,
+	canManageRoles?:boolean | null,
+	canManageCart?:boolean | null,
+	canManageOrders?:boolean | null,
+	assignedTo?:ValueTypes["UserRelateToManyForUpdateInput"] | null
+};
+	["UserRelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["UserWhereUniqueInput"][],
+	set?:ValueTypes["UserWhereUniqueInput"][],
+	create?:ValueTypes["UserCreateInput"][],
+	connect?:ValueTypes["UserWhereUniqueInput"][]
+};
+	["RoleUpdateArgs"]: {
+	where:ValueTypes["RoleWhereUniqueInput"],
+	data:ValueTypes["RoleUpdateInput"]
+};
+	["RoleCreateInput"]: {
+	name?:string | null,
+	canManageProducts?:boolean | null,
+	canSeeOtherUsers?:boolean | null,
+	canManageUsers?:boolean | null,
+	canManageRoles?:boolean | null,
+	canManageCart?:boolean | null,
+	canManageOrders?:boolean | null,
+	assignedTo?:ValueTypes["UserRelateToManyForCreateInput"] | null
+};
+	["UserRelateToManyForCreateInput"]: {
+	create?:ValueTypes["UserCreateInput"][],
+	connect?:ValueTypes["UserWhereUniqueInput"][]
+};
 	["SKU"]: AliasType<{
 	id?:boolean,
 	sku?:boolean,
@@ -615,16 +840,6 @@ postsCount?: [{	where:ValueTypes["PostWhereInput"]},boolean],
 	sku?:ValueTypes["StringFilter"] | null,
 	product?:ValueTypes["ProductWhereInput"] | null,
 	stock?:ValueTypes["IntNullableFilter"] | null
-};
-	["IntNullableFilter"]: {
-	equals?:number | null,
-	in?:number[],
-	notIn?:number[],
-	lt?:number | null,
-	lte?:number | null,
-	gt?:number | null,
-	gte?:number | null,
-	not?:ValueTypes["IntNullableFilter"] | null
 };
 	["SKUOrderByInput"]: {
 	id?:ValueTypes["OrderDirection"] | null,
@@ -699,6 +914,8 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 	["Option"]: AliasType<{
 	id?:boolean,
 	name?:boolean,
+values?: [{	where:ValueTypes["OptionValueWhereInput"],	orderBy:ValueTypes["OptionValueOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["OptionValue"]],
+valuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 	product?:ValueTypes["Product"],
 		__typename?: boolean
 }>;
@@ -712,6 +929,7 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 	NOT?:ValueTypes["OptionWhereInput"][],
 	id?:ValueTypes["IDFilter"] | null,
 	name?:ValueTypes["StringFilter"] | null,
+	values?:ValueTypes["OptionValueManyRelationFilter"] | null,
 	product?:ValueTypes["ProductWhereInput"] | null
 };
 	["OptionOrderByInput"]: {
@@ -720,6 +938,7 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 };
 	["OptionUpdateInput"]: {
 	name?:string | null,
+	values?:ValueTypes["OptionValueRelateToManyForUpdateInput"] | null,
 	product?:ValueTypes["ProductRelateToOneForUpdateInput"] | null
 };
 	["OptionUpdateArgs"]: {
@@ -728,6 +947,7 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 };
 	["OptionCreateInput"]: {
 	name?:string | null,
+	values?:ValueTypes["OptionValueRelateToManyForCreateInput"] | null,
 	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null
 };
 	["OptionValue"]: AliasType<{
@@ -768,6 +988,148 @@ optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
 	product?:ValueTypes["ProductRelateToOneForCreateInput"] | null,
 	option?:ValueTypes["OptionRelateToOneForCreateInput"] | null
 };
+	["Order"]: AliasType<{
+	id?:boolean,
+	label?:boolean,
+	total?:boolean,
+items?: [{	where:ValueTypes["OrderItemWhereInput"],	orderBy:ValueTypes["OrderItemOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["OrderItem"]],
+itemsCount?: [{	where:ValueTypes["OrderItemWhereInput"]},boolean],
+	user?:ValueTypes["User"],
+	charge?:boolean,
+		__typename?: boolean
+}>;
+	["OrderWhereUniqueInput"]: {
+	id?:string | null
+};
+	["OrderWhereInput"]: {
+	AND?:ValueTypes["OrderWhereInput"][],
+	OR?:ValueTypes["OrderWhereInput"][],
+	NOT?:ValueTypes["OrderWhereInput"][],
+	id?:ValueTypes["IDFilter"] | null,
+	total?:ValueTypes["IntNullableFilter"] | null,
+	items?:ValueTypes["OrderItemManyRelationFilter"] | null,
+	user?:ValueTypes["UserWhereInput"] | null,
+	charge?:ValueTypes["StringFilter"] | null
+};
+	["OrderItemManyRelationFilter"]: {
+	every?:ValueTypes["OrderItemWhereInput"] | null,
+	some?:ValueTypes["OrderItemWhereInput"] | null,
+	none?:ValueTypes["OrderItemWhereInput"] | null
+};
+	["OrderOrderByInput"]: {
+	id?:ValueTypes["OrderDirection"] | null,
+	total?:ValueTypes["OrderDirection"] | null,
+	charge?:ValueTypes["OrderDirection"] | null
+};
+	["OrderUpdateInput"]: {
+	total?:number | null,
+	items?:ValueTypes["OrderItemRelateToManyForUpdateInput"] | null,
+	user?:ValueTypes["UserRelateToOneForUpdateInput"] | null,
+	charge?:string | null
+};
+	["OrderItemRelateToManyForUpdateInput"]: {
+	disconnect?:ValueTypes["OrderItemWhereUniqueInput"][],
+	set?:ValueTypes["OrderItemWhereUniqueInput"][],
+	create?:ValueTypes["OrderItemCreateInput"][],
+	connect?:ValueTypes["OrderItemWhereUniqueInput"][]
+};
+	["OrderUpdateArgs"]: {
+	where:ValueTypes["OrderWhereUniqueInput"],
+	data:ValueTypes["OrderUpdateInput"]
+};
+	["OrderCreateInput"]: {
+	total?:number | null,
+	items?:ValueTypes["OrderItemRelateToManyForCreateInput"] | null,
+	user?:ValueTypes["UserRelateToOneForCreateInput"] | null,
+	charge?:string | null
+};
+	["OrderItemRelateToManyForCreateInput"]: {
+	create?:ValueTypes["OrderItemCreateInput"][],
+	connect?:ValueTypes["OrderItemWhereUniqueInput"][]
+};
+	["OrderItem"]: AliasType<{
+	id?:boolean,
+	name?:boolean,
+	description?:boolean,
+	cloudinaryImage?:ValueTypes["CloudinaryImage"],
+	image?:ValueTypes["Image"],
+	price?:boolean,
+	quantity?:boolean,
+	order?:ValueTypes["Order"],
+		__typename?: boolean
+}>;
+	["OrderItemWhereUniqueInput"]: {
+	id?:string | null
+};
+	["OrderItemWhereInput"]: {
+	AND?:ValueTypes["OrderItemWhereInput"][],
+	OR?:ValueTypes["OrderItemWhereInput"][],
+	NOT?:ValueTypes["OrderItemWhereInput"][],
+	id?:ValueTypes["IDFilter"] | null,
+	name?:ValueTypes["StringFilter"] | null,
+	description?:ValueTypes["StringFilter"] | null,
+	cloudinaryImage?:ValueTypes["CloudinaryImageWhereInput"] | null,
+	image?:ValueTypes["ImageWhereInput"] | null,
+	price?:ValueTypes["IntNullableFilter"] | null,
+	quantity?:ValueTypes["IntNullableFilter"] | null,
+	order?:ValueTypes["OrderWhereInput"] | null
+};
+	["OrderItemOrderByInput"]: {
+	id?:ValueTypes["OrderDirection"] | null,
+	name?:ValueTypes["OrderDirection"] | null,
+	description?:ValueTypes["OrderDirection"] | null,
+	price?:ValueTypes["OrderDirection"] | null,
+	quantity?:ValueTypes["OrderDirection"] | null
+};
+	["OrderItemUpdateInput"]: {
+	name?:string | null,
+	description?:string | null,
+	cloudinaryImage?:ValueTypes["CloudinaryImageRelateToOneForUpdateInput"] | null,
+	image?:ValueTypes["ImageRelateToOneForUpdateInput"] | null,
+	price?:number | null,
+	quantity?:number | null,
+	order?:ValueTypes["OrderRelateToOneForUpdateInput"] | null
+};
+	["CloudinaryImageRelateToOneForUpdateInput"]: {
+	create?:ValueTypes["CloudinaryImageCreateInput"] | null,
+	connect?:ValueTypes["CloudinaryImageWhereUniqueInput"] | null,
+	disconnect?:boolean | null
+};
+	["ImageRelateToOneForUpdateInput"]: {
+	create?:ValueTypes["ImageCreateInput"] | null,
+	connect?:ValueTypes["ImageWhereUniqueInput"] | null,
+	disconnect?:boolean | null
+};
+	["OrderRelateToOneForUpdateInput"]: {
+	create?:ValueTypes["OrderCreateInput"] | null,
+	connect?:ValueTypes["OrderWhereUniqueInput"] | null,
+	disconnect?:boolean | null
+};
+	["OrderItemUpdateArgs"]: {
+	where:ValueTypes["OrderItemWhereUniqueInput"],
+	data:ValueTypes["OrderItemUpdateInput"]
+};
+	["OrderItemCreateInput"]: {
+	name?:string | null,
+	description?:string | null,
+	cloudinaryImage?:ValueTypes["CloudinaryImageRelateToOneForCreateInput"] | null,
+	image?:ValueTypes["ImageRelateToOneForCreateInput"] | null,
+	price?:number | null,
+	quantity?:number | null,
+	order?:ValueTypes["OrderRelateToOneForCreateInput"] | null
+};
+	["CloudinaryImageRelateToOneForCreateInput"]: {
+	create?:ValueTypes["CloudinaryImageCreateInput"] | null,
+	connect?:ValueTypes["CloudinaryImageWhereUniqueInput"] | null
+};
+	["ImageRelateToOneForCreateInput"]: {
+	create?:ValueTypes["ImageCreateInput"] | null,
+	connect?:ValueTypes["ImageWhereUniqueInput"] | null
+};
+	["OrderRelateToOneForCreateInput"]: {
+	create?:ValueTypes["OrderCreateInput"] | null,
+	connect?:ValueTypes["OrderWhereUniqueInput"] | null
+};
 	/** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
 ["JSON"]:unknown;
 	["Mutation"]: AliasType<{
@@ -789,12 +1151,18 @@ updateProduct?: [{	where:ValueTypes["ProductWhereUniqueInput"],	data:ValueTypes[
 updateProducts?: [{	data:ValueTypes["ProductUpdateArgs"][]},ValueTypes["Product"]],
 deleteProduct?: [{	where:ValueTypes["ProductWhereUniqueInput"]},ValueTypes["Product"]],
 deleteProducts?: [{	where:ValueTypes["ProductWhereUniqueInput"][]},ValueTypes["Product"]],
-createProductImage?: [{	data:ValueTypes["ProductImageCreateInput"]},ValueTypes["ProductImage"]],
-createProductImages?: [{	data:ValueTypes["ProductImageCreateInput"][]},ValueTypes["ProductImage"]],
-updateProductImage?: [{	where:ValueTypes["ProductImageWhereUniqueInput"],	data:ValueTypes["ProductImageUpdateInput"]},ValueTypes["ProductImage"]],
-updateProductImages?: [{	data:ValueTypes["ProductImageUpdateArgs"][]},ValueTypes["ProductImage"]],
-deleteProductImage?: [{	where:ValueTypes["ProductImageWhereUniqueInput"]},ValueTypes["ProductImage"]],
-deleteProductImages?: [{	where:ValueTypes["ProductImageWhereUniqueInput"][]},ValueTypes["ProductImage"]],
+createCloudinaryImage?: [{	data:ValueTypes["CloudinaryImageCreateInput"]},ValueTypes["CloudinaryImage"]],
+createCloudinaryImages?: [{	data:ValueTypes["CloudinaryImageCreateInput"][]},ValueTypes["CloudinaryImage"]],
+updateCloudinaryImage?: [{	where:ValueTypes["CloudinaryImageWhereUniqueInput"],	data:ValueTypes["CloudinaryImageUpdateInput"]},ValueTypes["CloudinaryImage"]],
+updateCloudinaryImages?: [{	data:ValueTypes["CloudinaryImageUpdateArgs"][]},ValueTypes["CloudinaryImage"]],
+deleteCloudinaryImage?: [{	where:ValueTypes["CloudinaryImageWhereUniqueInput"]},ValueTypes["CloudinaryImage"]],
+deleteCloudinaryImages?: [{	where:ValueTypes["CloudinaryImageWhereUniqueInput"][]},ValueTypes["CloudinaryImage"]],
+createImage?: [{	data:ValueTypes["ImageCreateInput"]},ValueTypes["Image"]],
+createImages?: [{	data:ValueTypes["ImageCreateInput"][]},ValueTypes["Image"]],
+updateImage?: [{	where:ValueTypes["ImageWhereUniqueInput"],	data:ValueTypes["ImageUpdateInput"]},ValueTypes["Image"]],
+updateImages?: [{	data:ValueTypes["ImageUpdateArgs"][]},ValueTypes["Image"]],
+deleteImage?: [{	where:ValueTypes["ImageWhereUniqueInput"]},ValueTypes["Image"]],
+deleteImages?: [{	where:ValueTypes["ImageWhereUniqueInput"][]},ValueTypes["Image"]],
 createTag?: [{	data:ValueTypes["TagCreateInput"]},ValueTypes["Tag"]],
 createTags?: [{	data:ValueTypes["TagCreateInput"][]},ValueTypes["Tag"]],
 updateTag?: [{	where:ValueTypes["TagWhereUniqueInput"],	data:ValueTypes["TagUpdateInput"]},ValueTypes["Tag"]],
@@ -807,6 +1175,12 @@ updateCategory?: [{	where:ValueTypes["CategoryWhereUniqueInput"],	data:ValueType
 updateCategories?: [{	data:ValueTypes["CategoryUpdateArgs"][]},ValueTypes["Category"]],
 deleteCategory?: [{	where:ValueTypes["CategoryWhereUniqueInput"]},ValueTypes["Category"]],
 deleteCategories?: [{	where:ValueTypes["CategoryWhereUniqueInput"][]},ValueTypes["Category"]],
+createRole?: [{	data:ValueTypes["RoleCreateInput"]},ValueTypes["Role"]],
+createRoles?: [{	data:ValueTypes["RoleCreateInput"][]},ValueTypes["Role"]],
+updateRole?: [{	where:ValueTypes["RoleWhereUniqueInput"],	data:ValueTypes["RoleUpdateInput"]},ValueTypes["Role"]],
+updateRoles?: [{	data:ValueTypes["RoleUpdateArgs"][]},ValueTypes["Role"]],
+deleteRole?: [{	where:ValueTypes["RoleWhereUniqueInput"]},ValueTypes["Role"]],
+deleteRoles?: [{	where:ValueTypes["RoleWhereUniqueInput"][]},ValueTypes["Role"]],
 createSKU?: [{	data:ValueTypes["SKUCreateInput"]},ValueTypes["SKU"]],
 createSKUS?: [{	data:ValueTypes["SKUCreateInput"][]},ValueTypes["SKU"]],
 updateSKU?: [{	where:ValueTypes["SKUWhereUniqueInput"],	data:ValueTypes["SKUUpdateInput"]},ValueTypes["SKU"]],
@@ -831,9 +1205,23 @@ updateOptionValue?: [{	where:ValueTypes["OptionValueWhereUniqueInput"],	data:Val
 updateOptionValues?: [{	data:ValueTypes["OptionValueUpdateArgs"][]},ValueTypes["OptionValue"]],
 deleteOptionValue?: [{	where:ValueTypes["OptionValueWhereUniqueInput"]},ValueTypes["OptionValue"]],
 deleteOptionValues?: [{	where:ValueTypes["OptionValueWhereUniqueInput"][]},ValueTypes["OptionValue"]],
+createOrder?: [{	data:ValueTypes["OrderCreateInput"]},ValueTypes["Order"]],
+createOrders?: [{	data:ValueTypes["OrderCreateInput"][]},ValueTypes["Order"]],
+updateOrder?: [{	where:ValueTypes["OrderWhereUniqueInput"],	data:ValueTypes["OrderUpdateInput"]},ValueTypes["Order"]],
+updateOrders?: [{	data:ValueTypes["OrderUpdateArgs"][]},ValueTypes["Order"]],
+deleteOrder?: [{	where:ValueTypes["OrderWhereUniqueInput"]},ValueTypes["Order"]],
+deleteOrders?: [{	where:ValueTypes["OrderWhereUniqueInput"][]},ValueTypes["Order"]],
+createOrderItem?: [{	data:ValueTypes["OrderItemCreateInput"]},ValueTypes["OrderItem"]],
+createOrderItems?: [{	data:ValueTypes["OrderItemCreateInput"][]},ValueTypes["OrderItem"]],
+updateOrderItem?: [{	where:ValueTypes["OrderItemWhereUniqueInput"],	data:ValueTypes["OrderItemUpdateInput"]},ValueTypes["OrderItem"]],
+updateOrderItems?: [{	data:ValueTypes["OrderItemUpdateArgs"][]},ValueTypes["OrderItem"]],
+deleteOrderItem?: [{	where:ValueTypes["OrderItemWhereUniqueInput"]},ValueTypes["OrderItem"]],
+deleteOrderItems?: [{	where:ValueTypes["OrderItemWhereUniqueInput"][]},ValueTypes["OrderItem"]],
 	endSession?:boolean,
 authenticateUserWithPassword?: [{	email:string,	password:string},ValueTypes["UserAuthenticationWithPasswordResult"]],
 createInitialUser?: [{	data:ValueTypes["CreateInitialUserInput"]},ValueTypes["UserAuthenticationWithPasswordSuccess"]],
+sendUserPasswordResetLink?: [{	email:string},boolean],
+redeemUserPasswordResetToken?: [{	email:string,	token:string,	password:string},ValueTypes["RedeemUserPasswordResetTokenResult"]],
 		__typename?: boolean
 }>;
 	["UserAuthenticationWithPasswordResult"]: AliasType<{		["...on UserAuthenticationWithPasswordSuccess"] : ValueTypes["UserAuthenticationWithPasswordSuccess"],
@@ -850,9 +1238,16 @@ createInitialUser?: [{	data:ValueTypes["CreateInitialUserInput"]},ValueTypes["Us
 		__typename?: boolean
 }>;
 	["CreateInitialUserInput"]: {
+	name?:string | null,
 	email?:string | null,
 	password?:string | null
 };
+	["RedeemUserPasswordResetTokenResult"]: AliasType<{
+	code?:boolean,
+	message?:boolean,
+		__typename?: boolean
+}>;
+	["PasswordResetRedemptionErrorCode"]:PasswordResetRedemptionErrorCode;
 	["Query"]: AliasType<{
 users?: [{	where:ValueTypes["UserWhereInput"],	orderBy:ValueTypes["UserOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["User"]],
 user?: [{	where:ValueTypes["UserWhereUniqueInput"]},ValueTypes["User"]],
@@ -863,15 +1258,21 @@ postsCount?: [{	where:ValueTypes["PostWhereInput"]},boolean],
 products?: [{	where:ValueTypes["ProductWhereInput"],	orderBy:ValueTypes["ProductOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Product"]],
 product?: [{	where:ValueTypes["ProductWhereUniqueInput"]},ValueTypes["Product"]],
 productsCount?: [{	where:ValueTypes["ProductWhereInput"]},boolean],
-productImages?: [{	where:ValueTypes["ProductImageWhereInput"],	orderBy:ValueTypes["ProductImageOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["ProductImage"]],
-productImage?: [{	where:ValueTypes["ProductImageWhereUniqueInput"]},ValueTypes["ProductImage"]],
-productImagesCount?: [{	where:ValueTypes["ProductImageWhereInput"]},boolean],
+cloudinaryImages?: [{	where:ValueTypes["CloudinaryImageWhereInput"],	orderBy:ValueTypes["CloudinaryImageOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["CloudinaryImage"]],
+cloudinaryImage?: [{	where:ValueTypes["CloudinaryImageWhereUniqueInput"]},ValueTypes["CloudinaryImage"]],
+cloudinaryImagesCount?: [{	where:ValueTypes["CloudinaryImageWhereInput"]},boolean],
+images?: [{	where:ValueTypes["ImageWhereInput"],	orderBy:ValueTypes["ImageOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Image"]],
+image?: [{	where:ValueTypes["ImageWhereUniqueInput"]},ValueTypes["Image"]],
+imagesCount?: [{	where:ValueTypes["ImageWhereInput"]},boolean],
 tags?: [{	where:ValueTypes["TagWhereInput"],	orderBy:ValueTypes["TagOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Tag"]],
 tag?: [{	where:ValueTypes["TagWhereUniqueInput"]},ValueTypes["Tag"]],
 tagsCount?: [{	where:ValueTypes["TagWhereInput"]},boolean],
 categories?: [{	where:ValueTypes["CategoryWhereInput"],	orderBy:ValueTypes["CategoryOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Category"]],
 category?: [{	where:ValueTypes["CategoryWhereUniqueInput"]},ValueTypes["Category"]],
 categoriesCount?: [{	where:ValueTypes["CategoryWhereInput"]},boolean],
+roles?: [{	where:ValueTypes["RoleWhereInput"],	orderBy:ValueTypes["RoleOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Role"]],
+role?: [{	where:ValueTypes["RoleWhereUniqueInput"]},ValueTypes["Role"]],
+rolesCount?: [{	where:ValueTypes["RoleWhereInput"]},boolean],
 sKUS?: [{	where:ValueTypes["SKUWhereInput"],	orderBy:ValueTypes["SKUOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["SKU"]],
 sKU?: [{	where:ValueTypes["SKUWhereUniqueInput"]},ValueTypes["SKU"]],
 sKUSCount?: [{	where:ValueTypes["SKUWhereInput"]},boolean],
@@ -884,11 +1285,23 @@ optionsCount?: [{	where:ValueTypes["OptionWhereInput"]},boolean],
 optionValues?: [{	where:ValueTypes["OptionValueWhereInput"],	orderBy:ValueTypes["OptionValueOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["OptionValue"]],
 optionValue?: [{	where:ValueTypes["OptionValueWhereUniqueInput"]},ValueTypes["OptionValue"]],
 optionValuesCount?: [{	where:ValueTypes["OptionValueWhereInput"]},boolean],
+orders?: [{	where:ValueTypes["OrderWhereInput"],	orderBy:ValueTypes["OrderOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["Order"]],
+order?: [{	where:ValueTypes["OrderWhereUniqueInput"]},ValueTypes["Order"]],
+ordersCount?: [{	where:ValueTypes["OrderWhereInput"]},boolean],
+orderItems?: [{	where:ValueTypes["OrderItemWhereInput"],	orderBy:ValueTypes["OrderItemOrderByInput"][],	take?:number | null,	skip:number},ValueTypes["OrderItem"]],
+orderItem?: [{	where:ValueTypes["OrderItemWhereUniqueInput"]},ValueTypes["OrderItem"]],
+orderItemsCount?: [{	where:ValueTypes["OrderItemWhereInput"]},boolean],
 	keystone?:ValueTypes["KeystoneMeta"],
 	authenticatedItem?:ValueTypes["AuthenticatedItem"],
+validateUserPasswordResetToken?: [{	email:string,	token:string},ValueTypes["ValidateUserPasswordResetTokenResult"]],
 		__typename?: boolean
 }>;
 	["AuthenticatedItem"]: AliasType<{		["...on User"] : ValueTypes["User"]
+		__typename?: boolean
+}>;
+	["ValidateUserPasswordResetTokenResult"]: AliasType<{
+	code?:boolean,
+	message?:boolean,
 		__typename?: boolean
 }>;
 	["KeystoneMeta"]: AliasType<{
@@ -969,12 +1382,19 @@ export type ModelTypes = {
 	posts?:ModelTypes["Post"][],
 	postsCount?:number,
 	products?:ModelTypes["Product"][],
-	productsCount?:number
+	productsCount?:number,
+	role?:ModelTypes["Role"],
+	orders?:ModelTypes["Order"][],
+	ordersCount?:number,
+	passwordResetToken?:ModelTypes["PasswordState"],
+	passwordResetIssuedAt?:ModelTypes["DateTime"],
+	passwordResetRedeemedAt?:ModelTypes["DateTime"]
 };
 	["UserOauthProviderType"]: GraphQLTypes["UserOauthProviderType"];
 	["PasswordState"]: {
 		isSet:boolean
 };
+	["DateTime"]:any;
 	["UserWhereUniqueInput"]: GraphQLTypes["UserWhereUniqueInput"];
 	["UserWhereInput"]: GraphQLTypes["UserWhereInput"];
 	["IDFilter"]: GraphQLTypes["IDFilter"];
@@ -984,15 +1404,22 @@ export type ModelTypes = {
 	["UserOauthProviderTypeNullableFilter"]: GraphQLTypes["UserOauthProviderTypeNullableFilter"];
 	["PostManyRelationFilter"]: GraphQLTypes["PostManyRelationFilter"];
 	["ProductManyRelationFilter"]: GraphQLTypes["ProductManyRelationFilter"];
+	["OrderManyRelationFilter"]: GraphQLTypes["OrderManyRelationFilter"];
+	["PasswordFilter"]: GraphQLTypes["PasswordFilter"];
+	["DateTimeNullableFilter"]: GraphQLTypes["DateTimeNullableFilter"];
 	["UserOrderByInput"]: GraphQLTypes["UserOrderByInput"];
 	["OrderDirection"]: GraphQLTypes["OrderDirection"];
 	["UserUpdateInput"]: GraphQLTypes["UserUpdateInput"];
 	["PostRelateToManyForUpdateInput"]: GraphQLTypes["PostRelateToManyForUpdateInput"];
 	["ProductRelateToManyForUpdateInput"]: GraphQLTypes["ProductRelateToManyForUpdateInput"];
+	["RoleRelateToOneForUpdateInput"]: GraphQLTypes["RoleRelateToOneForUpdateInput"];
+	["OrderRelateToManyForUpdateInput"]: GraphQLTypes["OrderRelateToManyForUpdateInput"];
 	["UserUpdateArgs"]: GraphQLTypes["UserUpdateArgs"];
 	["UserCreateInput"]: GraphQLTypes["UserCreateInput"];
 	["PostRelateToManyForCreateInput"]: GraphQLTypes["PostRelateToManyForCreateInput"];
 	["ProductRelateToManyForCreateInput"]: GraphQLTypes["ProductRelateToManyForCreateInput"];
+	["RoleRelateToOneForCreateInput"]: GraphQLTypes["RoleRelateToOneForCreateInput"];
+	["OrderRelateToManyForCreateInput"]: GraphQLTypes["OrderRelateToManyForCreateInput"];
 	["Post"]: {
 		id:string,
 	title?:string,
@@ -1006,12 +1433,10 @@ export type ModelTypes = {
 	["Post_content_Document"]: {
 		document:ModelTypes["JSON"]
 };
-	["DateTime"]:any;
 	["PostWhereUniqueInput"]: GraphQLTypes["PostWhereUniqueInput"];
 	["PostWhereInput"]: GraphQLTypes["PostWhereInput"];
 	["StringNullableFilter"]: GraphQLTypes["StringNullableFilter"];
 	["NestedStringNullableFilter"]: GraphQLTypes["NestedStringNullableFilter"];
-	["DateTimeNullableFilter"]: GraphQLTypes["DateTimeNullableFilter"];
 	["TagManyRelationFilter"]: GraphQLTypes["TagManyRelationFilter"];
 	["PostOrderByInput"]: GraphQLTypes["PostOrderByInput"];
 	["PostUpdateInput"]: GraphQLTypes["PostUpdateInput"];
@@ -1025,12 +1450,17 @@ export type ModelTypes = {
 		id:string,
 	name?:string,
 	description?:string,
-	photo?:ModelTypes["ProductImage"][],
-	photoCount?:number,
+	handle?:string,
+	cloudinaryPhotos?:ModelTypes["CloudinaryImage"][],
+	cloudinaryPhotosCount?:number,
+	price?:number,
+	photos?:ModelTypes["Image"][],
+	photosCount?:number,
 	status?:string,
 	user?:ModelTypes["User"],
 	skus?:ModelTypes["SKU"][],
 	skusCount?:number,
+	availableForSale?:boolean,
 	skuValues?:ModelTypes["SKUValue"][],
 	skuValuesCount?:number,
 	options?:ModelTypes["Option"][],
@@ -1041,14 +1471,18 @@ export type ModelTypes = {
 };
 	["ProductWhereUniqueInput"]: GraphQLTypes["ProductWhereUniqueInput"];
 	["ProductWhereInput"]: GraphQLTypes["ProductWhereInput"];
-	["ProductImageManyRelationFilter"]: GraphQLTypes["ProductImageManyRelationFilter"];
+	["CloudinaryImageManyRelationFilter"]: GraphQLTypes["CloudinaryImageManyRelationFilter"];
+	["IntNullableFilter"]: GraphQLTypes["IntNullableFilter"];
+	["ImageManyRelationFilter"]: GraphQLTypes["ImageManyRelationFilter"];
 	["SKUManyRelationFilter"]: GraphQLTypes["SKUManyRelationFilter"];
+	["BooleanFilter"]: GraphQLTypes["BooleanFilter"];
 	["SKUValueManyRelationFilter"]: GraphQLTypes["SKUValueManyRelationFilter"];
 	["OptionManyRelationFilter"]: GraphQLTypes["OptionManyRelationFilter"];
 	["OptionValueManyRelationFilter"]: GraphQLTypes["OptionValueManyRelationFilter"];
 	["ProductOrderByInput"]: GraphQLTypes["ProductOrderByInput"];
 	["ProductUpdateInput"]: GraphQLTypes["ProductUpdateInput"];
-	["ProductImageRelateToManyForUpdateInput"]: GraphQLTypes["ProductImageRelateToManyForUpdateInput"];
+	["CloudinaryImageRelateToManyForUpdateInput"]: GraphQLTypes["CloudinaryImageRelateToManyForUpdateInput"];
+	["ImageRelateToManyForUpdateInput"]: GraphQLTypes["ImageRelateToManyForUpdateInput"];
 	["SKURelateToManyForUpdateInput"]: GraphQLTypes["SKURelateToManyForUpdateInput"];
 	["SKUValueRelateToManyForUpdateInput"]: GraphQLTypes["SKUValueRelateToManyForUpdateInput"];
 	["OptionRelateToManyForUpdateInput"]: GraphQLTypes["OptionRelateToManyForUpdateInput"];
@@ -1056,13 +1490,14 @@ export type ModelTypes = {
 	["CategoryRelateToOneForUpdateInput"]: GraphQLTypes["CategoryRelateToOneForUpdateInput"];
 	["ProductUpdateArgs"]: GraphQLTypes["ProductUpdateArgs"];
 	["ProductCreateInput"]: GraphQLTypes["ProductCreateInput"];
-	["ProductImageRelateToManyForCreateInput"]: GraphQLTypes["ProductImageRelateToManyForCreateInput"];
+	["CloudinaryImageRelateToManyForCreateInput"]: GraphQLTypes["CloudinaryImageRelateToManyForCreateInput"];
+	["ImageRelateToManyForCreateInput"]: GraphQLTypes["ImageRelateToManyForCreateInput"];
 	["SKURelateToManyForCreateInput"]: GraphQLTypes["SKURelateToManyForCreateInput"];
 	["SKUValueRelateToManyForCreateInput"]: GraphQLTypes["SKUValueRelateToManyForCreateInput"];
 	["OptionRelateToManyForCreateInput"]: GraphQLTypes["OptionRelateToManyForCreateInput"];
 	["OptionValueRelateToManyForCreateInput"]: GraphQLTypes["OptionValueRelateToManyForCreateInput"];
 	["CategoryRelateToOneForCreateInput"]: GraphQLTypes["CategoryRelateToOneForCreateInput"];
-	["ProductImage"]: {
+	["CloudinaryImage"]: {
 		id:string,
 	image?:ModelTypes["CloudinaryImage_File"],
 	altText?:string,
@@ -1082,20 +1517,34 @@ export type ModelTypes = {
 	/** Mirrors the formatting options [Cloudinary provides](https://cloudinary.com/documentation/image_transformation_reference).
 All options are strings as they ultimately end up in a URL. */
 ["CloudinaryImageFormat"]: GraphQLTypes["CloudinaryImageFormat"];
-	["ProductImageWhereUniqueInput"]: GraphQLTypes["ProductImageWhereUniqueInput"];
-	["ProductImageWhereInput"]: GraphQLTypes["ProductImageWhereInput"];
-	["ProductImageOrderByInput"]: GraphQLTypes["ProductImageOrderByInput"];
-	["ProductImageUpdateInput"]: GraphQLTypes["ProductImageUpdateInput"];
+	["CloudinaryImageWhereUniqueInput"]: GraphQLTypes["CloudinaryImageWhereUniqueInput"];
+	["CloudinaryImageWhereInput"]: GraphQLTypes["CloudinaryImageWhereInput"];
+	["CloudinaryImageOrderByInput"]: GraphQLTypes["CloudinaryImageOrderByInput"];
+	["CloudinaryImageUpdateInput"]: GraphQLTypes["CloudinaryImageUpdateInput"];
 	/** The `Upload` scalar type represents a file upload. */
 ["Upload"]:any;
 	["ProductRelateToOneForUpdateInput"]: GraphQLTypes["ProductRelateToOneForUpdateInput"];
 	["OptionRelateToOneForUpdateInput"]: GraphQLTypes["OptionRelateToOneForUpdateInput"];
 	["OptionValueRelateToOneForUpdateInput"]: GraphQLTypes["OptionValueRelateToOneForUpdateInput"];
-	["ProductImageUpdateArgs"]: GraphQLTypes["ProductImageUpdateArgs"];
-	["ProductImageCreateInput"]: GraphQLTypes["ProductImageCreateInput"];
+	["CloudinaryImageUpdateArgs"]: GraphQLTypes["CloudinaryImageUpdateArgs"];
+	["CloudinaryImageCreateInput"]: GraphQLTypes["CloudinaryImageCreateInput"];
 	["ProductRelateToOneForCreateInput"]: GraphQLTypes["ProductRelateToOneForCreateInput"];
 	["OptionRelateToOneForCreateInput"]: GraphQLTypes["OptionRelateToOneForCreateInput"];
 	["OptionValueRelateToOneForCreateInput"]: GraphQLTypes["OptionValueRelateToOneForCreateInput"];
+	["Image"]: {
+		id:string,
+	src?:string,
+	altText?:string,
+	product?:ModelTypes["Product"],
+	option?:ModelTypes["Option"],
+	optionValue?:ModelTypes["OptionValue"]
+};
+	["ImageWhereUniqueInput"]: GraphQLTypes["ImageWhereUniqueInput"];
+	["ImageWhereInput"]: GraphQLTypes["ImageWhereInput"];
+	["ImageOrderByInput"]: GraphQLTypes["ImageOrderByInput"];
+	["ImageUpdateInput"]: GraphQLTypes["ImageUpdateInput"];
+	["ImageUpdateArgs"]: GraphQLTypes["ImageUpdateArgs"];
+	["ImageCreateInput"]: GraphQLTypes["ImageCreateInput"];
 	["Tag"]: {
 		id:string,
 	name?:string,
@@ -1118,6 +1567,27 @@ All options are strings as they ultimately end up in a URL. */
 	["CategoryUpdateInput"]: GraphQLTypes["CategoryUpdateInput"];
 	["CategoryUpdateArgs"]: GraphQLTypes["CategoryUpdateArgs"];
 	["CategoryCreateInput"]: GraphQLTypes["CategoryCreateInput"];
+	["Role"]: {
+		id:string,
+	name?:string,
+	canManageProducts?:boolean,
+	canSeeOtherUsers?:boolean,
+	canManageUsers?:boolean,
+	canManageRoles?:boolean,
+	canManageCart?:boolean,
+	canManageOrders?:boolean,
+	assignedTo?:ModelTypes["User"][],
+	assignedToCount?:number
+};
+	["RoleWhereUniqueInput"]: GraphQLTypes["RoleWhereUniqueInput"];
+	["RoleWhereInput"]: GraphQLTypes["RoleWhereInput"];
+	["UserManyRelationFilter"]: GraphQLTypes["UserManyRelationFilter"];
+	["RoleOrderByInput"]: GraphQLTypes["RoleOrderByInput"];
+	["RoleUpdateInput"]: GraphQLTypes["RoleUpdateInput"];
+	["UserRelateToManyForUpdateInput"]: GraphQLTypes["UserRelateToManyForUpdateInput"];
+	["RoleUpdateArgs"]: GraphQLTypes["RoleUpdateArgs"];
+	["RoleCreateInput"]: GraphQLTypes["RoleCreateInput"];
+	["UserRelateToManyForCreateInput"]: GraphQLTypes["UserRelateToManyForCreateInput"];
 	["SKU"]: {
 		id:string,
 	sku?:string,
@@ -1126,7 +1596,6 @@ All options are strings as they ultimately end up in a URL. */
 };
 	["SKUWhereUniqueInput"]: GraphQLTypes["SKUWhereUniqueInput"];
 	["SKUWhereInput"]: GraphQLTypes["SKUWhereInput"];
-	["IntNullableFilter"]: GraphQLTypes["IntNullableFilter"];
 	["SKUOrderByInput"]: GraphQLTypes["SKUOrderByInput"];
 	["SKUUpdateInput"]: GraphQLTypes["SKUUpdateInput"];
 	["SKUUpdateArgs"]: GraphQLTypes["SKUUpdateArgs"];
@@ -1151,6 +1620,8 @@ All options are strings as they ultimately end up in a URL. */
 	["Option"]: {
 		id:string,
 	name?:string,
+	values?:ModelTypes["OptionValue"][],
+	valuesCount?:number,
 	product?:ModelTypes["Product"]
 };
 	["OptionWhereUniqueInput"]: GraphQLTypes["OptionWhereUniqueInput"];
@@ -1171,6 +1642,46 @@ All options are strings as they ultimately end up in a URL. */
 	["OptionValueUpdateInput"]: GraphQLTypes["OptionValueUpdateInput"];
 	["OptionValueUpdateArgs"]: GraphQLTypes["OptionValueUpdateArgs"];
 	["OptionValueCreateInput"]: GraphQLTypes["OptionValueCreateInput"];
+	["Order"]: {
+		id:string,
+	label?:string,
+	total?:number,
+	items?:ModelTypes["OrderItem"][],
+	itemsCount?:number,
+	user?:ModelTypes["User"],
+	charge?:string
+};
+	["OrderWhereUniqueInput"]: GraphQLTypes["OrderWhereUniqueInput"];
+	["OrderWhereInput"]: GraphQLTypes["OrderWhereInput"];
+	["OrderItemManyRelationFilter"]: GraphQLTypes["OrderItemManyRelationFilter"];
+	["OrderOrderByInput"]: GraphQLTypes["OrderOrderByInput"];
+	["OrderUpdateInput"]: GraphQLTypes["OrderUpdateInput"];
+	["OrderItemRelateToManyForUpdateInput"]: GraphQLTypes["OrderItemRelateToManyForUpdateInput"];
+	["OrderUpdateArgs"]: GraphQLTypes["OrderUpdateArgs"];
+	["OrderCreateInput"]: GraphQLTypes["OrderCreateInput"];
+	["OrderItemRelateToManyForCreateInput"]: GraphQLTypes["OrderItemRelateToManyForCreateInput"];
+	["OrderItem"]: {
+		id:string,
+	name?:string,
+	description?:string,
+	cloudinaryImage?:ModelTypes["CloudinaryImage"],
+	image?:ModelTypes["Image"],
+	price?:number,
+	quantity?:number,
+	order?:ModelTypes["Order"]
+};
+	["OrderItemWhereUniqueInput"]: GraphQLTypes["OrderItemWhereUniqueInput"];
+	["OrderItemWhereInput"]: GraphQLTypes["OrderItemWhereInput"];
+	["OrderItemOrderByInput"]: GraphQLTypes["OrderItemOrderByInput"];
+	["OrderItemUpdateInput"]: GraphQLTypes["OrderItemUpdateInput"];
+	["CloudinaryImageRelateToOneForUpdateInput"]: GraphQLTypes["CloudinaryImageRelateToOneForUpdateInput"];
+	["ImageRelateToOneForUpdateInput"]: GraphQLTypes["ImageRelateToOneForUpdateInput"];
+	["OrderRelateToOneForUpdateInput"]: GraphQLTypes["OrderRelateToOneForUpdateInput"];
+	["OrderItemUpdateArgs"]: GraphQLTypes["OrderItemUpdateArgs"];
+	["OrderItemCreateInput"]: GraphQLTypes["OrderItemCreateInput"];
+	["CloudinaryImageRelateToOneForCreateInput"]: GraphQLTypes["CloudinaryImageRelateToOneForCreateInput"];
+	["ImageRelateToOneForCreateInput"]: GraphQLTypes["ImageRelateToOneForCreateInput"];
+	["OrderRelateToOneForCreateInput"]: GraphQLTypes["OrderRelateToOneForCreateInput"];
 	/** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
 ["JSON"]:any;
 	["Mutation"]: {
@@ -1192,12 +1703,18 @@ All options are strings as they ultimately end up in a URL. */
 	updateProducts?:(ModelTypes["Product"] | undefined)[],
 	deleteProduct?:ModelTypes["Product"],
 	deleteProducts?:(ModelTypes["Product"] | undefined)[],
-	createProductImage?:ModelTypes["ProductImage"],
-	createProductImages?:(ModelTypes["ProductImage"] | undefined)[],
-	updateProductImage?:ModelTypes["ProductImage"],
-	updateProductImages?:(ModelTypes["ProductImage"] | undefined)[],
-	deleteProductImage?:ModelTypes["ProductImage"],
-	deleteProductImages?:(ModelTypes["ProductImage"] | undefined)[],
+	createCloudinaryImage?:ModelTypes["CloudinaryImage"],
+	createCloudinaryImages?:(ModelTypes["CloudinaryImage"] | undefined)[],
+	updateCloudinaryImage?:ModelTypes["CloudinaryImage"],
+	updateCloudinaryImages?:(ModelTypes["CloudinaryImage"] | undefined)[],
+	deleteCloudinaryImage?:ModelTypes["CloudinaryImage"],
+	deleteCloudinaryImages?:(ModelTypes["CloudinaryImage"] | undefined)[],
+	createImage?:ModelTypes["Image"],
+	createImages?:(ModelTypes["Image"] | undefined)[],
+	updateImage?:ModelTypes["Image"],
+	updateImages?:(ModelTypes["Image"] | undefined)[],
+	deleteImage?:ModelTypes["Image"],
+	deleteImages?:(ModelTypes["Image"] | undefined)[],
 	createTag?:ModelTypes["Tag"],
 	createTags?:(ModelTypes["Tag"] | undefined)[],
 	updateTag?:ModelTypes["Tag"],
@@ -1210,6 +1727,12 @@ All options are strings as they ultimately end up in a URL. */
 	updateCategories?:(ModelTypes["Category"] | undefined)[],
 	deleteCategory?:ModelTypes["Category"],
 	deleteCategories?:(ModelTypes["Category"] | undefined)[],
+	createRole?:ModelTypes["Role"],
+	createRoles?:(ModelTypes["Role"] | undefined)[],
+	updateRole?:ModelTypes["Role"],
+	updateRoles?:(ModelTypes["Role"] | undefined)[],
+	deleteRole?:ModelTypes["Role"],
+	deleteRoles?:(ModelTypes["Role"] | undefined)[],
 	createSKU?:ModelTypes["SKU"],
 	createSKUS?:(ModelTypes["SKU"] | undefined)[],
 	updateSKU?:ModelTypes["SKU"],
@@ -1234,9 +1757,23 @@ All options are strings as they ultimately end up in a URL. */
 	updateOptionValues?:(ModelTypes["OptionValue"] | undefined)[],
 	deleteOptionValue?:ModelTypes["OptionValue"],
 	deleteOptionValues?:(ModelTypes["OptionValue"] | undefined)[],
+	createOrder?:ModelTypes["Order"],
+	createOrders?:(ModelTypes["Order"] | undefined)[],
+	updateOrder?:ModelTypes["Order"],
+	updateOrders?:(ModelTypes["Order"] | undefined)[],
+	deleteOrder?:ModelTypes["Order"],
+	deleteOrders?:(ModelTypes["Order"] | undefined)[],
+	createOrderItem?:ModelTypes["OrderItem"],
+	createOrderItems?:(ModelTypes["OrderItem"] | undefined)[],
+	updateOrderItem?:ModelTypes["OrderItem"],
+	updateOrderItems?:(ModelTypes["OrderItem"] | undefined)[],
+	deleteOrderItem?:ModelTypes["OrderItem"],
+	deleteOrderItems?:(ModelTypes["OrderItem"] | undefined)[],
 	endSession:boolean,
 	authenticateUserWithPassword?:ModelTypes["UserAuthenticationWithPasswordResult"],
-	createInitialUser:ModelTypes["UserAuthenticationWithPasswordSuccess"]
+	createInitialUser:ModelTypes["UserAuthenticationWithPasswordSuccess"],
+	sendUserPasswordResetLink:boolean,
+	redeemUserPasswordResetToken?:ModelTypes["RedeemUserPasswordResetTokenResult"]
 };
 	["UserAuthenticationWithPasswordResult"]:ModelTypes["UserAuthenticationWithPasswordSuccess"] | ModelTypes["UserAuthenticationWithPasswordFailure"];
 	["UserAuthenticationWithPasswordSuccess"]: {
@@ -1247,6 +1784,11 @@ All options are strings as they ultimately end up in a URL. */
 		message:string
 };
 	["CreateInitialUserInput"]: GraphQLTypes["CreateInitialUserInput"];
+	["RedeemUserPasswordResetTokenResult"]: {
+		code:ModelTypes["PasswordResetRedemptionErrorCode"],
+	message:string
+};
+	["PasswordResetRedemptionErrorCode"]: GraphQLTypes["PasswordResetRedemptionErrorCode"];
 	["Query"]: {
 		users?:ModelTypes["User"][],
 	user?:ModelTypes["User"],
@@ -1257,15 +1799,21 @@ All options are strings as they ultimately end up in a URL. */
 	products?:ModelTypes["Product"][],
 	product?:ModelTypes["Product"],
 	productsCount?:number,
-	productImages?:ModelTypes["ProductImage"][],
-	productImage?:ModelTypes["ProductImage"],
-	productImagesCount?:number,
+	cloudinaryImages?:ModelTypes["CloudinaryImage"][],
+	cloudinaryImage?:ModelTypes["CloudinaryImage"],
+	cloudinaryImagesCount?:number,
+	images?:ModelTypes["Image"][],
+	image?:ModelTypes["Image"],
+	imagesCount?:number,
 	tags?:ModelTypes["Tag"][],
 	tag?:ModelTypes["Tag"],
 	tagsCount?:number,
 	categories?:ModelTypes["Category"][],
 	category?:ModelTypes["Category"],
 	categoriesCount?:number,
+	roles?:ModelTypes["Role"][],
+	role?:ModelTypes["Role"],
+	rolesCount?:number,
 	sKUS?:ModelTypes["SKU"][],
 	sKU?:ModelTypes["SKU"],
 	sKUSCount?:number,
@@ -1278,10 +1826,21 @@ All options are strings as they ultimately end up in a URL. */
 	optionValues?:ModelTypes["OptionValue"][],
 	optionValue?:ModelTypes["OptionValue"],
 	optionValuesCount?:number,
+	orders?:ModelTypes["Order"][],
+	order?:ModelTypes["Order"],
+	ordersCount?:number,
+	orderItems?:ModelTypes["OrderItem"][],
+	orderItem?:ModelTypes["OrderItem"],
+	orderItemsCount?:number,
 	keystone:ModelTypes["KeystoneMeta"],
-	authenticatedItem?:ModelTypes["AuthenticatedItem"]
+	authenticatedItem?:ModelTypes["AuthenticatedItem"],
+	validateUserPasswordResetToken?:ModelTypes["ValidateUserPasswordResetTokenResult"]
 };
 	["AuthenticatedItem"]:ModelTypes["User"];
+	["ValidateUserPasswordResetTokenResult"]: {
+		code:ModelTypes["PasswordResetRedemptionErrorCode"],
+	message:string
+};
 	["KeystoneMeta"]: {
 		adminMeta:ModelTypes["KeystoneAdminMeta"]
 };
@@ -1353,13 +1912,20 @@ export type GraphQLTypes = {
 	posts?: Array<GraphQLTypes["Post"]>,
 	postsCount?: number,
 	products?: Array<GraphQLTypes["Product"]>,
-	productsCount?: number
+	productsCount?: number,
+	role?: GraphQLTypes["Role"],
+	orders?: Array<GraphQLTypes["Order"]>,
+	ordersCount?: number,
+	passwordResetToken?: GraphQLTypes["PasswordState"],
+	passwordResetIssuedAt?: GraphQLTypes["DateTime"],
+	passwordResetRedeemedAt?: GraphQLTypes["DateTime"]
 };
 	["UserOauthProviderType"]: UserOauthProviderType;
 	["PasswordState"]: {
 	__typename: "PasswordState",
 	isSet: boolean
 };
+	["DateTime"]:any;
 	["UserWhereUniqueInput"]: {
 		id?: string,
 	email?: string
@@ -1374,7 +1940,12 @@ export type GraphQLTypes = {
 	oauthProvider?: GraphQLTypes["UserOauthProviderTypeNullableFilter"],
 	oauthProfileId?: GraphQLTypes["StringFilter"],
 	posts?: GraphQLTypes["PostManyRelationFilter"],
-	products?: GraphQLTypes["ProductManyRelationFilter"]
+	products?: GraphQLTypes["ProductManyRelationFilter"],
+	role?: GraphQLTypes["RoleWhereInput"],
+	orders?: GraphQLTypes["OrderManyRelationFilter"],
+	passwordResetToken?: GraphQLTypes["PasswordFilter"],
+	passwordResetIssuedAt?: GraphQLTypes["DateTimeNullableFilter"],
+	passwordResetRedeemedAt?: GraphQLTypes["DateTimeNullableFilter"]
 };
 	["IDFilter"]: {
 		equals?: string,
@@ -1430,12 +2001,32 @@ export type GraphQLTypes = {
 	some?: GraphQLTypes["ProductWhereInput"],
 	none?: GraphQLTypes["ProductWhereInput"]
 };
+	["OrderManyRelationFilter"]: {
+		every?: GraphQLTypes["OrderWhereInput"],
+	some?: GraphQLTypes["OrderWhereInput"],
+	none?: GraphQLTypes["OrderWhereInput"]
+};
+	["PasswordFilter"]: {
+		isSet: boolean
+};
+	["DateTimeNullableFilter"]: {
+		equals?: GraphQLTypes["DateTime"],
+	in?: Array<GraphQLTypes["DateTime"]>,
+	notIn?: Array<GraphQLTypes["DateTime"]>,
+	lt?: GraphQLTypes["DateTime"],
+	lte?: GraphQLTypes["DateTime"],
+	gt?: GraphQLTypes["DateTime"],
+	gte?: GraphQLTypes["DateTime"],
+	not?: GraphQLTypes["DateTimeNullableFilter"]
+};
 	["UserOrderByInput"]: {
 		id?: GraphQLTypes["OrderDirection"],
 	name?: GraphQLTypes["OrderDirection"],
 	email?: GraphQLTypes["OrderDirection"],
 	oauthProvider?: GraphQLTypes["OrderDirection"],
-	oauthProfileId?: GraphQLTypes["OrderDirection"]
+	oauthProfileId?: GraphQLTypes["OrderDirection"],
+	passwordResetIssuedAt?: GraphQLTypes["OrderDirection"],
+	passwordResetRedeemedAt?: GraphQLTypes["OrderDirection"]
 };
 	["OrderDirection"]: OrderDirection;
 	["UserUpdateInput"]: {
@@ -1445,7 +2036,12 @@ export type GraphQLTypes = {
 	oauthProfileId?: string,
 	password?: string,
 	posts?: GraphQLTypes["PostRelateToManyForUpdateInput"],
-	products?: GraphQLTypes["ProductRelateToManyForUpdateInput"]
+	products?: GraphQLTypes["ProductRelateToManyForUpdateInput"],
+	role?: GraphQLTypes["RoleRelateToOneForUpdateInput"],
+	orders?: GraphQLTypes["OrderRelateToManyForUpdateInput"],
+	passwordResetToken?: string,
+	passwordResetIssuedAt?: GraphQLTypes["DateTime"],
+	passwordResetRedeemedAt?: GraphQLTypes["DateTime"]
 };
 	["PostRelateToManyForUpdateInput"]: {
 		disconnect?: Array<GraphQLTypes["PostWhereUniqueInput"]>,
@@ -1459,6 +2055,17 @@ export type GraphQLTypes = {
 	create?: Array<GraphQLTypes["ProductCreateInput"]>,
 	connect?: Array<GraphQLTypes["ProductWhereUniqueInput"]>
 };
+	["RoleRelateToOneForUpdateInput"]: {
+		create?: GraphQLTypes["RoleCreateInput"],
+	connect?: GraphQLTypes["RoleWhereUniqueInput"],
+	disconnect?: boolean
+};
+	["OrderRelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["OrderWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["OrderWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["OrderCreateInput"]>,
+	connect?: Array<GraphQLTypes["OrderWhereUniqueInput"]>
+};
 	["UserUpdateArgs"]: {
 		where: GraphQLTypes["UserWhereUniqueInput"],
 	data: GraphQLTypes["UserUpdateInput"]
@@ -1470,7 +2077,12 @@ export type GraphQLTypes = {
 	oauthProfileId?: string,
 	password?: string,
 	posts?: GraphQLTypes["PostRelateToManyForCreateInput"],
-	products?: GraphQLTypes["ProductRelateToManyForCreateInput"]
+	products?: GraphQLTypes["ProductRelateToManyForCreateInput"],
+	role?: GraphQLTypes["RoleRelateToOneForCreateInput"],
+	orders?: GraphQLTypes["OrderRelateToManyForCreateInput"],
+	passwordResetToken?: string,
+	passwordResetIssuedAt?: GraphQLTypes["DateTime"],
+	passwordResetRedeemedAt?: GraphQLTypes["DateTime"]
 };
 	["PostRelateToManyForCreateInput"]: {
 		create?: Array<GraphQLTypes["PostCreateInput"]>,
@@ -1479,6 +2091,14 @@ export type GraphQLTypes = {
 	["ProductRelateToManyForCreateInput"]: {
 		create?: Array<GraphQLTypes["ProductCreateInput"]>,
 	connect?: Array<GraphQLTypes["ProductWhereUniqueInput"]>
+};
+	["RoleRelateToOneForCreateInput"]: {
+		create?: GraphQLTypes["RoleCreateInput"],
+	connect?: GraphQLTypes["RoleWhereUniqueInput"]
+};
+	["OrderRelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["OrderCreateInput"]>,
+	connect?: Array<GraphQLTypes["OrderWhereUniqueInput"]>
 };
 	["Post"]: {
 	__typename: "Post",
@@ -1495,7 +2115,6 @@ export type GraphQLTypes = {
 	__typename: "Post_content_Document",
 	document: GraphQLTypes["JSON"]
 };
-	["DateTime"]:any;
 	["PostWhereUniqueInput"]: {
 		id?: string
 };
@@ -1536,16 +2155,6 @@ export type GraphQLTypes = {
 	startsWith?: string,
 	endsWith?: string,
 	not?: GraphQLTypes["NestedStringNullableFilter"]
-};
-	["DateTimeNullableFilter"]: {
-		equals?: GraphQLTypes["DateTime"],
-	in?: Array<GraphQLTypes["DateTime"]>,
-	notIn?: Array<GraphQLTypes["DateTime"]>,
-	lt?: GraphQLTypes["DateTime"],
-	lte?: GraphQLTypes["DateTime"],
-	gt?: GraphQLTypes["DateTime"],
-	gte?: GraphQLTypes["DateTime"],
-	not?: GraphQLTypes["DateTimeNullableFilter"]
 };
 	["TagManyRelationFilter"]: {
 		every?: GraphQLTypes["TagWhereInput"],
@@ -1602,12 +2211,17 @@ export type GraphQLTypes = {
 	id: string,
 	name?: string,
 	description?: string,
-	photo?: Array<GraphQLTypes["ProductImage"]>,
-	photoCount?: number,
+	handle?: string,
+	cloudinaryPhotos?: Array<GraphQLTypes["CloudinaryImage"]>,
+	cloudinaryPhotosCount?: number,
+	price?: number,
+	photos?: Array<GraphQLTypes["Image"]>,
+	photosCount?: number,
 	status?: string,
 	user?: GraphQLTypes["User"],
 	skus?: Array<GraphQLTypes["SKU"]>,
 	skusCount?: number,
+	availableForSale?: boolean,
 	skuValues?: Array<GraphQLTypes["SKUValue"]>,
 	skuValuesCount?: number,
 	options?: Array<GraphQLTypes["Option"]>,
@@ -1617,7 +2231,8 @@ export type GraphQLTypes = {
 	category?: GraphQLTypes["Category"]
 };
 	["ProductWhereUniqueInput"]: {
-		id?: string
+		id?: string,
+	handle?: string
 };
 	["ProductWhereInput"]: {
 		AND?: Array<GraphQLTypes["ProductWhereInput"]>,
@@ -1626,24 +2241,47 @@ export type GraphQLTypes = {
 	id?: GraphQLTypes["IDFilter"],
 	name?: GraphQLTypes["StringFilter"],
 	description?: GraphQLTypes["StringFilter"],
-	photo?: GraphQLTypes["ProductImageManyRelationFilter"],
+	handle?: GraphQLTypes["StringFilter"],
+	cloudinaryPhotos?: GraphQLTypes["CloudinaryImageManyRelationFilter"],
+	price?: GraphQLTypes["IntNullableFilter"],
+	photos?: GraphQLTypes["ImageManyRelationFilter"],
 	status?: GraphQLTypes["StringNullableFilter"],
 	user?: GraphQLTypes["UserWhereInput"],
 	skus?: GraphQLTypes["SKUManyRelationFilter"],
+	availableForSale?: GraphQLTypes["BooleanFilter"],
 	skuValues?: GraphQLTypes["SKUValueManyRelationFilter"],
 	options?: GraphQLTypes["OptionManyRelationFilter"],
 	optionValues?: GraphQLTypes["OptionValueManyRelationFilter"],
 	category?: GraphQLTypes["CategoryWhereInput"]
 };
-	["ProductImageManyRelationFilter"]: {
-		every?: GraphQLTypes["ProductImageWhereInput"],
-	some?: GraphQLTypes["ProductImageWhereInput"],
-	none?: GraphQLTypes["ProductImageWhereInput"]
+	["CloudinaryImageManyRelationFilter"]: {
+		every?: GraphQLTypes["CloudinaryImageWhereInput"],
+	some?: GraphQLTypes["CloudinaryImageWhereInput"],
+	none?: GraphQLTypes["CloudinaryImageWhereInput"]
+};
+	["IntNullableFilter"]: {
+		equals?: number,
+	in?: Array<number>,
+	notIn?: Array<number>,
+	lt?: number,
+	lte?: number,
+	gt?: number,
+	gte?: number,
+	not?: GraphQLTypes["IntNullableFilter"]
+};
+	["ImageManyRelationFilter"]: {
+		every?: GraphQLTypes["ImageWhereInput"],
+	some?: GraphQLTypes["ImageWhereInput"],
+	none?: GraphQLTypes["ImageWhereInput"]
 };
 	["SKUManyRelationFilter"]: {
 		every?: GraphQLTypes["SKUWhereInput"],
 	some?: GraphQLTypes["SKUWhereInput"],
 	none?: GraphQLTypes["SKUWhereInput"]
+};
+	["BooleanFilter"]: {
+		equals?: boolean,
+	not?: GraphQLTypes["BooleanFilter"]
 };
 	["SKUValueManyRelationFilter"]: {
 		every?: GraphQLTypes["SKUValueWhereInput"],
@@ -1664,25 +2302,38 @@ export type GraphQLTypes = {
 		id?: GraphQLTypes["OrderDirection"],
 	name?: GraphQLTypes["OrderDirection"],
 	description?: GraphQLTypes["OrderDirection"],
-	status?: GraphQLTypes["OrderDirection"]
+	handle?: GraphQLTypes["OrderDirection"],
+	price?: GraphQLTypes["OrderDirection"],
+	status?: GraphQLTypes["OrderDirection"],
+	availableForSale?: GraphQLTypes["OrderDirection"]
 };
 	["ProductUpdateInput"]: {
 		name?: string,
 	description?: string,
-	photo?: GraphQLTypes["ProductImageRelateToManyForUpdateInput"],
+	handle?: string,
+	cloudinaryPhotos?: GraphQLTypes["CloudinaryImageRelateToManyForUpdateInput"],
+	price?: number,
+	photos?: GraphQLTypes["ImageRelateToManyForUpdateInput"],
 	status?: string,
 	user?: GraphQLTypes["UserRelateToOneForUpdateInput"],
 	skus?: GraphQLTypes["SKURelateToManyForUpdateInput"],
+	availableForSale?: boolean,
 	skuValues?: GraphQLTypes["SKUValueRelateToManyForUpdateInput"],
 	options?: GraphQLTypes["OptionRelateToManyForUpdateInput"],
 	optionValues?: GraphQLTypes["OptionValueRelateToManyForUpdateInput"],
 	category?: GraphQLTypes["CategoryRelateToOneForUpdateInput"]
 };
-	["ProductImageRelateToManyForUpdateInput"]: {
-		disconnect?: Array<GraphQLTypes["ProductImageWhereUniqueInput"]>,
-	set?: Array<GraphQLTypes["ProductImageWhereUniqueInput"]>,
-	create?: Array<GraphQLTypes["ProductImageCreateInput"]>,
-	connect?: Array<GraphQLTypes["ProductImageWhereUniqueInput"]>
+	["CloudinaryImageRelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["CloudinaryImageWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["CloudinaryImageWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["CloudinaryImageCreateInput"]>,
+	connect?: Array<GraphQLTypes["CloudinaryImageWhereUniqueInput"]>
+};
+	["ImageRelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["ImageWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["ImageWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["ImageCreateInput"]>,
+	connect?: Array<GraphQLTypes["ImageWhereUniqueInput"]>
 };
 	["SKURelateToManyForUpdateInput"]: {
 		disconnect?: Array<GraphQLTypes["SKUWhereUniqueInput"]>,
@@ -1720,18 +2371,26 @@ export type GraphQLTypes = {
 	["ProductCreateInput"]: {
 		name?: string,
 	description?: string,
-	photo?: GraphQLTypes["ProductImageRelateToManyForCreateInput"],
+	handle?: string,
+	cloudinaryPhotos?: GraphQLTypes["CloudinaryImageRelateToManyForCreateInput"],
+	price?: number,
+	photos?: GraphQLTypes["ImageRelateToManyForCreateInput"],
 	status?: string,
 	user?: GraphQLTypes["UserRelateToOneForCreateInput"],
 	skus?: GraphQLTypes["SKURelateToManyForCreateInput"],
+	availableForSale?: boolean,
 	skuValues?: GraphQLTypes["SKUValueRelateToManyForCreateInput"],
 	options?: GraphQLTypes["OptionRelateToManyForCreateInput"],
 	optionValues?: GraphQLTypes["OptionValueRelateToManyForCreateInput"],
 	category?: GraphQLTypes["CategoryRelateToOneForCreateInput"]
 };
-	["ProductImageRelateToManyForCreateInput"]: {
-		create?: Array<GraphQLTypes["ProductImageCreateInput"]>,
-	connect?: Array<GraphQLTypes["ProductImageWhereUniqueInput"]>
+	["CloudinaryImageRelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["CloudinaryImageCreateInput"]>,
+	connect?: Array<GraphQLTypes["CloudinaryImageWhereUniqueInput"]>
+};
+	["ImageRelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["ImageCreateInput"]>,
+	connect?: Array<GraphQLTypes["ImageWhereUniqueInput"]>
 };
 	["SKURelateToManyForCreateInput"]: {
 		create?: Array<GraphQLTypes["SKUCreateInput"]>,
@@ -1753,8 +2412,8 @@ export type GraphQLTypes = {
 		create?: GraphQLTypes["CategoryCreateInput"],
 	connect?: GraphQLTypes["CategoryWhereUniqueInput"]
 };
-	["ProductImage"]: {
-	__typename: "ProductImage",
+	["CloudinaryImage"]: {
+	__typename: "CloudinaryImage",
 	id: string,
 	image?: GraphQLTypes["CloudinaryImage_File"],
 	altText?: string,
@@ -1806,24 +2465,24 @@ All options are strings as they ultimately end up in a URL. */
 	flags?: string,
 	transformation?: string
 };
-	["ProductImageWhereUniqueInput"]: {
+	["CloudinaryImageWhereUniqueInput"]: {
 		id?: string
 };
-	["ProductImageWhereInput"]: {
-		AND?: Array<GraphQLTypes["ProductImageWhereInput"]>,
-	OR?: Array<GraphQLTypes["ProductImageWhereInput"]>,
-	NOT?: Array<GraphQLTypes["ProductImageWhereInput"]>,
+	["CloudinaryImageWhereInput"]: {
+		AND?: Array<GraphQLTypes["CloudinaryImageWhereInput"]>,
+	OR?: Array<GraphQLTypes["CloudinaryImageWhereInput"]>,
+	NOT?: Array<GraphQLTypes["CloudinaryImageWhereInput"]>,
 	id?: GraphQLTypes["IDFilter"],
 	altText?: GraphQLTypes["StringFilter"],
 	product?: GraphQLTypes["ProductWhereInput"],
 	option?: GraphQLTypes["OptionWhereInput"],
 	optionValue?: GraphQLTypes["OptionValueWhereInput"]
 };
-	["ProductImageOrderByInput"]: {
+	["CloudinaryImageOrderByInput"]: {
 		id?: GraphQLTypes["OrderDirection"],
 	altText?: GraphQLTypes["OrderDirection"]
 };
-	["ProductImageUpdateInput"]: {
+	["CloudinaryImageUpdateInput"]: {
 		image?: GraphQLTypes["Upload"],
 	altText?: string,
 	product?: GraphQLTypes["ProductRelateToOneForUpdateInput"],
@@ -1847,11 +2506,11 @@ All options are strings as they ultimately end up in a URL. */
 	connect?: GraphQLTypes["OptionValueWhereUniqueInput"],
 	disconnect?: boolean
 };
-	["ProductImageUpdateArgs"]: {
-		where: GraphQLTypes["ProductImageWhereUniqueInput"],
-	data: GraphQLTypes["ProductImageUpdateInput"]
+	["CloudinaryImageUpdateArgs"]: {
+		where: GraphQLTypes["CloudinaryImageWhereUniqueInput"],
+	data: GraphQLTypes["CloudinaryImageUpdateInput"]
 };
-	["ProductImageCreateInput"]: {
+	["CloudinaryImageCreateInput"]: {
 		image?: GraphQLTypes["Upload"],
 	altText?: string,
 	product?: GraphQLTypes["ProductRelateToOneForCreateInput"],
@@ -1869,6 +2528,52 @@ All options are strings as they ultimately end up in a URL. */
 	["OptionValueRelateToOneForCreateInput"]: {
 		create?: GraphQLTypes["OptionValueCreateInput"],
 	connect?: GraphQLTypes["OptionValueWhereUniqueInput"]
+};
+	["Image"]: {
+	__typename: "Image",
+	id: string,
+	src?: string,
+	altText?: string,
+	product?: GraphQLTypes["Product"],
+	option?: GraphQLTypes["Option"],
+	optionValue?: GraphQLTypes["OptionValue"]
+};
+	["ImageWhereUniqueInput"]: {
+		id?: string
+};
+	["ImageWhereInput"]: {
+		AND?: Array<GraphQLTypes["ImageWhereInput"]>,
+	OR?: Array<GraphQLTypes["ImageWhereInput"]>,
+	NOT?: Array<GraphQLTypes["ImageWhereInput"]>,
+	id?: GraphQLTypes["IDFilter"],
+	src?: GraphQLTypes["StringFilter"],
+	altText?: GraphQLTypes["StringFilter"],
+	product?: GraphQLTypes["ProductWhereInput"],
+	option?: GraphQLTypes["OptionWhereInput"],
+	optionValue?: GraphQLTypes["OptionValueWhereInput"]
+};
+	["ImageOrderByInput"]: {
+		id?: GraphQLTypes["OrderDirection"],
+	src?: GraphQLTypes["OrderDirection"],
+	altText?: GraphQLTypes["OrderDirection"]
+};
+	["ImageUpdateInput"]: {
+		src?: string,
+	altText?: string,
+	product?: GraphQLTypes["ProductRelateToOneForUpdateInput"],
+	option?: GraphQLTypes["OptionRelateToOneForUpdateInput"],
+	optionValue?: GraphQLTypes["OptionValueRelateToOneForUpdateInput"]
+};
+	["ImageUpdateArgs"]: {
+		where: GraphQLTypes["ImageWhereUniqueInput"],
+	data: GraphQLTypes["ImageUpdateInput"]
+};
+	["ImageCreateInput"]: {
+		src?: string,
+	altText?: string,
+	product?: GraphQLTypes["ProductRelateToOneForCreateInput"],
+	option?: GraphQLTypes["OptionRelateToOneForCreateInput"],
+	optionValue?: GraphQLTypes["OptionValueRelateToOneForCreateInput"]
 };
 	["Tag"]: {
 	__typename: "Tag",
@@ -1933,6 +2638,85 @@ All options are strings as they ultimately end up in a URL. */
 	["CategoryCreateInput"]: {
 		name?: string
 };
+	["Role"]: {
+	__typename: "Role",
+	id: string,
+	name?: string,
+	canManageProducts?: boolean,
+	canSeeOtherUsers?: boolean,
+	canManageUsers?: boolean,
+	canManageRoles?: boolean,
+	canManageCart?: boolean,
+	canManageOrders?: boolean,
+	assignedTo?: Array<GraphQLTypes["User"]>,
+	assignedToCount?: number
+};
+	["RoleWhereUniqueInput"]: {
+		id?: string
+};
+	["RoleWhereInput"]: {
+		AND?: Array<GraphQLTypes["RoleWhereInput"]>,
+	OR?: Array<GraphQLTypes["RoleWhereInput"]>,
+	NOT?: Array<GraphQLTypes["RoleWhereInput"]>,
+	id?: GraphQLTypes["IDFilter"],
+	name?: GraphQLTypes["StringFilter"],
+	canManageProducts?: GraphQLTypes["BooleanFilter"],
+	canSeeOtherUsers?: GraphQLTypes["BooleanFilter"],
+	canManageUsers?: GraphQLTypes["BooleanFilter"],
+	canManageRoles?: GraphQLTypes["BooleanFilter"],
+	canManageCart?: GraphQLTypes["BooleanFilter"],
+	canManageOrders?: GraphQLTypes["BooleanFilter"],
+	assignedTo?: GraphQLTypes["UserManyRelationFilter"]
+};
+	["UserManyRelationFilter"]: {
+		every?: GraphQLTypes["UserWhereInput"],
+	some?: GraphQLTypes["UserWhereInput"],
+	none?: GraphQLTypes["UserWhereInput"]
+};
+	["RoleOrderByInput"]: {
+		id?: GraphQLTypes["OrderDirection"],
+	name?: GraphQLTypes["OrderDirection"],
+	canManageProducts?: GraphQLTypes["OrderDirection"],
+	canSeeOtherUsers?: GraphQLTypes["OrderDirection"],
+	canManageUsers?: GraphQLTypes["OrderDirection"],
+	canManageRoles?: GraphQLTypes["OrderDirection"],
+	canManageCart?: GraphQLTypes["OrderDirection"],
+	canManageOrders?: GraphQLTypes["OrderDirection"]
+};
+	["RoleUpdateInput"]: {
+		name?: string,
+	canManageProducts?: boolean,
+	canSeeOtherUsers?: boolean,
+	canManageUsers?: boolean,
+	canManageRoles?: boolean,
+	canManageCart?: boolean,
+	canManageOrders?: boolean,
+	assignedTo?: GraphQLTypes["UserRelateToManyForUpdateInput"]
+};
+	["UserRelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["UserWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["UserWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["UserCreateInput"]>,
+	connect?: Array<GraphQLTypes["UserWhereUniqueInput"]>
+};
+	["RoleUpdateArgs"]: {
+		where: GraphQLTypes["RoleWhereUniqueInput"],
+	data: GraphQLTypes["RoleUpdateInput"]
+};
+	["RoleCreateInput"]: {
+		name?: string,
+	canManageProducts?: boolean,
+	canSeeOtherUsers?: boolean,
+	canManageUsers?: boolean,
+	canManageRoles?: boolean,
+	canManageCart?: boolean,
+	canManageOrders?: boolean,
+	assignedTo?: GraphQLTypes["UserRelateToManyForCreateInput"]
+};
+	["UserRelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["UserCreateInput"]>,
+	connect?: Array<GraphQLTypes["UserWhereUniqueInput"]>
+};
 	["SKU"]: {
 	__typename: "SKU",
 	id: string,
@@ -1952,16 +2736,6 @@ All options are strings as they ultimately end up in a URL. */
 	sku?: GraphQLTypes["StringFilter"],
 	product?: GraphQLTypes["ProductWhereInput"],
 	stock?: GraphQLTypes["IntNullableFilter"]
-};
-	["IntNullableFilter"]: {
-		equals?: number,
-	in?: Array<number>,
-	notIn?: Array<number>,
-	lt?: number,
-	lte?: number,
-	gt?: number,
-	gte?: number,
-	not?: GraphQLTypes["IntNullableFilter"]
 };
 	["SKUOrderByInput"]: {
 		id?: GraphQLTypes["OrderDirection"],
@@ -2037,6 +2811,8 @@ All options are strings as they ultimately end up in a URL. */
 	__typename: "Option",
 	id: string,
 	name?: string,
+	values?: Array<GraphQLTypes["OptionValue"]>,
+	valuesCount?: number,
 	product?: GraphQLTypes["Product"]
 };
 	["OptionWhereUniqueInput"]: {
@@ -2049,6 +2825,7 @@ All options are strings as they ultimately end up in a URL. */
 	NOT?: Array<GraphQLTypes["OptionWhereInput"]>,
 	id?: GraphQLTypes["IDFilter"],
 	name?: GraphQLTypes["StringFilter"],
+	values?: GraphQLTypes["OptionValueManyRelationFilter"],
 	product?: GraphQLTypes["ProductWhereInput"]
 };
 	["OptionOrderByInput"]: {
@@ -2057,6 +2834,7 @@ All options are strings as they ultimately end up in a URL. */
 };
 	["OptionUpdateInput"]: {
 		name?: string,
+	values?: GraphQLTypes["OptionValueRelateToManyForUpdateInput"],
 	product?: GraphQLTypes["ProductRelateToOneForUpdateInput"]
 };
 	["OptionUpdateArgs"]: {
@@ -2065,6 +2843,7 @@ All options are strings as they ultimately end up in a URL. */
 };
 	["OptionCreateInput"]: {
 		name?: string,
+	values?: GraphQLTypes["OptionValueRelateToManyForCreateInput"],
 	product?: GraphQLTypes["ProductRelateToOneForCreateInput"]
 };
 	["OptionValue"]: {
@@ -2105,6 +2884,148 @@ All options are strings as they ultimately end up in a URL. */
 	product?: GraphQLTypes["ProductRelateToOneForCreateInput"],
 	option?: GraphQLTypes["OptionRelateToOneForCreateInput"]
 };
+	["Order"]: {
+	__typename: "Order",
+	id: string,
+	label?: string,
+	total?: number,
+	items?: Array<GraphQLTypes["OrderItem"]>,
+	itemsCount?: number,
+	user?: GraphQLTypes["User"],
+	charge?: string
+};
+	["OrderWhereUniqueInput"]: {
+		id?: string
+};
+	["OrderWhereInput"]: {
+		AND?: Array<GraphQLTypes["OrderWhereInput"]>,
+	OR?: Array<GraphQLTypes["OrderWhereInput"]>,
+	NOT?: Array<GraphQLTypes["OrderWhereInput"]>,
+	id?: GraphQLTypes["IDFilter"],
+	total?: GraphQLTypes["IntNullableFilter"],
+	items?: GraphQLTypes["OrderItemManyRelationFilter"],
+	user?: GraphQLTypes["UserWhereInput"],
+	charge?: GraphQLTypes["StringFilter"]
+};
+	["OrderItemManyRelationFilter"]: {
+		every?: GraphQLTypes["OrderItemWhereInput"],
+	some?: GraphQLTypes["OrderItemWhereInput"],
+	none?: GraphQLTypes["OrderItemWhereInput"]
+};
+	["OrderOrderByInput"]: {
+		id?: GraphQLTypes["OrderDirection"],
+	total?: GraphQLTypes["OrderDirection"],
+	charge?: GraphQLTypes["OrderDirection"]
+};
+	["OrderUpdateInput"]: {
+		total?: number,
+	items?: GraphQLTypes["OrderItemRelateToManyForUpdateInput"],
+	user?: GraphQLTypes["UserRelateToOneForUpdateInput"],
+	charge?: string
+};
+	["OrderItemRelateToManyForUpdateInput"]: {
+		disconnect?: Array<GraphQLTypes["OrderItemWhereUniqueInput"]>,
+	set?: Array<GraphQLTypes["OrderItemWhereUniqueInput"]>,
+	create?: Array<GraphQLTypes["OrderItemCreateInput"]>,
+	connect?: Array<GraphQLTypes["OrderItemWhereUniqueInput"]>
+};
+	["OrderUpdateArgs"]: {
+		where: GraphQLTypes["OrderWhereUniqueInput"],
+	data: GraphQLTypes["OrderUpdateInput"]
+};
+	["OrderCreateInput"]: {
+		total?: number,
+	items?: GraphQLTypes["OrderItemRelateToManyForCreateInput"],
+	user?: GraphQLTypes["UserRelateToOneForCreateInput"],
+	charge?: string
+};
+	["OrderItemRelateToManyForCreateInput"]: {
+		create?: Array<GraphQLTypes["OrderItemCreateInput"]>,
+	connect?: Array<GraphQLTypes["OrderItemWhereUniqueInput"]>
+};
+	["OrderItem"]: {
+	__typename: "OrderItem",
+	id: string,
+	name?: string,
+	description?: string,
+	cloudinaryImage?: GraphQLTypes["CloudinaryImage"],
+	image?: GraphQLTypes["Image"],
+	price?: number,
+	quantity?: number,
+	order?: GraphQLTypes["Order"]
+};
+	["OrderItemWhereUniqueInput"]: {
+		id?: string
+};
+	["OrderItemWhereInput"]: {
+		AND?: Array<GraphQLTypes["OrderItemWhereInput"]>,
+	OR?: Array<GraphQLTypes["OrderItemWhereInput"]>,
+	NOT?: Array<GraphQLTypes["OrderItemWhereInput"]>,
+	id?: GraphQLTypes["IDFilter"],
+	name?: GraphQLTypes["StringFilter"],
+	description?: GraphQLTypes["StringFilter"],
+	cloudinaryImage?: GraphQLTypes["CloudinaryImageWhereInput"],
+	image?: GraphQLTypes["ImageWhereInput"],
+	price?: GraphQLTypes["IntNullableFilter"],
+	quantity?: GraphQLTypes["IntNullableFilter"],
+	order?: GraphQLTypes["OrderWhereInput"]
+};
+	["OrderItemOrderByInput"]: {
+		id?: GraphQLTypes["OrderDirection"],
+	name?: GraphQLTypes["OrderDirection"],
+	description?: GraphQLTypes["OrderDirection"],
+	price?: GraphQLTypes["OrderDirection"],
+	quantity?: GraphQLTypes["OrderDirection"]
+};
+	["OrderItemUpdateInput"]: {
+		name?: string,
+	description?: string,
+	cloudinaryImage?: GraphQLTypes["CloudinaryImageRelateToOneForUpdateInput"],
+	image?: GraphQLTypes["ImageRelateToOneForUpdateInput"],
+	price?: number,
+	quantity?: number,
+	order?: GraphQLTypes["OrderRelateToOneForUpdateInput"]
+};
+	["CloudinaryImageRelateToOneForUpdateInput"]: {
+		create?: GraphQLTypes["CloudinaryImageCreateInput"],
+	connect?: GraphQLTypes["CloudinaryImageWhereUniqueInput"],
+	disconnect?: boolean
+};
+	["ImageRelateToOneForUpdateInput"]: {
+		create?: GraphQLTypes["ImageCreateInput"],
+	connect?: GraphQLTypes["ImageWhereUniqueInput"],
+	disconnect?: boolean
+};
+	["OrderRelateToOneForUpdateInput"]: {
+		create?: GraphQLTypes["OrderCreateInput"],
+	connect?: GraphQLTypes["OrderWhereUniqueInput"],
+	disconnect?: boolean
+};
+	["OrderItemUpdateArgs"]: {
+		where: GraphQLTypes["OrderItemWhereUniqueInput"],
+	data: GraphQLTypes["OrderItemUpdateInput"]
+};
+	["OrderItemCreateInput"]: {
+		name?: string,
+	description?: string,
+	cloudinaryImage?: GraphQLTypes["CloudinaryImageRelateToOneForCreateInput"],
+	image?: GraphQLTypes["ImageRelateToOneForCreateInput"],
+	price?: number,
+	quantity?: number,
+	order?: GraphQLTypes["OrderRelateToOneForCreateInput"]
+};
+	["CloudinaryImageRelateToOneForCreateInput"]: {
+		create?: GraphQLTypes["CloudinaryImageCreateInput"],
+	connect?: GraphQLTypes["CloudinaryImageWhereUniqueInput"]
+};
+	["ImageRelateToOneForCreateInput"]: {
+		create?: GraphQLTypes["ImageCreateInput"],
+	connect?: GraphQLTypes["ImageWhereUniqueInput"]
+};
+	["OrderRelateToOneForCreateInput"]: {
+		create?: GraphQLTypes["OrderCreateInput"],
+	connect?: GraphQLTypes["OrderWhereUniqueInput"]
+};
 	/** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
 ["JSON"]:any;
 	["Mutation"]: {
@@ -2127,12 +3048,18 @@ All options are strings as they ultimately end up in a URL. */
 	updateProducts?: Array<GraphQLTypes["Product"] | undefined>,
 	deleteProduct?: GraphQLTypes["Product"],
 	deleteProducts?: Array<GraphQLTypes["Product"] | undefined>,
-	createProductImage?: GraphQLTypes["ProductImage"],
-	createProductImages?: Array<GraphQLTypes["ProductImage"] | undefined>,
-	updateProductImage?: GraphQLTypes["ProductImage"],
-	updateProductImages?: Array<GraphQLTypes["ProductImage"] | undefined>,
-	deleteProductImage?: GraphQLTypes["ProductImage"],
-	deleteProductImages?: Array<GraphQLTypes["ProductImage"] | undefined>,
+	createCloudinaryImage?: GraphQLTypes["CloudinaryImage"],
+	createCloudinaryImages?: Array<GraphQLTypes["CloudinaryImage"] | undefined>,
+	updateCloudinaryImage?: GraphQLTypes["CloudinaryImage"],
+	updateCloudinaryImages?: Array<GraphQLTypes["CloudinaryImage"] | undefined>,
+	deleteCloudinaryImage?: GraphQLTypes["CloudinaryImage"],
+	deleteCloudinaryImages?: Array<GraphQLTypes["CloudinaryImage"] | undefined>,
+	createImage?: GraphQLTypes["Image"],
+	createImages?: Array<GraphQLTypes["Image"] | undefined>,
+	updateImage?: GraphQLTypes["Image"],
+	updateImages?: Array<GraphQLTypes["Image"] | undefined>,
+	deleteImage?: GraphQLTypes["Image"],
+	deleteImages?: Array<GraphQLTypes["Image"] | undefined>,
 	createTag?: GraphQLTypes["Tag"],
 	createTags?: Array<GraphQLTypes["Tag"] | undefined>,
 	updateTag?: GraphQLTypes["Tag"],
@@ -2145,6 +3072,12 @@ All options are strings as they ultimately end up in a URL. */
 	updateCategories?: Array<GraphQLTypes["Category"] | undefined>,
 	deleteCategory?: GraphQLTypes["Category"],
 	deleteCategories?: Array<GraphQLTypes["Category"] | undefined>,
+	createRole?: GraphQLTypes["Role"],
+	createRoles?: Array<GraphQLTypes["Role"] | undefined>,
+	updateRole?: GraphQLTypes["Role"],
+	updateRoles?: Array<GraphQLTypes["Role"] | undefined>,
+	deleteRole?: GraphQLTypes["Role"],
+	deleteRoles?: Array<GraphQLTypes["Role"] | undefined>,
 	createSKU?: GraphQLTypes["SKU"],
 	createSKUS?: Array<GraphQLTypes["SKU"] | undefined>,
 	updateSKU?: GraphQLTypes["SKU"],
@@ -2169,9 +3102,23 @@ All options are strings as they ultimately end up in a URL. */
 	updateOptionValues?: Array<GraphQLTypes["OptionValue"] | undefined>,
 	deleteOptionValue?: GraphQLTypes["OptionValue"],
 	deleteOptionValues?: Array<GraphQLTypes["OptionValue"] | undefined>,
+	createOrder?: GraphQLTypes["Order"],
+	createOrders?: Array<GraphQLTypes["Order"] | undefined>,
+	updateOrder?: GraphQLTypes["Order"],
+	updateOrders?: Array<GraphQLTypes["Order"] | undefined>,
+	deleteOrder?: GraphQLTypes["Order"],
+	deleteOrders?: Array<GraphQLTypes["Order"] | undefined>,
+	createOrderItem?: GraphQLTypes["OrderItem"],
+	createOrderItems?: Array<GraphQLTypes["OrderItem"] | undefined>,
+	updateOrderItem?: GraphQLTypes["OrderItem"],
+	updateOrderItems?: Array<GraphQLTypes["OrderItem"] | undefined>,
+	deleteOrderItem?: GraphQLTypes["OrderItem"],
+	deleteOrderItems?: Array<GraphQLTypes["OrderItem"] | undefined>,
 	endSession: boolean,
 	authenticateUserWithPassword?: GraphQLTypes["UserAuthenticationWithPasswordResult"],
-	createInitialUser: GraphQLTypes["UserAuthenticationWithPasswordSuccess"]
+	createInitialUser: GraphQLTypes["UserAuthenticationWithPasswordSuccess"],
+	sendUserPasswordResetLink: boolean,
+	redeemUserPasswordResetToken?: GraphQLTypes["RedeemUserPasswordResetTokenResult"]
 };
 	["UserAuthenticationWithPasswordResult"]:{
 	__typename:"UserAuthenticationWithPasswordSuccess" | "UserAuthenticationWithPasswordFailure"
@@ -2188,9 +3135,16 @@ All options are strings as they ultimately end up in a URL. */
 	message: string
 };
 	["CreateInitialUserInput"]: {
-		email?: string,
+		name?: string,
+	email?: string,
 	password?: string
 };
+	["RedeemUserPasswordResetTokenResult"]: {
+	__typename: "RedeemUserPasswordResetTokenResult",
+	code: GraphQLTypes["PasswordResetRedemptionErrorCode"],
+	message: string
+};
+	["PasswordResetRedemptionErrorCode"]: PasswordResetRedemptionErrorCode;
 	["Query"]: {
 	__typename: "Query",
 	users?: Array<GraphQLTypes["User"]>,
@@ -2202,15 +3156,21 @@ All options are strings as they ultimately end up in a URL. */
 	products?: Array<GraphQLTypes["Product"]>,
 	product?: GraphQLTypes["Product"],
 	productsCount?: number,
-	productImages?: Array<GraphQLTypes["ProductImage"]>,
-	productImage?: GraphQLTypes["ProductImage"],
-	productImagesCount?: number,
+	cloudinaryImages?: Array<GraphQLTypes["CloudinaryImage"]>,
+	cloudinaryImage?: GraphQLTypes["CloudinaryImage"],
+	cloudinaryImagesCount?: number,
+	images?: Array<GraphQLTypes["Image"]>,
+	image?: GraphQLTypes["Image"],
+	imagesCount?: number,
 	tags?: Array<GraphQLTypes["Tag"]>,
 	tag?: GraphQLTypes["Tag"],
 	tagsCount?: number,
 	categories?: Array<GraphQLTypes["Category"]>,
 	category?: GraphQLTypes["Category"],
 	categoriesCount?: number,
+	roles?: Array<GraphQLTypes["Role"]>,
+	role?: GraphQLTypes["Role"],
+	rolesCount?: number,
 	sKUS?: Array<GraphQLTypes["SKU"]>,
 	sKU?: GraphQLTypes["SKU"],
 	sKUSCount?: number,
@@ -2223,12 +3183,24 @@ All options are strings as they ultimately end up in a URL. */
 	optionValues?: Array<GraphQLTypes["OptionValue"]>,
 	optionValue?: GraphQLTypes["OptionValue"],
 	optionValuesCount?: number,
+	orders?: Array<GraphQLTypes["Order"]>,
+	order?: GraphQLTypes["Order"],
+	ordersCount?: number,
+	orderItems?: Array<GraphQLTypes["OrderItem"]>,
+	orderItem?: GraphQLTypes["OrderItem"],
+	orderItemsCount?: number,
 	keystone: GraphQLTypes["KeystoneMeta"],
-	authenticatedItem?: GraphQLTypes["AuthenticatedItem"]
+	authenticatedItem?: GraphQLTypes["AuthenticatedItem"],
+	validateUserPasswordResetToken?: GraphQLTypes["ValidateUserPasswordResetTokenResult"]
 };
 	["AuthenticatedItem"]:{
 	__typename:"User"
 	['...on User']: '__union' & GraphQLTypes["User"];
+};
+	["ValidateUserPasswordResetTokenResult"]: {
+	__typename: "ValidateUserPasswordResetTokenResult",
+	code: GraphQLTypes["PasswordResetRedemptionErrorCode"],
+	message: string
 };
 	["KeystoneMeta"]: {
 	__typename: "KeystoneMeta",
@@ -2307,6 +3279,11 @@ export const enum QueryMode {
 export const enum OrderDirection {
 	asc = "asc",
 	desc = "desc"
+}
+export const enum PasswordResetRedemptionErrorCode {
+	FAILURE = "FAILURE",
+	TOKEN_EXPIRED = "TOKEN_EXPIRED",
+	TOKEN_REDEEMED = "TOKEN_REDEEMED"
 }
 export const enum KeystoneAdminUIFieldMetaCreateViewFieldMode {
 	edit = "edit",

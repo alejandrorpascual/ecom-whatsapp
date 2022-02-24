@@ -36,10 +36,10 @@ export interface Product {
   id: string
   title: string
   formattedPrice: string
-  formattedOptions?: string
+  // formattedOptions?: string
   image: string
   slug: string
-  defaultVariantId: string
+  // defaultVariantId: string
 }
 
 export interface ProductOption {
@@ -49,10 +49,9 @@ export interface ProductOption {
 
 export interface FullProduct extends Product {
   description?: string
-  descriptionHtml?: string
+  // descriptionHtml?: string
   images: string[]
-  availableForSale: boolean
-  selectedVariantId?: string
+  // availableForSale: boolean
   options: ProductOption[]
 }
 
@@ -97,11 +96,7 @@ export interface EcommerceProvider {
   getFeaturedProducts(language: Language): Promise<Product[]>
   getPage(language: Language, slug: string): Promise<FullPage | undefined>
   getPages(language: Language): Promise<Page[]>
-  getProduct(
-    language: Language,
-    slug: string,
-    selectedOptions?: SelectedProductOption[],
-  ): Promise<FullProduct | undefined>
+  getProduct(slug: string): Promise<FullProduct | undefined>
   getProducts(
     language: Language,
     category?: string,

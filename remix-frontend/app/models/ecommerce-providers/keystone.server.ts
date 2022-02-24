@@ -1,5 +1,10 @@
 import {Gql, OrderDirection} from '../../../graphql-zeus/zeus'
-import type {EcommerceProvider, Product} from '../ecommerce-provider.server'
+import formatPrice from '../../../lib/formatPrice'
+import type {
+  EcommerceProvider,
+  Product,
+  ProductOption,
+} from '../ecommerce-provider.server'
 import type {RequestResponseCache} from '../request-response-cache.server'
 
 export interface ProviderOptions {
@@ -190,136 +195,51 @@ export function createShopifyProvider(): EcommerceProvider {
       // )
       throw Error('Not implemented')
     },
-    async getProduct(locale, slug, selectedOptions) {
+    async getProduct(slug) {
       // const json = await query(locale, getProductQuery, {slug})
-      const defaultOptions = {
-        where: {},
-        skip: 0,
-        orderBy: [],
-      }
 
-      const json = await Gql('query')({
-        product: [
-          {
-            where: {
-              id: slug,
-            },
-          },
-          {
-            id: true,
-            name: true,
-            description: true,
-            status: true,
-            category: {
-              name: true,
-            },
-            skus: [
-              defaultOptions,
-              {
-                id: true,
-                sku: true,
-                stock: true,
-              },
-            ],
-            optionValues: [
-              defaultOptions,
-              {
-                name: true,
-                option: {
-                  name: true,
-                },
-              },
-            ],
-            photo: [
-              defaultOptions,
-              {
-                id: true,
-                image: {
-                  publicUrlTransformed: [
-                    {
-                      transformation: {
-                        width: '500',
-                        fetch_format: 'webp',
-                        quality: 'auto',
-                      },
-                    },
-                    true,
-                  ],
-                },
-                altText: true,
-                optionValue: {
-                  name: true,
-                  option: {
-                    name: true,
-                  },
-                },
-              },
-            ],
-          },
-        ],
-      })
-      //
+      const json = await getProductQuery(slug)
+
       if (!json.product) {
         return undefined
       }
 
-      const {id, name: title, description, photo: images} = json.product
-      // const {
-      //   id,
-      //   handle,
-      //   title,
-      //   description,
-      //   descriptionHtml,
-      //   images,
-      //   priceRange,
-      //   options,
-      //   variants,
-      // } = json.product
-      //
-      // const optionNames = new Set(options.map((o: any) => o.name))
-      // const optionsMap = new Map(
-      //   selectedOptions
-      //     ?.filter(option => optionNames.has(option.name))
-      //     .map(option => [option.name, option.value]),
-      // )
-      //
-      // let defaultVariantId: string | undefined = undefined
-      // let selectedVariantId: string | undefined
-      // let availableForSale = false
-      // let price = priceRange.minVariantPrice
-      // for (const {node} of variants.edges) {
-      //   if (typeof defaultVariantId === 'undefined') {
-      //     defaultVariantId = node.id
-      //   }
-      //   if (
-      //     node.selectedOptions.every(
-      //       (option: any) =>
-      //         optionsMap.has(option.name) &&
-      //         optionsMap.get(option.name) === option.value,
-      //     )
-      //   ) {
-      //     selectedVariantId = node.id
-      //     availableForSale = node.availableForSale
-      //     price = node.priceV2
-      //   }
-      // }
-      //
+      // WARNING: too much type enforcement
+      let options: ProductOption[]
+      if (!json.product.options) {
+        options = []
+      } else {
+        options = json.product.options.map(option => ({
+          name: option.name || '',
+          values: option.values ? option.values.map(val => val.name || '') : [],
+        }))
+      }
+
+      let {
+        id,
+        name: title,
+        description,
+        photos: images,
+        price,
+        handle,
+      } = json.product
+
+      // WARNING: too much type enforcement
+      title ||= ''
+      description ||= ''
+      price ||= 0
+      handle ||= ''
+
       return {
         formattedPrice: formatPrice(price),
         id,
-        defaultVariantId: defaultVariantId!,
-        image: images.edges[0].node.originalSrc,
-        images: images.edges.map(({node: {originalSrc}}: any) => originalSrc),
+        image: images?.[0].src || '',
+        images: images?.map(image => image.src || '') || [],
         slug: handle,
         title,
         description,
-        descriptionHtml,
-        selectedVariantId,
-        availableForSale,
-        options: options.map((option: any) => ({
-          name: option.name,
-          values: option.values,
-        })),
+        // availableForSale,
+        options,
       }
     },
     async getProducts(
@@ -733,3 +653,91 @@ export function createShopifyProvider(): EcommerceProvider {
 //     }
 //   }
 // `
+
+const defaultOptions = {
+  where: {},
+  skip: 0,
+  orderBy: [],
+}
+
+function getProductQuery(slug: string) {
+  return Gql('query')({
+    product: [
+      {
+        where: {
+          handle: slug,
+        },
+      },
+      {
+        id: true,
+        name: true,
+        description: true,
+        handle: true,
+        status: true,
+        price: true,
+        category: {
+          name: true,
+        },
+        skus: [
+          defaultOptions,
+          {
+            id: true,
+            sku: true,
+            stock: true,
+          },
+        ],
+        options: [
+          defaultOptions,
+          {
+            name: true,
+            values: [
+              defaultOptions,
+              {
+                name: true,
+              },
+            ],
+          },
+        ],
+        photos: [
+          defaultOptions,
+          {
+            id: true,
+            src: true,
+            altText: true,
+            optionValue: {
+              name: true,
+              option: {
+                name: true,
+              },
+            },
+          },
+        ],
+        cloudinaryPhotos: [
+          defaultOptions,
+          {
+            id: true,
+            image: {
+              publicUrlTransformed: [
+                {
+                  transformation: {
+                    width: '500',
+                    fetch_format: 'webp',
+                    quality: 'auto',
+                  },
+                },
+                true,
+              ],
+            },
+            altText: true,
+            optionValue: {
+              name: true,
+              option: {
+                name: true,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  })
+}
