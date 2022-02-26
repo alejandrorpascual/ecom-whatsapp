@@ -1,5 +1,6 @@
 import {Gql, OrderDirection} from '../../../graphql-zeus/zeus'
 import formatPrice from '../../../lib/formatPrice'
+import {ProductQuerySchema} from '../../../lib/queryTypes.zod'
 import type {
   EcommerceProvider,
   Product,
@@ -196,24 +197,14 @@ export function createShopifyProvider(): EcommerceProvider {
       throw Error('Not implemented')
     },
     async getProduct(slug) {
-      // const json = await query(locale, getProductQuery, {slug})
+      const data = await getProductQuery(slug)
+      // WARNING: This code throws, evaluate using .safeParse instead
+      const json = ProductQuerySchema.parse(data)
 
-      const json = await getProductQuery(slug)
-
-      if (!json.product) {
-        return undefined
-      }
-
-      // WARNING: too much type enforcement
-      let options: ProductOption[]
-      if (!json.product.options) {
-        options = []
-      } else {
-        options = json.product.options.map(option => ({
-          name: option.name || '',
-          values: option.values ? option.values.map(val => val.name || '') : [],
-        }))
-      }
+      const options: ProductOption[] = json.product.options.map(option => ({
+        name: option.name,
+        values: option.values.map(val => val.name || ''),
+      }))
 
       let {
         id,
@@ -224,17 +215,11 @@ export function createShopifyProvider(): EcommerceProvider {
         handle,
       } = json.product
 
-      // WARNING: too much type enforcement
-      title ||= ''
-      description ||= ''
-      price ||= 0
-      handle ||= ''
-
       return {
         formattedPrice: formatPrice(price),
         id,
-        image: images?.[0].src || '',
-        images: images?.map(image => image.src || '') || [],
+        image: images?.[0].src,
+        images: images?.map(image => image.src),
         slug: handle,
         title,
         description,
@@ -660,7 +645,7 @@ const defaultOptions = {
   orderBy: [],
 }
 
-function getProductQuery(slug: string) {
+export function getProductQuery(slug: string) {
   return Gql('query')({
     product: [
       {
