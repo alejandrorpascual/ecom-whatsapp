@@ -1,6 +1,9 @@
 import {Gql, OrderDirection} from '../../../graphql-zeus/zeus'
 import formatPrice from '../../../lib/formatPrice'
-import {ProductQuerySchema} from '../../../lib/queryTypes.zod'
+import {
+  ProductQuerySchema,
+  ProductsQuerySchema,
+} from '../../../lib/queryTypes.zod'
 import type {
   EcommerceProvider,
   Product,
@@ -203,7 +206,7 @@ export function createShopifyProvider(): EcommerceProvider {
 
       const options: ProductOption[] = json.product.options.map(option => ({
         name: option.name,
-        values: option.values.map(val => val.name || ''),
+        values: option.values.map(val => val.name),
       }))
 
       let {
@@ -227,6 +230,7 @@ export function createShopifyProvider(): EcommerceProvider {
         options,
       }
     },
+    // NOTE: first implementation, needs more functionality
     async getProducts(
       locale,
       category,
@@ -236,80 +240,42 @@ export function createShopifyProvider(): EcommerceProvider {
       perPage = 30,
       nocache,
     ) {
-      // let q = ''
-      // if (search) {
-      //   q += `product_type:${search} OR title:${search} OR tag:${search} `
-      //   category = undefined
-      // }
-      //
-      // let sortVariables = {}
-      // switch (sort) {
-      //   case 'price-asc':
-      //     sortVariables = {
-      //       sortKey: 'PRICE',
-      //       reverse: false,
-      //     }
-      //     break
-      //   case 'price-desc':
-      //     sortVariables = {
-      //       sortKey: 'PRICE',
-      //       reverse: true,
-      //     }
-      //     break
-      //   case 'trending-desc':
-      //     sortVariables = {
-      //       sortKey: 'BEST_SELLING',
-      //       reverse: false,
-      //     }
-      //     break
-      //   case 'latest-desc':
-      //     sortVariables = {
-      //       sortKey: category ? 'CREATED' : 'CREATED_AT',
-      //       reverse: true,
-      //     }
-      //     break
-      // }
-      //
-      // const json = await query(
-      //   locale,
-      //   category ? getCollectionProductsQuery : getAllProductsQuery,
-      //   {
-      //     ...sortVariables,
-      //     first: perPage,
-      //     query: q,
-      //     collection: category,
-      //     cursor,
-      //   },
-      //   nocache,
-      // )
-      //
-      // const productsInfo = category
-      //   ? json.data.collections.edges[0]?.node.products
-      //   : json.data.products
-      //
-      // const {edges, pageInfo} = productsInfo
-      //
-      // let nextPageCursor: string | undefined = undefined
-      // const products =
-      //   edges?.map(
-      //     ({
-      //       cursor,
-      //       node: {id, handle, title, images, priceRange, variants},
-      //     }: any): Product => {
-      //       nextPageCursor = cursor
-      //       return {
-      //         formattedPrice: formatPrice(priceRange.minVariantPrice),
-      //         id,
-      //         defaultVariantId: variants.edges[0].node.id,
-      //         image: images.edges[0].node.originalSrc,
-      //         slug: handle,
-      //         title,
-      //       }
-      //     },
-      //   ) || []
-      //
-      // return {hasNextPage: pageInfo.hasNextPage, nextPageCursor, products}
-      throw Error('Not implemented')
+      const data = await getProductsQuery()
+      const json = ProductsQuerySchema.parse(data)
+      return {
+        // TODO: add pagination
+        hasNextPage: false,
+        nextPageCursor: '',
+        products: json.map(product => {
+          const options: ProductOption[] = product.product.options.map(
+            option => ({
+              name: option.name,
+              values: option.values.map(val => val.name || ''),
+            }),
+          )
+
+          const {
+            price,
+            id,
+            photos: images,
+            name: title,
+            description,
+            handle,
+          } = product.product
+
+          return {
+            formattedPrice: formatPrice(price),
+            id,
+            // TODO: add displayUrl to backend model in order to fetch only one image
+            image: images?.[0].src,
+            slug: handle,
+            title,
+            description,
+            // availableForSale,
+            options,
+          }
+        }),
+      }
     },
     async getSortByOptions(locale) {
       // const translations = getTranslations(locale, [
@@ -653,6 +619,85 @@ export function getProductQuery(slug: string) {
           handle: slug,
         },
       },
+      {
+        id: true,
+        name: true,
+        description: true,
+        handle: true,
+        status: true,
+        price: true,
+        category: {
+          name: true,
+        },
+        skus: [
+          defaultOptions,
+          {
+            id: true,
+            sku: true,
+            stock: true,
+          },
+        ],
+        options: [
+          defaultOptions,
+          {
+            name: true,
+            values: [
+              defaultOptions,
+              {
+                name: true,
+              },
+            ],
+          },
+        ],
+        photos: [
+          defaultOptions,
+          {
+            id: true,
+            src: true,
+            altText: true,
+            optionValue: {
+              name: true,
+              option: {
+                name: true,
+              },
+            },
+          },
+        ],
+        cloudinaryPhotos: [
+          defaultOptions,
+          {
+            id: true,
+            image: {
+              publicUrlTransformed: [
+                {
+                  transformation: {
+                    width: '500',
+                    fetch_format: 'webp',
+                    quality: 'auto',
+                  },
+                },
+                true,
+              ],
+            },
+            altText: true,
+            optionValue: {
+              name: true,
+              option: {
+                name: true,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  })
+}
+
+// TODO: ADD PAGINATION
+export function getProductsQuery() {
+  return Gql('query')({
+    products: [
+      defaultOptions,
       {
         id: true,
         name: true,

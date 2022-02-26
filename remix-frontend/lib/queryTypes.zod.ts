@@ -42,3 +42,5 @@ export const ProductQuerySchema = z.object({
     ),
   }),
 })
+
+export const ProductsQuerySchema = z.array(ProductQuerySchema)
